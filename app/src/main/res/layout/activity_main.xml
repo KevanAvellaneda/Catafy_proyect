@@ -450,6 +450,21 @@
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Map"
+            android:textSize="22sp" />
+
+    </RelativeLayout>
 
 
 
@@ -465,14 +480,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mbn_circleColor="#B13660"
-        android:background="#B13660"
+        android:background="#7C2442"
         app:mbn_backgroundBottomColor="#7C2442"
         app:mbn_countBackgroundColor="#ff6f00"
         app:mbn_countTextColor="#ffffff"
         app:mbn_defaultIconColor="#FFFFFF"
-        app:mbn_rippleColor="#2f424242"
+        app:mbn_rippleColor="#7C2442"
         app:mbn_selectedIconColor="#FFFFFF"
-        app:mbn_shadowColor="#1f212121"
+        app:mbn_shadowColor="#7C2442"
         android:layout_alignParentBottom="true"
         />
 
