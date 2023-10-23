@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "9713975001",
+    "project_id": "winestatic",
+    "storage_bucket": "winestatic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9713975001:android:2def4fc1d6467259d148c8",
+        "android_client_info": {
+          "package_name": "com.example.winestastic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT5tYqJiK-1rKcTe7MXpzWIF4ZkUCbDTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
