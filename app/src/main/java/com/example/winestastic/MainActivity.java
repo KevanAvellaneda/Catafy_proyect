@@ -2,8 +2,10 @@ package com.example.winestastic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -12,6 +14,8 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private MeowBottomNavigation bottomNavigation;
     RelativeLayout  menu, home, calendar, map;
@@ -172,7 +176,5 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-
-
     }
 }
