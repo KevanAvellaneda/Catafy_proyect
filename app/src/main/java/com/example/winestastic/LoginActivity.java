@@ -1,7 +1,8 @@
 package com.example.winestastic;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
@@ -11,8 +12,8 @@ import com.google.android.material.tabs.TabLayout;
 public class LoginActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
-    ViewPager viewPager;
-
+    ViewPager2 viewPager;
+    LoginAdapter adapter;
     FloatingActionButton fb,gmail;
     float op = 0;
 
@@ -21,33 +22,56 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        fb = findViewById(R.id.logo_fb);
+        gmail = findViewById(R.id.logo_gmail);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
-        fb = findViewById(R.id.fab_fb);
-        gmail = findViewById(R.id.fab_gmail);
-
-
-        tabLayout.addTab(tabLayout.newTab().setText("Iniciar sesión"));
+        tabLayout.addTab(tabLayout.newTab().setText("Iniciar sesion"));
         tabLayout.addTab(tabLayout.newTab().setText("Crear cuenta"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        final LoginAdapter adapter = new LoginAdapter(getSupportFragmentManager(), this,tabLayout.getTabCount());
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        adapter = new LoginAdapter(fragmentManager , getLifecycle());
         viewPager.setAdapter(adapter);
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+
+        tabLayout.setTranslationY(300);
         fb.setTranslationY(300);
         gmail.setTranslationY(300);
-        tabLayout.setTranslationY(300);
 
+        tabLayout.setAlpha(op);
         fb.setAlpha(op);
         gmail.setAlpha(op);
-        tabLayout.setAlpha(op);
 
-        fb.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(400).start();
-        gmail.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
-        tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
 
+
+        tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
+        fb.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
+        gmail.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
     }
 }
