@@ -301,8 +301,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/btn_background"
                         android:backgroundTint="#853455"
-                        android:text="Recuperar contraseña" />
+                        android:text="Recuperar contraseña"
+                        android:textColor="#FFFF" />
 
                 </LinearLayout>
 
@@ -327,8 +329,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/btn_background"
                         android:backgroundTint="#853455"
-                        android:text="Cerrar sesión" />
+                        android:text="Cerrar sesión"
+                        android:textColor="#FFFF" />
 
                 </LinearLayout>
 
@@ -355,20 +359,6 @@
             android:textSize="22sp" />
 
     </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <RelativeLayout
@@ -430,8 +420,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
+                android:background="@drawable/btn_background"
                 android:backgroundTint="#853455"
-                android:text="Aquí irá info del viñedo" />
+                android:text="Aquí irá info del viñedo"
+                android:textColor="#FFFF" />
 
             <Button
                 android:id="@+id/button4"
@@ -440,8 +432,10 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="24dp"
+                android:background="@drawable/btn_background"
                 android:backgroundTint="#853455"
-                android:text="Por el momento boton, despues se cambia" />
+                android:text="Por el momento boton, despues se cambia"
+                android:textColor="#FFFF" />
 
 
         </LinearLayout>
