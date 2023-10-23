@@ -14,7 +14,7 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     private MeowBottomNavigation bottomNavigation;
-    RelativeLayout  menu, home, calendar;
+    RelativeLayout  menu, home, calendar, map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.home);
         calendar = findViewById(R.id.calendar);
+        map = findViewById(R.id.map);
 
 
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menuanvorgesa));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.baseline_home_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_calendar_month_24));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.baseline_public_24));
 
 
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.VISIBLE);
                         home.setVisibility(View.GONE);
                         calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.GONE);
 
                         break;
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.GONE);
                         home.setVisibility(View.VISIBLE);
                         calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.GONE);
 
                         break;
 
@@ -66,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.GONE);
                         home.setVisibility(View.GONE);
                         calendar.setVisibility(View.VISIBLE);
+                        map.setVisibility(View.GONE);
+
+                        break;
+
+                    case 4:
+
+                        menu.setVisibility(View.GONE);
+                        home.setVisibility(View.GONE);
+                        calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.VISIBLE);
 
                         break;
 
@@ -86,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.VISIBLE);
                         home.setVisibility(View.GONE);
                         calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.GONE);
 
                         break;
                 }
@@ -106,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.GONE);
                         home.setVisibility(View.VISIBLE);
                         calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.GONE);
 
                         break;
                 }
@@ -126,6 +142,29 @@ public class MainActivity extends AppCompatActivity {
                         menu.setVisibility(View.GONE);
                         home.setVisibility(View.GONE);
                         calendar.setVisibility(View.VISIBLE);
+                        map.setVisibility(View.GONE);
+
+                        break;
+                }
+
+                return null;
+            }
+        });
+
+
+        bottomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
+            @Override
+            public Unit invoke(MeowBottomNavigation.Model model) {
+                // YOUR CODES
+
+                switch (model.getId()){
+
+                    case 4:
+
+                        menu.setVisibility(View.GONE);
+                        home.setVisibility(View.GONE);
+                        calendar.setVisibility(View.GONE);
+                        map.setVisibility(View.VISIBLE);
 
                         break;
                 }
