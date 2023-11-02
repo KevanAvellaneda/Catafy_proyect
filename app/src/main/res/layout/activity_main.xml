@@ -193,7 +193,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Username :"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
@@ -203,7 +202,6 @@
                         android:layout_weight="1"
                         android:text="Usuario sin nombre"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -229,7 +227,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Correo :"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
@@ -239,7 +236,6 @@
                         android:layout_weight="1"
                         android:text="Usuariosinnombre@gmail.com"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -265,7 +261,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Teléfono :"
-                        android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
@@ -275,7 +270,6 @@
                         android:layout_weight="1"
                         android:text="+52 442 3291 145"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -349,7 +343,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -367,7 +361,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
         android:background="#853455"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/titulocalendar"
