@@ -349,7 +349,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -367,7 +367,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
         android:background="#853455"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/titulocalendar"

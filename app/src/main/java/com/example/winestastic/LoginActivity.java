@@ -14,7 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     LoginAdapter adapter;
-    FloatingActionButton fb,gmail;
+
     float op = 0;
 
     @Override
@@ -22,8 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        fb = findViewById(R.id.logo_fb);
-        gmail = findViewById(R.id.logo_gmail);
+
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
         tabLayout.addTab(tabLayout.newTab().setText("Iniciar sesion"));
@@ -61,17 +60,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
         tabLayout.setTranslationY(300);
-        fb.setTranslationY(300);
-        gmail.setTranslationY(300);
+
 
         tabLayout.setAlpha(op);
-        fb.setAlpha(op);
-        gmail.setAlpha(op);
+
 
 
 
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
-        fb.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
-        gmail.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(300).start();
+
     }
 }
