@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -18,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MeowBottomNavigation bottomNavigation;
+    Button cerrar;
     RelativeLayout  menu, home, calendar, map;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
+        cerrar = findViewById(R.id.cerrar_sesion);
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.home);
         calendar = findViewById(R.id.calendar);
         map = findViewById(R.id.map);
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -41,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.baseline_home_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_calendar_month_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.baseline_public_24));
-
 
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
@@ -176,5 +181,33 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+
+
+        cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
     }
+
+    protected void onStart(){
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null){
+            irLogin();
+        }
+    }
+
+    private void logout(){
+        mAuth.signOut();
+        irLogin();
+    }
+
+    private void irLogin(){
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    
 }

@@ -12,7 +12,12 @@
           "package_name": "com.example.winestastic"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "9713975001-kkekv1icm4dguu0g9sq8trsj7oqh8lgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCT5tYqJiK-1rKcTe7MXpzWIF4ZkUCbDTA"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9713975001-kkekv1icm4dguu0g9sq8trsj7oqh8lgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
