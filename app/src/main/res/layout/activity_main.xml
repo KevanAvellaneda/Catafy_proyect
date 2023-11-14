@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -297,7 +297,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/btn_background"
                         android:backgroundTint="#853455"
-                        android:text="Recuperar contraseña"
+                        android:text="Cambiar contraseña"
                         android:textColor="#FFFF" />
 
                 </LinearLayout>
@@ -343,7 +343,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -394,18 +394,13 @@
             app:layout_constraintTop_toBottomOf="@+id/titulocalendar"
             app:layout_goneMarginBottom="24dp">
 
-            <CalendarView
+            <com.squareup.timessquare.CalendarPickerView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
 
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:focusedMonthDateColor="#883832"
-                android:selectedWeekBackgroundColor="#00BCD4"
-                android:unfocusedMonthDateColor="#3F51B5"
-                android:weekNumberColor="#8BC34A"
-                android:weekSeparatorLineColor="#673AB7" />
+                android:layout_centerVertical="true" />
 
 
             <Button
@@ -413,22 +408,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/btn_background"
                 android:backgroundTint="#853455"
                 android:text="Aquí irá info del viñedo"
-                android:textColor="#FFFF" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/btn_background"
-                android:backgroundTint="#853455"
-                android:text="Por el momento boton, despues se cambia"
                 android:textColor="#FFFF" />
 
 
