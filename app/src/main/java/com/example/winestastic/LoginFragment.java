@@ -96,7 +96,11 @@ public class LoginFragment extends Fragment {
         gmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null) {
+                    mostrarMensaje("Ya has iniciado sesión con correo y contraseña. No puedes iniciar sesión con Google.");
+                } else {
+                    signIn();
+                }
             }
         });
 
@@ -147,7 +151,11 @@ public class LoginFragment extends Fragment {
     private void updateUI(FirebaseUser user) {
         user = mAuth.getCurrentUser();
         if(user != null){
-            redireccionarMain();
+            if (user.getEmail() != null) {
+                redireccionarMain();
+            } else {
+                mostrarMensaje("Iniciaste sesión con Google. No puedes acceder directamente.");
+            }
         }
     }
 

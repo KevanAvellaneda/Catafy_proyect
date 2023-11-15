@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -213,30 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
-        Date today = new Date();
-        Calendar nextYear = Calendar.getInstance();
-        nextYear.add(Calendar.YEAR, 30);
-
-        CalendarPickerView datePicker = findViewById(R.id.calendarView);
-        datePicker.init(today, nextYear.getTime()).withSelectedDate(today);
-
-        datePicker.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(Date date) {
-                String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(date);
-                Toast.makeText(MainActivity.this, selectedDate, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDateUnselected(Date date) {
-
-            }
-        });
-
 
 
 
