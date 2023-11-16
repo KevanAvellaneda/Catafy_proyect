@@ -243,9 +243,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user == null){
+        if(user != null){
+            mostrarMensaje("Bienvenido");
+        }else{
             irLogin();
         }
+
     }
 
     private void logout(){
@@ -259,9 +262,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
-
-
-
-    
+    private void mostrarMensaje(String mensaje){
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    }
 }
