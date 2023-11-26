@@ -19,7 +19,7 @@ public class SplashWinestastic extends AppCompatActivity {
             @Override
             public void run() {
                 // Start your main activity here
-                Intent mainIntent = new Intent(SplashWinestastic.this, LoginActivity.class);
+                Intent mainIntent = new Intent(SplashWinestastic.this, Boletos.class);
                 startActivity(mainIntent);
                 finish();
             }

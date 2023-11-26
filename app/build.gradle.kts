@@ -50,4 +50,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("com.squareup:android-times-square:1.6.5@aar")
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 }
