@@ -50,11 +50,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("com.squareup:android-times-square:1.6.5@aar")
-<<<<<<< HEAD
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
-=======
-
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
->>>>>>> 4dbb977d4f71bfd312d8c9ee67053d5ee3042637
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 }
