@@ -10,7 +10,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
         android:background="@drawable/top_backgroundperson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,12 +63,63 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_below="@+id/view"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp"
         android:padding="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="¿Aún tienes dudas?"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/recyclerView"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView9"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="¡Envíanos un mensaje!" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageFAQ"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logo_gmail"
+            android:layout_marginStart="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="podek8@gmail.com"
+            android:textSize="20dp"
+            android:textStyle="italic"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="40dp"/>
+    </LinearLayout>
+
 
 </RelativeLayout>
