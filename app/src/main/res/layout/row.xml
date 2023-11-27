@@ -22,6 +22,7 @@
             android:id="@+id/code_name"
             android:text="Code name"
             android:textSize="22sp"
+            android:textStyle="bold"
             android:padding="16dp"
             android:textColor="@color/white"
             />
@@ -38,8 +39,8 @@
                 android:id="@+id/description"
                 android:text="Description TextView"
                 android:padding="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textStyle="italic"
                 android:textColor="@color/white"
                 />
 
