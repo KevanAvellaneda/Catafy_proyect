@@ -1,5 +1,6 @@
 package com.example.winestastic;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,11 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.DateFormat;
@@ -27,9 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MeowBottomNavigation bottomNavigation;
+    TextView txt_Nombre,txt_correo,txt_telefono,txt_Nombre2,txt_correo2;
     Button cerrar;
     RelativeLayout  menu, home, calendar, map;
     FirebaseAuth mAuth;
+    FirebaseUser user;
+    FirebaseFirestore mFirestore;
+
 
     LinearLayout cardviewchatbot;
 
@@ -44,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
         home = findViewById(R.id.home);
         calendar = findViewById(R.id.calendar);
         map = findViewById(R.id.map);
+        txt_Nombre = findViewById(R.id.Mostrarnombre);
+        txt_Nombre2 = findViewById(R.id.nombre2);
+        txt_correo2 = findViewById(R.id.correo2);
+        txt_correo = findViewById(R.id.Mostrarcorreo);
+        txt_telefono = findViewById(R.id.Mostrartelefono);
         mAuth = FirebaseAuth.getInstance();
-
+        user = mAuth.getCurrentUser();
+        mFirestore = FirebaseFirestore.getInstance();
         cardviewchatbot = findViewById(R.id.cardviewchat);
-
-
-
         bottomNavigation.show(2,true);
 
 
@@ -247,7 +260,32 @@ public class MainActivity extends AppCompatActivity {
             irLogin();
         }else{
             mostrarMensaje("Bienvenido");
+            cargardatos();
         }
+    }
+
+    private void cargardatos(){
+        mFirestore.collection("usuarios").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        String nombre = document.getString("nombre");
+                        String correo = document.getString("correo");
+                        String telefono = document.getString("telefono");
+
+                        txt_Nombre.setText(nombre);
+                        txt_correo.setText(correo);
+                        txt_telefono.setText(telefono);
+                        txt_Nombre2.setText(nombre);
+                        txt_correo2.setText(correo);
+                    }
+                }
+
+            }
+        });
+
     }
 
     private void logout(){
