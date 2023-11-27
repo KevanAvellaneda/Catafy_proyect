@@ -259,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
         if(user == null){
             irLogin();
         }else{
-            mostrarMensaje("Bienvenido");
             cargardatos();
         }
     }

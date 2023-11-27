@@ -96,4 +96,12 @@ public class RecuperarActivity extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
+
+    public void onBackPressed(){
+        super.onBackPressed();
+
+        Intent intent = new Intent(RecuperarActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
