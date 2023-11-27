@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_below="@+id/view"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:padding="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="@+id/view"
@@ -101,7 +101,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView10"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -109,6 +110,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/logo_gmail"
+            android:layout_gravity="center"
             android:layout_marginStart="20dp" />
 
         <TextView
