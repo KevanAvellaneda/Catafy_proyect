@@ -2,6 +2,9 @@ package com.example.winestastic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,6 +34,8 @@ import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RecyclerView.Adapter adapterEventos,adapterVinedos;
+    private RecyclerView recyclerViewEventos, recyclerViewVinedos;
 
 
     private MeowBottomNavigation bottomNavigation;
@@ -64,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         cardviewchatbot = findViewById(R.id.cardviewchat);
         bottomNavigation.show(2,true);
+
+
 
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menuanvorgesa));
@@ -228,6 +236,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        Fragment fragment = new Map_Fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+
+
 
 
 
@@ -249,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        initRecyclerView();
 
     }
 
@@ -301,4 +313,30 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarMensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
+
+
+    private void initRecyclerView() {
+        // ArrayList para los viñedos
+        ArrayList<ItemsDomain> vinedosArrayList = new ArrayList<>();
+        vinedosArrayList.add(new ItemsDomain("La Redonda", "Carr. San Juan Del Rio a\n" + "Ezequiel Montes Km 33.5\n", "laredonda"));
+        vinedosArrayList.add(new ItemsDomain("Freixenet", "Carr. San Juan del Río a\n" + "Cadereyta Km 40.5\n", "freixenet"));
+
+        // ArrayList para los eventos
+        ArrayList<ItemsDomain> eventosArrayList = new ArrayList<>();
+        eventosArrayList.add(new ItemsDomain("Cata de vinos", "La Redonda\n", "eventoredonda2"));
+        eventosArrayList.add(new ItemsDomain("Cena de navidad", "Freixenet\n", "eventofreixenet"));
+
+        recyclerViewEventos = findViewById(R.id.viewEventos);
+        recyclerViewVinedos = findViewById(R.id.viewViñedos);
+
+        recyclerViewEventos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewVinedos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        adapterVinedos = new ItemsAdapter(vinedosArrayList);
+        adapterEventos = new ItemsAdapter(eventosArrayList);
+
+        recyclerViewVinedos.setAdapter(adapterVinedos);
+        recyclerViewEventos.setAdapter(adapterEventos);
+    }
+
 }
