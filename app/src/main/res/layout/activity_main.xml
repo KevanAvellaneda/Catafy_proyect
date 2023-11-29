@@ -348,7 +348,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -357,16 +357,17 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:background="#B83464"
-                    android:layout_height="50dp">
+                    android:layout_height="90dp"
+                    android:background="@color/wine">
 
                     <TextView
                         android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DELICIO"
-                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
                         android:textColor="@color/white"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -412,10 +413,10 @@
                                 android:layout_height="44dp"
                                 android:layout_marginStart="16dp"
                                 android:text="Cata de vinos"
-                                android:textColor="#000000"
-                                android:textStyle="bold"
-                                android:textSize="12sp"
                                 android:textAlignment="center"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -463,9 +464,9 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="0dp"
                             android:layout_height="70dp"
-                            android:layout_weight="0.5"
                             android:layout_marginStart="32dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_weight="0.5"
                             android:background="@drawable/cat_background">
 
                             <ImageView
@@ -531,10 +532,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="24dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp">
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:orientation="horizontal">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -546,10 +547,10 @@
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
                             android:layout_marginEnd="275dp"
                             android:layout_weight="1"
                             android:background="@drawable/fondotextoactivitymain"
-                            android:layout_marginStart="16dp"
                             android:text="Eventos"
                             android:textColor="#FFFFFF"
                             android:textSize="20sp"
@@ -562,20 +563,20 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewEventos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/viewEventos"
                     android:clipToPadding="false"
                     android:paddingStart="24dp"
-                    android:paddingEnd="24dp"/>
+                    android:paddingEnd="24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="24dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp">
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:orientation="horizontal">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -587,10 +588,10 @@
                             android:id="@+id/textovinedos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
                             android:layout_marginEnd="275dp"
                             android:layout_weight="1"
                             android:background="@drawable/fondotextoactivitymain"
-                            android:layout_marginStart="16dp"
                             android:text="Viñedos"
                             android:textColor="#FFFFFF"
                             android:textSize="20sp"
@@ -601,21 +602,22 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewViñedos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/viewViñedos"
+                    android:layout_marginBottom="70dp"
                     android:clipToPadding="false"
                     android:paddingStart="24dp"
-                    android:layout_marginBottom="70dp"
-                    android:paddingEnd="24dp"/>
+                    android:paddingEnd="24dp" />
 
             </LinearLayout>
         </ScrollView>
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            >
+            android:layout_height="100dp">
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -666,9 +668,10 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+
+                android:layout_centerVertical="true"
+                android:layout_marginTop="30dp" />
 
 
             <Button
@@ -694,22 +697,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
+        android:background="@drawable/vino"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="MAPA"
-            android:textSize="30dp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/textView5"
             android:layout_margin="20dp"
+            android:background="@drawable/grey_background"
             android:orientation="vertical">
 
             <TextView
@@ -717,6 +713,7 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:text="Google Maps"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -724,7 +721,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                android:text="Explora los distintos viñedos que se encuentran en el estado de Querétaro"
+                android:text="Embárcate en una fascinante travesía para explorar los múltiples y encantadores viñedos que se extienden a lo largo del pintoresco estado de Querétaro."
+                android:textColor="@color/white"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 

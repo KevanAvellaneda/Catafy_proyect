@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Map_Fragment extends Fragment {
@@ -30,7 +31,12 @@ public class Map_Fragment extends Fragment {
                 LatLng mapRedonda = new LatLng(20.639977, -99.907046);
                 googleMap.addMarker(new MarkerOptions().position(mapRedonda).title("Viñedo laRedonda"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(mapRedonda));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mapRedonda,16));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mapRedonda,12));
+
+                LatLng mapFreixenet = new LatLng(20.697373, -99.877498);
+                googleMap.addMarker(new MarkerOptions().position(mapFreixenet).title("Viñedo Freixenet"));
+
+
 
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -40,7 +46,7 @@ public class Map_Fragment extends Fragment {
                         //markerOptions.position(latLng);
                         //markerOptions.title(latLng.latitude+" KG " + latLng.longitude);
                         //googleMap.clear();
-                        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
+                        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                     }
                 });
             }
