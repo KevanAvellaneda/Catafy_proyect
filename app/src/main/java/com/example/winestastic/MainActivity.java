@@ -2,6 +2,7 @@ package com.example.winestastic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -233,6 +234,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        Fragment fragment = new Map_Fragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
 
 
 
