@@ -410,7 +410,7 @@
                             <TextView
                                 android:id="@+id/cata_vinostext"
                                 android:layout_width="50dp"
-                                android:layout_height="44dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
                                 android:text="Cata de vinos"
                                 android:textAlignment="center"
@@ -514,8 +514,8 @@
 
                             <TextView
                                 android:id="@+id/vinoquesotext"
-                                android:layout_width="57dp"
-                                android:layout_height="41dp"
+                                android:layout_width="55dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
                                 android:text="Demás entradas"
                                 android:textAlignment="center"
