@@ -393,6 +393,7 @@
                             android:layout_height="70dp"
                             android:layout_marginStart="32dp"
                             android:layout_marginEnd="8dp"
+                            android:id="@+id/cardInicio1"
                             android:layout_weight="0.5"
                             android:background="@drawable/cat_background">
 
@@ -410,7 +411,7 @@
                             <TextView
                                 android:id="@+id/cata_vinostext"
                                 android:layout_width="50dp"
-                                android:layout_height="44dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
                                 android:text="Cata de vinos"
                                 android:textAlignment="center"
@@ -427,6 +428,7 @@
                             android:layout_height="70dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="32dp"
+                            android:id="@+id/cardInicio2"
                             android:layout_weight="0.5"
                             android:background="@drawable/cat_background">
 
@@ -466,6 +468,7 @@
                             android:layout_height="70dp"
                             android:layout_marginStart="32dp"
                             android:layout_marginEnd="8dp"
+                            android:id="@+id/cardInicio3"
                             android:layout_weight="0.5"
                             android:background="@drawable/cat_background">
 
@@ -498,6 +501,7 @@
                             android:layout_height="70dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="32dp"
+                            android:id="@+id/cardInicio4"
                             android:layout_weight="0.5"
                             android:background="@drawable/cat_background">
 
@@ -514,9 +518,9 @@
 
                             <TextView
                                 android:id="@+id/vinoquesotext"
-                                android:layout_width="57dp"
-                                android:layout_height="41dp"
-                                android:layout_marginStart="16dp"
+                                android:layout_width="55dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
                                 android:text="Demás entradas"
                                 android:textAlignment="center"
                                 android:textColor="#000000"

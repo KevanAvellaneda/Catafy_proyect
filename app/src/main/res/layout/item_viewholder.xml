@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="250dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
@@ -13,10 +12,11 @@
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_width="251dp"
-            android:layout_height="170dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:src="@drawable/laredondaprueba"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="26:18"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -74,8 +74,6 @@
                 app:layout_constraintStart_toStartOf="@+id/marcador"
                 app:layout_constraintTop_toTopOf="@+id/marcador" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
-

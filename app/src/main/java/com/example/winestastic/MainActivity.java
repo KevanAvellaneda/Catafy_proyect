@@ -2,6 +2,7 @@ package com.example.winestastic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     LinearLayout cardviewchatbot;
+    ConstraintLayout card1;
+    ConstraintLayout card2;
+    ConstraintLayout card3;
+    ConstraintLayout card4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         cardviewchatbot = findViewById(R.id.cardviewchat);
         bottomNavigation.show(2,true);
+
+        card1 = findViewById(R.id.cardInicio1);
+        card2 = findViewById(R.id.cardInicio2);
+        card3 = findViewById(R.id.cardInicio3);
+        card4 = findViewById(R.id.cardInicio4);
 
 
 
@@ -261,6 +271,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        card1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardCatadeVinos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardVinedos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardVinos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
         initRecyclerView();
 
     }
@@ -320,8 +368,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ItemsDomain> vinedosArrayList = new ArrayList<>();
         vinedosArrayList.add(new ItemsDomain("La Redonda", "Carr. San Juan Del Rio a\n" + "Ezequiel Montes Km 33.5\n", "laredonda"));
         vinedosArrayList.add(new ItemsDomain("Freixenet", "Carr. San Juan del Río a\n" + "Cadereyta Km 40.5\n", "freixenet"));
-        vinedosArrayList.add(new ItemsDomain("Puerta del lobo", "Carr. La Griega\n" + "Santiago de Qro Km 4.5\n", "puertadellobo"));
-        vinedosArrayList.add(new ItemsDomain("Vinícola de Cote", "Libramiento Norponiente\n" + "Santiago de Qro Km 5.9\n", "vinicoladecote"));
+        vinedosArrayList.add(new ItemsDomain("Puerta del lobo", "Carr. La Griega\n" + "Santiago de Qro Km 4.5\n", "puertadellobo2"));
+        vinedosArrayList.add(new ItemsDomain("Vinícola de Cote", "Libramiento Norponiente\n" + "Santiago de Qro Km 5.9\n", "vinicoladecote2"));
 
         // ArrayList para los eventos
         ArrayList<ItemsDomain> eventosArrayList = new ArrayList<>();

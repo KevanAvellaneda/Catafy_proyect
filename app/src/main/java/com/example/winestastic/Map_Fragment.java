@@ -36,19 +36,15 @@ public class Map_Fragment extends Fragment {
                 LatLng mapFreixenet = new LatLng(20.697373, -99.877498);
                 googleMap.addMarker(new MarkerOptions().position(mapFreixenet).title("Viñedo Freixenet"));
 
+                LatLng mapLobo = new LatLng(20.700184, -100.201149);
+                googleMap.addMarker(new MarkerOptions().position(mapLobo).title("Viñedo Puerta del Lobo"));
+
+                LatLng mapCote = new LatLng(20.696159, -99.880337);
+                googleMap.addMarker(new MarkerOptions().position(mapCote).title("Viñedo De Cote"));
 
 
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
-                    @Override
-                    public void onMapClick(@NonNull LatLng latLng) {
-                        //MarkerOptions markerOptions = new MarkerOptions();
-                        //markerOptions.position(latLng);
-                        //markerOptions.title(latLng.latitude+" KG " + latLng.longitude);
-                        //googleMap.clear();
-                        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                    }
-                });
+
             }
         });
         return view;

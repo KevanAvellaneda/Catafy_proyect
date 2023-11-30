@@ -49,6 +49,14 @@ public class RecuperarActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed(){
+        super.onBackPressed();
+
+        Intent intent = new Intent(RecuperarActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void validarUsuario(){
         String correo = recup_correo.getText().toString().trim();
         if(correo.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
