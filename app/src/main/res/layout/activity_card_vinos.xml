@@ -7,16 +7,28 @@
     android:background="@drawable/rosayvino"
     tools:context=".cardVinos">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vinos"
         android:id="@+id/titulovinos"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:textStyle="italic"
+        android:background="@drawable/grey_background"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="280dp"
+        android:padding="5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vinos"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="italic"
+            />
+
+    </LinearLayout>
+
+
 
 
     <LinearLayout
@@ -41,21 +53,33 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="300dp"
             android:src="@drawable/vinoxd"
             android:layout_marginTop="10dp"
             />
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/grey_background"
             android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="¿Cuál es la definición del vino?"
-            />
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="¿Cuál es la definición del vino?"
+                />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:layout_width="match_parent"
