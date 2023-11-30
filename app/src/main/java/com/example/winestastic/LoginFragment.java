@@ -9,6 +9,7 @@
     import android.view.ViewGroup;
     import android.widget.Button;
     import android.widget.EditText;
+    import android.widget.ProgressBar;
     import android.widget.TextView;
     import android.widget.Toast;
     import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,6 +37,8 @@
 
         EditText log_correo,log_pass;
         TextView recuperarpass,regwhit;
+
+        ProgressBar pbProgressLogin;
         FloatingActionButton gmail;
         Button btnlogin;
         float op = 0;
@@ -67,6 +70,7 @@
             btnlogin = root.findViewById(R.id.btn_login);
             gmail = root.findViewById(R.id.login_gmail);
             mFirestore = FirebaseFirestore.getInstance();
+            pbProgressLogin = root.findViewById(R.id.progress_login);
 
 
 
@@ -161,12 +165,14 @@
 
 
         private void firebaseAuthWithGoogle(String idToken){
+            pbProgressLogin.setVisibility(View.VISIBLE);
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
             mAuth.signInWithCredential(credential)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                pbProgressLogin.setVisibility(View.GONE);
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
                                 if(task.getResult().getAdditionalUserInfo().isNewUser()) {
@@ -215,21 +221,25 @@
         //Inicio de sesion con email y contraseña
 
         private void loginuser(String correo, String password){
+            pbProgressLogin.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(correo,password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        pbProgressLogin.setVisibility(View.GONE);
                         getActivity().finish();
                         startActivity(new Intent(getContext(),MainActivity.class));
                         mostrarMensaje("Bienvenido");
                     }else{
+                        pbProgressLogin.setVisibility(View.GONE);
                         mostrarMensaje("Error");
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    pbProgressLogin.setVisibility(View.GONE);
                     mostrarMensaje("El correo o contraseña son incorrectos");
                 }
             });
