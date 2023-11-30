@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,10 +20,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Winestastic"
         tools:targetApi="31">
+        <activity
+            android:name=".cardDemasEntradas"
+            android:exported="false" />
+        <activity
+            android:name=".cardVinos"
+            android:exported="false" />
+        <activity
+            android:name=".cardVinedos"
+            android:exported="false" />
+        <activity
+            android:name=".cardCatadeVinos"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAaed27n1NZMdCoO9Z9gSExS8NZ0qygPxY"></meta-data>
+            android:value="AIzaSyAaed27n1NZMdCoO9Z9gSExS8NZ0qygPxY" />
 
         <activity
             android:name=".DetailActivity"

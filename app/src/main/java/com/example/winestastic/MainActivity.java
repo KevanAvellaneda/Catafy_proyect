@@ -2,6 +2,7 @@ package com.example.winestastic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     LinearLayout cardviewchatbot;
+    ConstraintLayout card1;
+    ConstraintLayout card2;
+    ConstraintLayout card3;
+    ConstraintLayout card4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         cardviewchatbot = findViewById(R.id.cardviewchat);
         bottomNavigation.show(2,true);
+
+        card1 = findViewById(R.id.cardInicio1);
+        card2 = findViewById(R.id.cardInicio2);
+        card3 = findViewById(R.id.cardInicio3);
+        card4 = findViewById(R.id.cardInicio4);
 
 
 
@@ -260,6 +270,44 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        card1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardCatadeVinos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardVinedos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardVinos.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        card4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
 
         initRecyclerView();
 
