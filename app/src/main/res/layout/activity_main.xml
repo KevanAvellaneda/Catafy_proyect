@@ -520,7 +520,7 @@
                                 android:id="@+id/vinoquesotext"
                                 android:layout_width="55dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
+                                android:layout_marginStart="10dp"
                                 android:text="Demás entradas"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
