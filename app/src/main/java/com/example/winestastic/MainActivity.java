@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     FirebaseFirestore mFirestore;
 
+    private GoogleSignInClient mGoogleSignInClient;
+
 
     LinearLayout cardviewchatbot;
     ConstraintLayout card1;
@@ -75,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         cardviewchatbot = findViewById(R.id.cardviewchat);
         bottomNavigation.show(2,true);
+        //-------------Servicios Google----------------
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
+        //Configuracion para el uso de inicio de sesion con google
 
         card1 = findViewById(R.id.cardInicio1);
         card2 = findViewById(R.id.cardInicio2);
@@ -350,7 +366,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout(){
         mAuth.signOut();
-        irLogin();
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    irLogin();
+                }else {
+                    mostrarMensaje("No se logro cerrar sesion");
+                }
+            }
+        });
     }
 
     private void irLogin(){
