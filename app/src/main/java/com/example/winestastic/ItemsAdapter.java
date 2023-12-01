@@ -1,8 +1,6 @@
 package com.example.winestastic;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,44 +12,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ItemsAdapter extends  RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
     ArrayList<ItemsDomain> items;
-    DecimalFormat formatter;
+
     Context context;
 
-    public ItemsAdapter(ArrayList<ItemsDomain> items) {
+    public ItemsAdapter(ArrayList<ItemsDomain> items, Context context) {
         this.items = items;
-        formatter = new DecimalFormat("###,###,###,###.##");
+        this.context = context;
+
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_viewholder,parent,false);
-        context=parent.getContext();
+        View inflate= LayoutInflater.from(context).inflate(R.layout.item_viewholder,parent,false);
         return new ViewHolder(inflate);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.titleTxt.setText(items.get(position).getTitle());
-        holder.addressTxt.setText(items.get(position).getAddress());
-        //holder.priceTxt.setText("$" + formatter.format(items.get(position).getPrice()));
+        ItemsDomain itemsDomain = items.get(position);
+        holder.titleTxt.setText(itemsDomain.getNombre_vinedos());
+        holder.addressTxt.setText(itemsDomain.getUbicacion_vinedos());
 
-        int drawableResourceId= holder.itemView.getResources().getIdentifier(items.get(position).getPic(),"drawable",holder.itemView.getContext().getPackageName());
-        Glide.with(holder.itemView.getContext())
-                .load(drawableResourceId)
-                .into(holder.pic);
-
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context,DetailActivity.class);
-            intent.putExtra("object",items.get(position));
-            context.startActivity(intent);
-        });
-
+        Glide.with(context).load(itemsDomain.getUrl()).into(holder.pic);
 
     }
 
@@ -61,14 +48,14 @@ public class ItemsAdapter extends  RecyclerView.Adapter<ItemsAdapter.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView titleTxt, addressTxt, priceTxt;
+        TextView titleTxt, addressTxt;
         ImageView pic;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTxt=itemView.findViewById(R.id.nombrevinedo);
             addressTxt=itemView.findViewById(R.id.direccion);
-            pic=itemView.findViewById(R.id.pic);
+            pic=itemView.findViewById(R.id.url);
         }
     }
 }

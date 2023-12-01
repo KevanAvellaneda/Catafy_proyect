@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/pic"
+            android:id="@+id/url"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/laredondaprueba"
@@ -54,25 +54,29 @@
                 android:id="@+id/marcador"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:src="@drawable/marcador"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias=".07"
+                app:layout_constraintVertical_bias="0.5" />
 
             <TextView
                 android:id="@+id/direccion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="35dp"
-                android:text="Dirección"
-                android:textColor="#000000"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="TextView"
                 android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintVertical_bias=".5"
+                app:layout_constraintHeight_percent=".6"
+                app:layout_constraintWidth_percent=".75"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/marcador"
-                app:layout_constraintTop_toTopOf="@+id/marcador" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/marcador"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

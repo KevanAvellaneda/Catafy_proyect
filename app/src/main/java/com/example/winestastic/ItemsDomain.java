@@ -4,38 +4,44 @@ import java.io.Serializable;
 
 public class ItemsDomain implements Serializable {
 
-    private String title;
-    private String address;
-    private String pic;
+    private String nombre_vinedos;
+    private String ubicacion_vinedos;
 
-    public String getTitle() {
-        return title;
+    private String url;
+
+
+    public String getNombre_vinedos() {
+        return nombre_vinedos;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNombre_vinedos(String nombre_vinedos) {
+        this.nombre_vinedos = nombre_vinedos;
     }
 
-    public String getAddress() {
-        return address;
+    public String getUbicacion_vinedos() {
+        return ubicacion_vinedos;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setUbicacion_vinedos(String ubicacion_vinedos) {
+        this.ubicacion_vinedos = ubicacion_vinedos;
     }
 
-    public String getPic() {
-        return pic;
+    public String getUrl() {
+        return url;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public ItemsDomain(String title, String address, String pic) {
-        this.title = title;
-        this.address = address;
-        this.pic = pic;
+
+    public ItemsDomain(String nombre_vinedos, String ubicacion_vinedos, String url) {
+        this.nombre_vinedos = nombre_vinedos;
+        this.ubicacion_vinedos = ubicacion_vinedos;
+        this.url = url;
+    }
+    public ItemsDomain() {
+        // Constructor vacío requerido para Firestore
     }
 
 

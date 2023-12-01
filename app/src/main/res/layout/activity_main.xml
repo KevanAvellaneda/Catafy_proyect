@@ -346,6 +346,17 @@
         android:layout_above="@id/bottomNavigation"
         android:visibility="visible">
 
+        <ProgressBar
+            android:id="@+id/progress_main"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -534,36 +545,24 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/grey_background"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="32dp"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="10dp"
+                    android:padding="5dp"
+                    >
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:text="Eventos"
+                        />
 
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="275dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/fondotextoactivitymain"
-                            android:text="Eventos"
-                            android:textColor="#FFFFFF"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -575,36 +574,24 @@
                     android:paddingEnd="24dp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/grey_background"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="32dp"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="10dp"
+                    android:padding="5dp"
+                    >
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:text="Viñedos"
+                        />
 
-
-                        <TextView
-                            android:id="@+id/textovinedos"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="275dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/fondotextoactivitymain"
-                            android:text="Viñedos"
-                            android:textColor="#FFFFFF"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
