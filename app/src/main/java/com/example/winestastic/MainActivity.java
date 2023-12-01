@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         recyclerView = findViewById(R.id.viewViñedos);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

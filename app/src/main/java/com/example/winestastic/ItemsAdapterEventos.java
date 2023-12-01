@@ -1,11 +1,14 @@
 package com.example.winestastic;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +42,18 @@ public class ItemsAdapterEventos extends  RecyclerView.Adapter<ItemsAdapterEvent
         holder.addressTxt.setText(itemsDomainEventos.getUbicacion_evento());
 
         Glide.with(context).load(itemsDomainEventos.getUrl()).into(holder.pic);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,itemsDomainEventos.getNombre_evento(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetailFreixenetActivity.class);
+                intent.putExtra("titleTxt", itemsDomainEventos.getNombre_evento());
+                intent.putExtra("addressTxt", itemsDomainEventos.getUbicacion_evento());
+                intent.putExtra("imageUrl", itemsDomainEventos.getUrl());
 
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
