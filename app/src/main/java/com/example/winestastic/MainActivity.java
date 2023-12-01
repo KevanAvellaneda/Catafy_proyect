@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,8 +32,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -71,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    ItemsAdapter itemsAdapter;
-    ArrayList<ItemsDomain> items;
+    ItemsAdapterVinedos itemsAdapterVinedos;
+    ItemsAdapterEventos itemsAdapterEventos;
+    ArrayList<ItemsDomainVinedos> items;
+    ArrayList<ItemsDomainEventos> items2;
 
     ProgressBar pbProgressMain;
 
@@ -86,13 +85,42 @@ public class MainActivity extends AppCompatActivity {
         pbProgressMain = findViewById(R.id.progress_main);
 
 
+
+        recyclerView = findViewById(R.id.viewEventos);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        items2 = new ArrayList<>();
+        itemsAdapterEventos = new ItemsAdapterEventos(items2, this);
+        recyclerView.setAdapter(itemsAdapterEventos);
+        mFirestore.collection("eventos").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                pbProgressMain.setVisibility(View.VISIBLE);
+                if(error != null){
+                    Log.e("Firestore error", error.getMessage());
+                    return;
+                }
+                for(DocumentChange dc : value.getDocumentChanges()){
+                    if(dc.getType() == DocumentChange.Type.ADDED){
+
+                        items2.add(dc.getDocument().toObject(ItemsDomainEventos.class));
+                    }
+
+                    itemsAdapterEventos.notifyDataSetChanged();
+                    pbProgressMain.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
         recyclerView = findViewById(R.id.viewViñedos);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         items = new ArrayList<>();
-        itemsAdapter = new ItemsAdapter(items, this);
-        recyclerView.setAdapter(itemsAdapter);
+        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this);
+        recyclerView.setAdapter(itemsAdapterVinedos);
         mFirestore.collection("viñedos").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -104,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
                 for(DocumentChange dc : value.getDocumentChanges()){
                     if(dc.getType() == DocumentChange.Type.ADDED){
 
-                        items.add(dc.getDocument().toObject(ItemsDomain.class));
+                        items.add(dc.getDocument().toObject(ItemsDomainVinedos.class));
                     }
 
-                    itemsAdapter.notifyDataSetChanged();
+                    itemsAdapterVinedos.notifyDataSetChanged();
                     pbProgressMain.setVisibility(View.GONE);
                 }
 

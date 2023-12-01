@@ -14,13 +14,13 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class ItemsAdapter extends  RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
-    ArrayList<ItemsDomain> items;
+public class ItemsAdapterEventos extends  RecyclerView.Adapter<ItemsAdapterEventos.ViewHolder> {
+    ArrayList<ItemsDomainEventos> items2;
 
     Context context;
 
-    public ItemsAdapter(ArrayList<ItemsDomain> items, Context context) {
-        this.items = items;
+    public ItemsAdapterEventos(ArrayList<ItemsDomainEventos> items2, Context context) {
+        this.items2 = items2;
         this.context = context;
 
     }
@@ -34,17 +34,17 @@ public class ItemsAdapter extends  RecyclerView.Adapter<ItemsAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ItemsDomain itemsDomain = items.get(position);
-        holder.titleTxt.setText(itemsDomain.getNombre_vinedos());
-        holder.addressTxt.setText(itemsDomain.getUbicacion_vinedos());
+        ItemsDomainEventos itemsDomainEventos = items2.get(position);
+        holder.titleTxt.setText(itemsDomainEventos.getNombre_evento());
+        holder.addressTxt.setText(itemsDomainEventos.getUbicacion_evento());
 
-        Glide.with(context).load(itemsDomain.getUrl()).into(holder.pic);
+        Glide.with(context).load(itemsDomainEventos.getUrl()).into(holder.pic);
 
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items2.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

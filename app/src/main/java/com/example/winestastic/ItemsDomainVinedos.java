@@ -2,7 +2,7 @@ package com.example.winestastic;
 
 import java.io.Serializable;
 
-public class ItemsDomain implements Serializable {
+public class ItemsDomainVinedos implements Serializable {
 
     private String nombre_vinedos;
     private String ubicacion_vinedos;
@@ -35,12 +35,12 @@ public class ItemsDomain implements Serializable {
     }
 
 
-    public ItemsDomain(String nombre_vinedos, String ubicacion_vinedos, String url) {
+    public ItemsDomainVinedos(String nombre_vinedos, String ubicacion_vinedos, String url) {
         this.nombre_vinedos = nombre_vinedos;
         this.ubicacion_vinedos = ubicacion_vinedos;
         this.url = url;
     }
-    public ItemsDomain() {
+    public ItemsDomainVinedos() {
         // Constructor vacío requerido para Firestore
     }
 
