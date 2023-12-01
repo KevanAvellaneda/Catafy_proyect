@@ -21,6 +21,12 @@
         android:theme="@style/Theme.Winestastic"
         tools:targetApi="31">
         <activity
+            android:name=".DetailCoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailLoboActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailFreixenetActivity"
             android:exported="false" />
         <activity
