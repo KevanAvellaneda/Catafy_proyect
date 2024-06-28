@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -342,14 +344,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         Fragment fragment = new Map_Fragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
-
-
-
-
-
 
         cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,11 +399,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
-
     }
 
     protected void onStart(){
@@ -416,9 +407,44 @@ public class MainActivity extends AppCompatActivity {
         if(user == null){
             irLogin();
         }else{
+            verifyUser();
             cargardatos();
         }
     }
+
+    private void verifyUser() {
+        // Verifica si un usuario ha autenticado su correo
+            user.reload();
+            if(!user.isEmailVerified()){
+                // Ubicación desactivada, mostrar un diálogo para permitir al usuario activarla
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Para continuar con la aplicación es necesario verificar tu correo.\n\nPor favor, revisa tu correo incluso tu spam.")
+                        .setCancelable(false)
+                        .setNegativeButton("Enviar correo", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                user.sendEmailVerification();
+                                dialog.cancel();
+
+                                AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
+                                confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                logout();
+                                            }
+                                        });
+                                confirmationBuilder.create().show();
+                            }
+                        })
+                        .setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                logout();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }
 
     private void cargardatos(){
         mFirestore.collection("usuarios").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -468,9 +494,4 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarMensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
-
-
-
-
-
 }
