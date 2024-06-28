@@ -6,44 +6,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LoginFragment">
 
-
-    <EditText
-        android:id="@+id/log_corre"
+    <!-- Correo -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/log_corre_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
+        android:layout_marginTop="-30dp"
         android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
+        app:boxStrokeColor="@color/wine"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/emailicon"
+        app:startIconTint="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".2"
-        app:layout_constraintWidth_percent=".8"
-        android:layout_marginTop="-30dp"/>
+        app:layout_constraintWidth_percent=".8">
 
-    <EditText
-        android:id="@+id/log_pass"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/log_corre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/edittext_bg"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Contraseña -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/log_pass_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
+        android:layout_marginTop="0dp"
         android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
+        app:boxStrokeColor="@color/wine"
+        app:endIconMode="password_toggle"
+        app:startIconDrawable="@drawable/passwordicon"
+        app:startIconTint="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_corre"
+        app:layout_constraintTop_toBottomOf="@+id/log_corre_layout"
         app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent=".8" />
+        app:layout_constraintWidth_percent=".8">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/log_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/edittext_bg"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botón de inicio de sesión -->
     <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"
@@ -57,10 +80,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_pass"
+        app:layout_constraintTop_toBottomOf="@+id/log_pass_layout"
         app:layout_constraintWidth_percent=".8"
         android:layout_marginTop="-80dp"/>
 
+    <!-- Texto de recuperación de contraseña -->
     <TextView
         android:id="@+id/log_recuperarpass"
         android:layout_width="wrap_content"
@@ -70,10 +94,11 @@
         app:layout_constraintHorizontal_bias="1"
         android:layout_marginRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/log_pass"
+        app:layout_constraintEnd_toEndOf="@+id/log_pass_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_pass" />
+        app:layout_constraintTop_toBottomOf="@+id/log_pass_layout" />
 
+    <!-- Texto de iniciar sesión con otra opción -->
     <TextView
         android:id="@+id/regwhit"
         android:layout_width="wrap_content"
@@ -85,6 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias=".1" />
 
+    <!-- Botón de inicio de sesión con Gmail -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/login_gmail"
         android:layout_width="wrap_content"
@@ -101,6 +127,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regwhit" />
 
+    <!-- Barra de progreso -->
     <ProgressBar
         android:id="@+id/progress_login"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"

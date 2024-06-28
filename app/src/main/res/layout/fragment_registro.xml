@@ -1,121 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistroFragment">
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:id="@+id/reg_nombre"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:hint="Nombre"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".15"
-        app:layout_constraintWidth_percent=".8"  />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp">
 
-    <EditText
-        android:id="@+id/reg_correo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_nombre"
-        app:layout_constraintWidth_percent=".8" />
+        <!-- Nombre -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="Nombre"
+            app:boxStrokeColor="@color/wine"
+            app:counterEnabled="true"
+            app:counterMaxLength="52"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/nombreicon"
+            app:startIconTint="@color/text_color">
 
-    <EditText
-        android:id="@+id/reg_telefono"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:hint="Telefono"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_correo"
-        app:layout_constraintWidth_percent=".8" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="52"
+                android:inputType="text"
+                android:padding="15dp"
+                android:background="@drawable/edittext_bg"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/reg_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:hint="Contraseña"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_telefono"
-        app:layout_constraintWidth_percent=".8" />
+        <!-- Correo -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="Correo electrónico"
+            app:boxStrokeColor="@color/wine"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/emailicon"
+            app:startIconTint="@color/text_color">
 
-    <EditText
-        android:id="@+id/reg_confirpass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
-        android:hint="Confirmar cotraseña"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_password"
-        app:layout_constraintWidth_percent=".8" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:padding="15dp"
+                android:background="@drawable/edittext_bg"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Teléfono -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="Teléfono"
+            app:boxStrokeColor="@color/wine"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/phoneicon"
+            app:startIconTint="@color/text_color">
 
-    <Button
-        android:id="@+id/btn_registro"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_background"
-        android:text="Crear cuenta"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_confirpass"
-        app:layout_constraintWidth_percent=".8" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:padding="15dp"
+                android:background="@drawable/edittext_bg"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="Contraseña"
+            app:boxStrokeColor="@color/wine"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/passwordicon"
+            app:startIconTint="@color/text_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:background="@drawable/edittext_bg"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirmar Contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:hint="Confirmar contraseña"
+            app:boxStrokeColor="@color/wine"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/passwordicon"
+            app:startIconTint="@color/text_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_confirpass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:background="@drawable/edittext_bg"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón de registro -->
+        <Button
+            android:id="@+id/btn_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_background"
+            android:text="Crear cuenta"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+</ScrollView>
