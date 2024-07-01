@@ -98,6 +98,16 @@
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- TextView para avisos de contraseña -->
+        <TextView
+            android:id="@+id/password_validation_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
         <!-- Confirmar Contraseña -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
