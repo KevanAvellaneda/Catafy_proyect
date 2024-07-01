@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,9 +12,7 @@
         android:id="@+id/log_corre_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-30dp"
         android:hint="Correo electrónico"
-        app:boxStrokeColor="@color/wine"
         app:endIconMode="clear_text"
         app:startIconDrawable="@drawable/emailicon"
         app:startIconTint="@color/text_color"
@@ -30,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:hint="Correo electrónico"
             android:paddingLeft="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
@@ -60,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:hint="Contraseña"
             android:paddingLeft="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
