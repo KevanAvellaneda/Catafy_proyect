@@ -6,5 +6,6 @@
     <color name="grey">#D3D3D3</color>
     <color name="backopcion">#FFFFFF</color>
     <color name="text_color">@color/black</color>
+    <color name="darkmodewhite">#FFFFFF</color>
 
 </resources>
