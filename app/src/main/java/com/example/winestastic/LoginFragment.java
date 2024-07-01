@@ -110,14 +110,6 @@ public class LoginFragment extends Fragment {
             pbProgressLogin.setVisibility(View.GONE);
             mostrarMensaje("El correo o la contraseña son incorrectos");
         });
-
-        recuperarpass.setOnClickListener(view -> {
-            getActivity();
-            startActivity(new Intent(getContext(), RecuperarActivity.class));
-        });
-
-        root.post(this::setViewAnimations);
-        return root;
     }
 
     // Método para mostrar mensajes Toast
