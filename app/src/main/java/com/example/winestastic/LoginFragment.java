@@ -32,21 +32,20 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     EditText log_correo, log_pass;
-    TextView recuperarpass, regwhit;
     ProgressBar pbProgressLogin;
-    FloatingActionButton gmail;
     Button btnlogin;
-    float op = 0;
-    String correo, password;
-    FirebaseFirestore mFirestore;
+    TextView recuperarpass, regwhit;
+    GoogleSignInClient mGoogleSignInClient;
+    FloatingActionButton gmail;
     FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
-    private GoogleSignInClient mGoogleSignInClient;
+    float op = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,67 +59,68 @@ public class LoginFragment extends Fragment {
         btnlogin = root.findViewById(R.id.btn_login);
         gmail = root.findViewById(R.id.login_gmail);
         pbProgressLogin = root.findViewById(R.id.progress_login);
-        mFirestore = FirebaseFirestore.getInstance();
 
-        // Verificar si la colección "usuarios" existe
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("usuarios").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (task.getResult().isEmpty()) {
-                    db.collection("usuarios").document("dummyDocument").set(new HashMap<>())
-                            .addOnSuccessListener(documentReference -> Log.d(TAG, "Colección 'usuarios' creada exitosamente"))
-                            .addOnFailureListener(e -> Log.e(TAG, "Error al crear la colección 'usuarios'", e));
-                }
+        // Click listener para el botón de iniciar sesión
+        btnlogin.setOnClickListener(view -> {
+            String correo = log_correo.getText().toString().trim();
+            String password = log_pass.getText().toString().trim();
+            if (!correo.isEmpty() && !password.isEmpty()) {
+                loginuser(correo, password);
             } else {
-                Log.e(TAG, "Error al verificar la existencia de la colección 'usuarios'", task.getException());
+                mostrarMensaje("Los campos no deben estar vacíos");
             }
         });
 
-        // Servicios Google
+        // Click listener para el botón de recuperar contraseña
+        recuperarpass.setOnClickListener(view -> {
+            getActivity();
+            startActivity(new Intent(getContext(), RecuperarActivity.class));
+        });
+
+        // Inicialización de Google SignInClient
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-        gmail.setOnClickListener(view -> signIn());
+        // Click listener para el botón de iniciar sesión con Google
+        root.findViewById(R.id.login_gmail).setOnClickListener(view -> signIn());
 
-        btnlogin.setOnClickListener(view -> {
-            correo = log_correo.getText().toString().trim();
-            password = log_pass.getText().toString().trim();
-            if (!correo.isEmpty() && !password.isEmpty()) {
-                loginuser(correo, password);
-            } else {
-                mostrarMensaje("Los campos no deben de estar vacios");
-            }
-        });
+        // Llamada a setViewAnimations para iniciar las animaciones
+        setViewAnimations();
 
-        recuperarpass.setOnClickListener(view -> {
-            getActivity().finish();
-            startActivity(new Intent(getContext(), RecuperarActivity.class));
-        });
-
-        root.post(this::setViewAnimations);
         return root;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+    // Método para iniciar sesión con correo y contraseña
+    private void loginuser(String correo, String password) {
+        pbProgressLogin.setVisibility(View.VISIBLE);
+        mAuth.signInWithEmailAndPassword(correo, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                pbProgressLogin.setVisibility(View.GONE);
+                getActivity().finish();
+                startActivity(new Intent(getContext(), MainActivity.class));
+                mostrarMensaje("Bienvenido");
+            } else {
+                pbProgressLogin.setVisibility(View.GONE);
+                mostrarMensaje("Error al iniciar sesión");
+            }
+        }).addOnFailureListener(e -> {
+            pbProgressLogin.setVisibility(View.GONE);
+            mostrarMensaje("El correo o la contraseña son incorrectos");
+        });
     }
 
+    // Método para mostrar mensajes Toast
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(getActivity(), mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    // Método para iniciar sesión con Google
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void updateUI(FirebaseUser user) {
-        user = mAuth.getCurrentUser();
-        if (user != null) {
-            redireccionarMain();
-        }
     }
 
     @Override
@@ -137,6 +137,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    // Método para autenticar con Firebase usando Google
     private void firebaseAuthWithGoogle(String idToken) {
         pbProgressLogin.setVisibility(View.VISIBLE);
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -146,51 +147,23 @@ public class LoginFragment extends Fragment {
                 FirebaseUser user = mAuth.getCurrentUser();
                 updateUI(user);
                 if (task.getResult().getAdditionalUserInfo().isNewUser()) {
-                    String uid = user.getUid();
-                    String correo = user.getEmail();
-                    String nombre = user.getDisplayName();
-
-                    Map<Object, String> map = new HashMap<>();
-                    map.put("id", uid);
-                    map.put("nombre", nombre);
-                    map.put("correo", correo);
-                    map.put("telefono", "");
-
-                    mFirestore.collection("usuarios").document(uid).set(map)
-                            .addOnSuccessListener(unused -> {
-                                mostrarMensaje("Usuario registrado con éxito");
-                                redireccionarMain();
-                            })
-                            .addOnFailureListener(e -> mostrarMensaje("Error al guardar datos"));
                 }
             } else {
+                pbProgressLogin.setVisibility(View.GONE);
+                mostrarMensaje("Error al autenticar con Google");
                 updateUI(null);
             }
         });
     }
 
-    private void loginuser(String correo, String password) {
-        pbProgressLogin.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(correo, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                pbProgressLogin.setVisibility(View.GONE);
-                getActivity().finish();
-                startActivity(new Intent(getContext(), MainActivity.class));
-                mostrarMensaje("Bienvenido");
-            } else {
-                pbProgressLogin.setVisibility(View.GONE);
-                mostrarMensaje("Error");
-            }
-        }).addOnFailureListener(e -> {
-            pbProgressLogin.setVisibility(View.GONE);
-            mostrarMensaje("El correo o contraseña son incorrectos");
-        });
+    // Método para actualizar la interfaz de usuario después de la autenticación
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            redireccionarMain();
+        }
     }
 
-    private void mostrarMensaje(String mensaje) {
-        Toast.makeText(getActivity(), mensaje, Toast.LENGTH_SHORT).show();
-    }
-
+    // Método para redireccionar a MainActivity
     private void redireccionarMain() {
         getActivity().finish();
         startActivity(new Intent(getActivity(), MainActivity.class));
@@ -210,4 +183,5 @@ public class LoginFragment extends Fragment {
         view.setAlpha(op);
         view.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(startDelay).start();
     }
+
 }
