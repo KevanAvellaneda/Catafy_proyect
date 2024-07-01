@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
         });
 
         recuperarpass.setOnClickListener(view -> {
-            getActivity().finish();
+            getActivity();
             startActivity(new Intent(getContext(), RecuperarActivity.class));
         });
 
