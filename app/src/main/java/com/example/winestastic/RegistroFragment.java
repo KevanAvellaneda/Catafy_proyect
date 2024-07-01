@@ -6,12 +6,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirestoreRegistrar;
@@ -29,134 +34,148 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 
 public class RegistroFragment extends Fragment {
 
-    //Declaramos las variables
-    EditText nombre,correo,telefono,password,confirmpass;
-    Button btnregistro;
-    String nameuser,correouser,telefonouser,passworduser,confirmaruser;
-
-    //Instancias de los servicios firebase
+    EditText reg_nombre, reg_correo, reg_telefono, reg_password, reg_confirpass;
+    Button btn_registro;
+    ProgressBar pbProgressLogin;
     FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
+    private static final String regexPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=_-])(?=\\S+$).{8,}$";
+    private Pattern passwordPattern;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_registro, container, false);
 
-        //Inicializamos las variables y los servicios de firebase
-        nombre = root.findViewById(R.id.reg_nombre);
-        correo = root.findViewById(R.id.reg_correo);
-        telefono = root.findViewById(R.id.reg_telefono);
-        password = root.findViewById(R.id.reg_password);
-        confirmpass = root.findViewById(R.id.reg_confirpass);
-        btnregistro = root.findViewById(R.id.btn_registro);
-        mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
+        reg_nombre = root.findViewById(R.id.reg_nombre);
+        reg_correo = root.findViewById(R.id.reg_correo);
+        reg_telefono = root.findViewById(R.id.reg_telefono);
+        reg_password = root.findViewById(R.id.reg_password);
+        reg_confirpass = root.findViewById(R.id.reg_confirpass);
+        btn_registro = root.findViewById(R.id.btn_registro);
+        //pbProgressLogin = root.findViewById(R.id.progress_login);
 
+        // Expresión regular para validar contraseñas
+        passwordPattern = Pattern.compile(regexPassword);
 
-        //Boton para reistrar usuarios
-        btnregistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nameuser = nombre.getText().toString().trim();
-                correouser = correo.getText().toString().trim();
-                telefonouser = telefono.getText().toString().trim();
-                passworduser = password.getText().toString().trim();
-                confirmaruser = confirmpass.getText().toString().trim();
+        // Click listener para el botón de registro
+        btn_registro.setOnClickListener(view -> {
+            String nameuser = reg_nombre.getText().toString().trim();
+            String correouser = reg_correo.getText().toString().trim();
+            String telefonouser = reg_telefono.getText().toString().trim();
+            String passworduser = reg_password.getText().toString().trim();
+            String confirmaruser = reg_confirpass.getText().toString().trim();
 
-                if(!nameuser.isEmpty() && !correouser.isEmpty() && !telefonouser.isEmpty() && !passworduser.isEmpty() && !confirmaruser.isEmpty()){
-                    if(passworduser.equals(confirmaruser)){
-                        if(Patterns.PHONE.matcher(telefonouser).matches()){
-                            if(Patterns.EMAIL_ADDRESS.matcher(correouser).matches()){
-                                realizarConsulta(correouser,telefonouser);
-                            }else{
-                                mostrarMensaje("El correo es invalido");
+            if (!nameuser.isEmpty() && !correouser.isEmpty() && !telefonouser.isEmpty() && !passworduser.isEmpty() && !confirmaruser.isEmpty()) {
+                if (passworduser.matches(regexPassword)) {
+                    if (passworduser.equals(confirmaruser)) {
+                        if (Patterns.PHONE.matcher(telefonouser).matches()) {
+                            if (Patterns.EMAIL_ADDRESS.matcher(correouser).matches()) {
+                                realizarConsulta(correouser, telefonouser, nameuser, passworduser);
+                            } else {
+                                mostrarMensaje("El correo es inválido");
                             }
-                        }else {
-                            mostrarMensaje("El numero de telefono debe contar con 10 digitos");
+                        } else {
+                            mostrarMensaje("El número de teléfono debe contener 10 dígitos");
                         }
-                    }else{
-                       mostrarMensaje("Las contraseñas deben coincidir");
+                    } else {
+                        mostrarMensaje("Las contraseñas deben coincidir");
                     }
-                }else{
-                    mostrarMensaje("Los campos no debe de estar vacios");
+                } else {
+                    mostrarMensaje("La contraseña debe tener al menos 8 caracteres (incluyendo mayúsculas, minúsculas, números y símbolos especiales)");
                 }
+            } else {
+                mostrarMensaje("Los campos no deben estar vacíos");
             }
+        });
+
+        // TextWatcher para validar contraseña mientras se escribe
+        reg_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validarPassword();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
 
         return root;
     }
 
+    // Método para validar contraseña
+    private void validarPassword() {
+        String validarpass = reg_password.getText().toString().trim();
+        TextView avisopass = getView().findViewById(R.id.password_validation_message);
 
-    //Metodo para registrar los usuarios dentro de firebase
-    //El metodo debe resibir los parametros nameuser, correouser, telefonouser y passworduser del onclicklistener del boton registrar usuarios
-    private void realizarConsulta(String correouser, String telefonouser) {
-
-       //Realizamos una consulta a firebase para saber si el telefono no esta ligado con algun usuario
-        mFirestore.collection("usuarios").whereEqualTo("telefono", telefonouser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().isEmpty()){
-                        //Si el numero no esta registrado, creamos el usuario
-                        registroUsuarios(nameuser,correouser,telefonouser,passworduser);
-                    }else{
-                        Toast.makeText(getActivity(), "El número de teléfono ya está en uso", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(getActivity(), "Error al hacer la consulta", Toast.LENGTH_SHORT).show();
-                }
+        if (reg_password.hasFocus()) {
+            if (!validarpass.matches(regexPassword)) {
+                avisopass.setVisibility(View.VISIBLE);
+                avisopass.setText("La contraseña debe tener 8 caracteres (incluyendo mayúsculas, minúsculas, números y símbolos como @#$%^&+=_- ).");
+            } else {
+                avisopass.setVisibility(View.GONE);
             }
-        });
+        } else {
+            avisopass.setVisibility(View.GONE);
+        }
     }
 
-    private void registroUsuarios(String nameuser, String correouser, String telefonouser, String passworduser){
-        mAuth.createUserWithEmailAndPassword(correouser, passworduser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    //Obtenemos el id del usuario
-                    String id = mAuth.getCurrentUser().getUid();
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("id", id);
-                    map.put("nombre", nameuser);
-                    map.put("correo", correouser);
-                    map.put("telefono", telefonouser);
+    // Método para realizar la consulta si el teléfono ya está en uso
+    private void realizarConsulta(String correouser, String telefonouser, String nameuser, String passworduser) {
+        // Primero validar el formato del número de teléfono
+        if (!Patterns.PHONE.matcher(telefonouser).matches()) {
+            mostrarMensaje("El número de teléfono debe contener 10 dígitos");
+            return;
+        }
 
-                    //Registramos el usuario en firestore
-                    mFirestore.collection("usuarios").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            // Redirige solo cuando la creación de la cuenta sea exitosa
-                            Toast.makeText(getActivity(), "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-                            redireccionarMain();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "Error al guardar datos", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        // Realizar la consulta en la base de datos
+        mFirestore.collection("usuarios").whereEqualTo("telefono", telefonouser).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().isEmpty()) {
+                    registrarUsuario(nameuser, correouser, telefonouser, passworduser);
                 } else {
-                    // Si la creación de la cuenta falla, muestra un mensaje de error
-                    Toast.makeText(getActivity(), "Ya se creó una cuenta con este correo", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("El número de teléfono ya está en uso");
                 }
+            } else {
+                mostrarMensaje("Error al consultar la base de datos");
             }
         });
     }
 
-    private void mostrarMensaje(String mensaje){
+    // Método para registrar un nuevo usuario
+    private void registrarUsuario(String nameuser, String correouser, String telefonouser, String passworduser) {
+        mAuth.createUserWithEmailAndPassword(correouser, passworduser).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                String id = user.getUid();
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", id);
+                map.put("nombre", nameuser);
+                map.put("correo", correouser);
+                map.put("telefono", telefonouser);
+
+                mFirestore.collection("usuarios").document(id).set(map).addOnSuccessListener(unused -> {
+                    user.sendEmailVerification();
+                    mostrarMensaje("Usuario registrado con éxito");
+                    // Aquí puedes redireccionar o realizar otras acciones después del registro
+                }).addOnFailureListener(e -> mostrarMensaje("Error al guardar los datos"));
+            } else {
+                mostrarMensaje("Ya existe una cuenta registrada con este correo electrónico");
+            }
+        });
+    }
+
+    // Método para mostrar mensajes Toast
+    private void mostrarMensaje(String mensaje) {
         Toast.makeText(getActivity(), mensaje, Toast.LENGTH_SHORT).show();
     }
-
-    private void redireccionarMain(){
-        getActivity().finish();
-        startActivity(new Intent(getActivity(), MainActivity.class));
-    }
-
 }
