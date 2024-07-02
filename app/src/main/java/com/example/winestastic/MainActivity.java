@@ -363,6 +363,8 @@ public class MainActivity extends AppCompatActivity {
                         notifications.setVisibility(View.GONE);
                         map.setVisibility(View.VISIBLE);
 
+                        getLocalizacionn();
+
                         break;
                 }
 
@@ -449,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /* METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
+    // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
     private void getLocalizacionn(){
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
@@ -459,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
             }
         }
-    }*/
+    }
 
     protected void onStart(){
         super.onStart();
