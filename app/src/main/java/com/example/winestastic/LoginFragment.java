@@ -201,7 +201,7 @@ public class LoginFragment extends Fragment {
     // Método para actualizar la interfaz de usuario después de la autenticación
     private void updateUI(FirebaseUser user) {
         user = mAuth.getCurrentUser();
-        if (user != null) {
+        if(user != null){
             redireccionarMain();
         }
     }
