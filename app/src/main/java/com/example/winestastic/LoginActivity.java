@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,6 +66,15 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout.setTranslationY(300);
         tabLayout.setAlpha(op);
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
+
+        // Aplicar el drawable con esquinas redondeadas a cada tab
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+            p.setMargins(8, 8, 8, 8);
+            tab.setLayoutParams(p);
+            tab.setBackgroundResource(R.drawable.tab_background);
+        }
 
     }
     boolean doubleBackToExitPressedOnce = false;
