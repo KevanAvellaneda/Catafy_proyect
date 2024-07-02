@@ -46,6 +46,7 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 123;
     float op = 0;
+    FirebaseFirestore mFirestore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class LoginFragment extends Fragment {
         btnlogin = root.findViewById(R.id.btn_login);
         gmail = root.findViewById(R.id.login_gmail);
         pbProgressLogin = root.findViewById(R.id.progress_login);
+        mFirestore = FirebaseFirestore.getInstance();
 
         // Click listener para el botón de iniciar sesión
         btnlogin.setOnClickListener(view -> {
@@ -141,19 +143,51 @@ public class LoginFragment extends Fragment {
     private void firebaseAuthWithGoogle(String idToken) {
         pbProgressLogin.setVisibility(View.VISIBLE);
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), task -> {
-            if (task.isSuccessful()) {
-                pbProgressLogin.setVisibility(View.GONE);
-                FirebaseUser user = mAuth.getCurrentUser();
-                updateUI(user);
-                if (task.getResult().getAdditionalUserInfo().isNewUser()) {
-                }
-            } else {
-                pbProgressLogin.setVisibility(View.GONE);
-                mostrarMensaje("Error al autenticar con Google");
-                updateUI(null);
-            }
-        });
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            pbProgressLogin.setVisibility(View.GONE);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                String uid = user.getUid();
+                                String correo = user.getEmail();
+                                String nombre = user.getDisplayName();
+
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("id", uid);
+                                map.put("nombre", nombre);
+                                map.put("correo", correo);
+                                map.put("telefono", "");
+
+                                mFirestore.collection("usuarios").document(uid).set(map)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                // Redirige solo cuando la creación de la cuenta sea exitosa
+                                                mostrarMensaje("Usuario registrado con éxito");
+                                                redireccionarMain();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                mostrarMensaje("Error al guardar datos");
+                                            }
+                                        });
+
+                            } else {
+                                // Si el usuario no es nuevo, redirigir directamente
+                                redireccionarMain();
+                            }
+                        } else {
+                            pbProgressLogin.setVisibility(View.GONE);
+                            mostrarMensaje("Error al autenticar con Google");
+                            updateUI(null);
+                        }
+                    }
+                });
     }
 
     // Método para actualizar la interfaz de usuario después de la autenticación

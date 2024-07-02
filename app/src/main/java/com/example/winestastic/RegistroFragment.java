@@ -77,6 +77,7 @@ public class RegistroFragment extends Fragment {
                     if (passworduser.equals(confirmaruser)) {
                         if (Patterns.PHONE.matcher(telefonouser).matches()) {
                             if (Patterns.EMAIL_ADDRESS.matcher(correouser).matches()) {
+                                // Realizar la consulta si el teléfono ya está en uso
                                 realizarConsulta(correouser, telefonouser, nameuser, passworduser);
                             } else {
                                 mostrarMensaje("El correo es inválido");
@@ -122,7 +123,8 @@ public class RegistroFragment extends Fragment {
                 avisopass.setVisibility(View.VISIBLE);
                 avisopass.setText("La contraseña debe tener 8 caracteres (incluyendo mayúsculas, minúsculas, números y símbolos como @#$%^&+=_- ).");
             } else {
-                avisopass.setVisibility(View.GONE);
+                avisopass.setVisibility(View.VISIBLE);
+                avisopass.setText("Contraseña fuerte ");
             }
         } else {
             avisopass.setVisibility(View.GONE);
@@ -131,12 +133,6 @@ public class RegistroFragment extends Fragment {
 
     // Método para realizar la consulta si el teléfono ya está en uso
     private void realizarConsulta(String correouser, String telefonouser, String nameuser, String passworduser) {
-        // Primero validar el formato del número de teléfono
-        if (!Patterns.PHONE.matcher(telefonouser).matches()) {
-            mostrarMensaje("El número de teléfono debe contener 10 dígitos");
-            return;
-        }
-
         // Realizar la consulta en la base de datos
         mFirestore.collection("usuarios").whereEqualTo("telefono", telefonouser).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -165,13 +161,22 @@ public class RegistroFragment extends Fragment {
 
                 mFirestore.collection("usuarios").document(id).set(map).addOnSuccessListener(unused -> {
                     user.sendEmailVerification();
+
+                    redireccionarMain(); // Mover aquí la redirección
                     mostrarMensaje("Usuario registrado con éxito");
-                    // Aquí puedes redireccionar o realizar otras acciones después del registro
+
                 }).addOnFailureListener(e -> mostrarMensaje("Error al guardar los datos"));
             } else {
                 mostrarMensaje("Ya existe una cuenta registrada con este correo electrónico");
             }
         });
+    }
+    private void redireccionarMain() {
+        // Obtener el contexto de la actividad
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        // Limpiar las actividades previas
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     // Método para mostrar mensajes Toast
