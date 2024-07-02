@@ -119,6 +119,14 @@ public class LoginFragment extends Fragment {
         Toast.makeText(getActivity(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        // verifica si el usuario ya esta con la sesion iniciada y actualiza updateUI
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
     // Método para iniciar sesión con Google
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -192,6 +200,7 @@ public class LoginFragment extends Fragment {
 
     // Método para actualizar la interfaz de usuario después de la autenticación
     private void updateUI(FirebaseUser user) {
+        user = mAuth.getCurrentUser();
         if (user != null) {
             redireccionarMain();
         }
