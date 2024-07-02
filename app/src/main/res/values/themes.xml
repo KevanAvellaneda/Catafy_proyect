@@ -6,4 +6,18 @@
     </style>
 
     <style name="Theme.Winestastic" parent="Base.Theme.Winestastic" />
+
+
+    <style name="DialogBasicCustomStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+        <item name="android:windowBackground">@drawable/background_map</item>
+        <item name="android:textColor">@color/wine</item>
+
+
+        <item name="android:windowMinWidthMajor">200dp</item>
+        <item name="android:windowMinWidthMinor">350dp</item>
+
+
+    </style>
+
 </resources>
