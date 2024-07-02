@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
+    // METODO PARA PEDIR UBICACION AL USUARIO chi --------------------------------------
     private void getLocalizacionn(){
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
