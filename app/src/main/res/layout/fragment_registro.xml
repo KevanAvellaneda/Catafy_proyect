@@ -73,9 +73,11 @@
                 android:id="@+id/reg_telefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
                 android:padding="15dp"
-                android:background="@drawable/edittext_bg"/>
+                android:background="@drawable/edittext_bg"
+                android:inputType="phone"
+                android:textColor="@color/text_color"
+                android:maxLength="10" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Contraseña -->
@@ -104,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/text_color"
             android:textSize="12sp"
             android:visibility="gone"/>
 
