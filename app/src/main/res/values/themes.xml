@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Winestastic" parent="Base.Theme.Winestastic" />
+
+    <style name="TextHint" parent="Base.TextAppearance.AppCompat">
+        <item name="android:hint"></item>
+        <!--        <item android:top="@dimen/floating_hint_margin">-->
+<!--            TODO: generar un nuevo estilo e introducirlo al login-->
+    </style>
 </resources>

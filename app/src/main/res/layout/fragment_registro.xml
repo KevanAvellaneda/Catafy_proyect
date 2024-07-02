@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:maxLength="52"
                 android:inputType="text"
-                android:padding="15dp"
+                android:paddingTop="10dp"
+                android:translationY="-5dp"
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,7 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:padding="15dp"
+                android:paddingTop="10dp"
+                android:translationY="-5dp"
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
-                android:padding="15dp"
+                android:paddingTop="10dp"
+                android:translationY="-5dp"
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:padding="15dp"
+                android:paddingTop="10dp"
+                android:translationY="-5dp"
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,7 +128,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:padding="15dp"
+                android:paddingTop="10dp"
+                android:translationY="-5dp"
                 android:background="@drawable/edittext_bg"/>
         </com.google.android.material.textfield.TextInputLayout>
 
