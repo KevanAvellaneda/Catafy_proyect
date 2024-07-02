@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -359,6 +363,8 @@ public class MainActivity extends AppCompatActivity {
                         notifications.setVisibility(View.GONE);
                         map.setVisibility(View.VISIBLE);
 
+                        getLocalizacionn();
+
                         break;
                 }
 
@@ -443,6 +449,18 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
+    private void getLocalizacionn(){
+        int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if(permiso == PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+        }
     }
 
     protected void onStart(){
