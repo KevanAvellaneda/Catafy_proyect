@@ -703,6 +703,7 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarSnackbar(String mensaje) {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
 
     // --> EventDecorator: Aquí cambiamos el color del una fecha del CALENDARIO para ver si hay un evento
     private class EventDecorator implements CalendarCellDecorator {
