@@ -22,70 +22,95 @@
         tools:targetApi="31">
         <activity
             android:name=".DetailCoteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".DetailLoboActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".DetailFreixenetActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".cardDemasEntradas"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".cardVinos"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".cardVinedos"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".cardCatadeVinos"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAaed27n1NZMdCoO9Z9gSExS8NZ0qygPxY" />
+            android:value="AIzaSyArj1VSEB3RawJVxSGoDUws8a1BlY3AD-Q" />
 
         <activity
             android:name=".DetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".Boletos"
-            android:exported="false" />
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".chatbot"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".RecuperarActivity"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".SplashWinestastic"
             android:exported="true"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

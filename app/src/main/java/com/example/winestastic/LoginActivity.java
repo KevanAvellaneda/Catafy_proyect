@@ -5,6 +5,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -62,5 +67,33 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout.setAlpha(op);
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
 
+        // Aplicar el drawable con esquinas redondeadas a cada tab
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+            p.setMargins(8, 8, 8, 8);
+            tab.setLayoutParams(p);
+            tab.setBackgroundResource(R.drawable.tab_background);
+        }
+
+    }
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Pulse de nuevo para salir", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
