@@ -100,7 +100,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         textViewPlaces.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getAndShowAllPlaces(); // Obtener y mostrar todos los lugares antes de mostrar el diálogo
+                getAndShowAllPlaces(); // Obtener y mostrar todos los vinedos antes de mostrar el diálogo
             }
         });
         textViewEventos.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +111,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         });
         return view;
     }
-    // Mostramos un diálogo con los lugares que hay
+    // Mostramos un diálogo con los vinedos que hay
     private void showPlacesListDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogBasicCustomStyle);
 
@@ -126,7 +126,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         // Establecer el TextView personalizado como el título del AlertDialog
         builder.setCustomTitle(title);
 
-        // Creamos un adaptador para la lista de lugares
+        // Creamos un adaptador para la lista de vinedos
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item, placesList);
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             // Método para cuando se hace clicki en un lugar de la lista
@@ -162,7 +162,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                         });
             }
         });
-        // Mostramos el diálogo con los lugares
+        // Mostramos el diálogo con los vinedos
         AlertDialog alertDialog = builder.create();
         // Restablecer la variable isDialogOpen cuando el diálogo se cierre
         alertDialog.setOnDismissListener(dialog -> {
@@ -188,7 +188,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void getAndShowAllPlaces() {
-        // Obtenemos la lista completa de lugares de barbacoa en Firestore y actualizamos el TextView
+        // Obtenemos la lista completa de vinedos en Firestore y actualizamos el TextView
         if (isAlertDialogVisible) return; // Si ya hay un diálogo visible
         isAlertDialogVisible = true;
 
@@ -201,10 +201,10 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                             String placeName = document.getString("nombre_vinedos");
                             placesList.add(placeName);
                         }
-                        // Luego de obtener los lugares, mostramos el diálogo con la lista
+                        // Luego de obtener los vinedos, mostramos el diálogo con la lista
                         showPlacesListDialog();
                     } else {
-                        Log.e(TAG, "Error al obtener lugares desde Firestore", task.getException());
+                        Log.e(TAG, "Error al obtener viñedos desde Firestore", task.getException());
                     }
                 });
     }
@@ -216,7 +216,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         // Obtener la fecha de inicio del día actual
         Date startOfDay = getStartOfDay(new Date());
 
-        // Obtenemos la lista completa de lugares de barbacoa en Firestore y actualizamos el TextView
+        // Obtenemos la lista completa de eventos de vinedos en Firestore y actualizamos el TextView
         db.collection("eventos")
                 .whereGreaterThanOrEqualTo("fecha_eventoo", new Timestamp(startOfDay))
                 .get()
@@ -227,10 +227,10 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                             String placeName = document.getString("nombre_evento");
                             placesList.add(placeName);
                         }
-                        // Luego de obtener los lugares, mostramos el diálogo con la lista
+                        // Luego de obtener los eventos, mostramos el diálogo con la lista
                         showPlacesListDialogevento();
                     } else {
-                        Log.e(TAG, "Error al obtener lugares desde Firestore", task.getException());
+                        Log.e(TAG, "Error al obtener éventos desde Firestore", task.getException());
                     }
                 });
     }
@@ -259,7 +259,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         // Establecer el TextView personalizado como el título del AlertDialog
         builder.setCustomTitle(title);
 
-        // Creamos un adaptador para la lista de lugares
+        // Creamos un adaptador para la lista de eventos
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_evento, placesList);
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             // Método para cuando se hace clicki en un lugar de la lista
@@ -327,7 +327,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         Date startOfDay = getStartOfDay(new Date());
 
         // Obtenemos la latitud y la longitud desde Firestore y agregamos marcadores al mapa
-        db.collection("barbacoas")
+        db.collection("viñedos")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -336,7 +336,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                                 // Obtener datos de Firestore
                                 GeoPoint location = document.getGeoPoint("marcador");
                                 if (location != null) {
-                                    String title = document.getString("nombre_barbacoa");
+                                    String title = document.getString("nombre_vinedos");
 
                                     // cada que creamos un marcador tmb lo agregamos a la lista
                                     Marker marker = mMap.addMarker(new MarkerOptions()
