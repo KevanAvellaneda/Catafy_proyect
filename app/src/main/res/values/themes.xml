@@ -3,9 +3,11 @@
     <style name="Base.Theme.Winestastic" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <item name="colorPrimaryDark">#853455</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="selectableItemBackground">@drawable/selector_backgroundnotifiy</item>
     </style>
 
-    <style name="Theme.Winestastic" parent="Base.Theme.Winestastic" />
+    <style name="Theme.Winestastic" parent="Base.Theme.Winestastic"
+        />
 
 
     <style name="DialogBasicCustomStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
