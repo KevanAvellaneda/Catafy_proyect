@@ -1,5 +1,7 @@
 package com.example.winestastic;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.text.LineBreaker;
 import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,7 +46,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.timessquare.CalendarCellDecorator;
+import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.DateFormat;
@@ -54,7 +60,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -71,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseFirestore mFirestore;
+
+    private Task<QuerySnapshot> eventosTask;
+    private final Date today = new Date(); //fecha actual
+
+    private final Calendar nextYear = Calendar.getInstance();
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -134,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         calendar30DaysAgo.setTime(currentDate);
         calendar30DaysAgo.add(Calendar.DAY_OF_YEAR, -30);
         Date date30DaysAgo = calendar30DaysAgo.getTime();
+
+        Button button3 = findViewById(R.id.button3);
 
         mFirestore = FirebaseFirestore.getInstance();
         pbProgressMain = findViewById(R.id.progress_main);
@@ -496,25 +508,104 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Date today = new Date();
-        Calendar nextYear = Calendar.getInstance();
-        nextYear.add(Calendar.YEAR, 30);
+        ////CALENDARIO//////
+
+        // Inicializamos el selector de fechas
+        final Date today = new Date(); //fecha actual
+        final Calendar nextYear = Calendar.getInstance();
+        nextYear.add(Calendar.YEAR, 10);
 
         CalendarPickerView datePicker = findViewById(R.id.calendarView);
         datePicker.init(today, nextYear.getTime()).withSelectedDate(today);
 
+        // Recuperación de eventos de la base de datos
+        mFirestore.collection("eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Asignamos la tarea completada a la variable de instancia
+                    eventosTask = task;
+                    // Iteramos sobre la colección Eventos
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Obtenemos la información del evento (nombre y fecha)
+                        String nombreEvento = document.getString("nombre_evento");
+                        Date fecha = document.getDate("fecha_eventoo");
+
+                        // Verificamos si la fecha del evento es nula
+
+                        if (fecha != null) {
+                            //Estamos verificando si la fecha del evento está en el día actual o en el futuro
+                            if (!fecha.before(today)) {
+                                // Marcamos la fecha del evento en el calendario
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(fecha);
+                                datePicker.selectDate(cal.getTime());
+                            }
+                        }
+                    }
+                    datePicker.selectDate(today);
+                } else {
+                    Log.d(TAG, "Error al obtener eventos: ", task.getException());
+                }
+            }
+        });
+        // Definimos el listener para la Selección de fechas, busca si hay un evento en la fecha y mostramos su info
         datePicker.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
-                String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(date);
-                Toast.makeText(MainActivity.this, selectedDate, Toast.LENGTH_SHORT).show();
+                // Verificamos si hay un evento en la fecha seleccionada
+                // Creamos una lista para almacenar la información de los eventos encontrados para la fecha seleccionada
+                List<String> informacionEventos = new ArrayList<>();
+                if (eventosTask != null && eventosTask.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : eventosTask.getResult()) {
+                        String nombreEvento = document.getString("nombre_evento");
+                        Date fecha = document.getDate("fecha_eventoo");
+
+                        // Verificamos si la fecha del evento coincide con la fecha seleccionada
+                        if (fecha != null && mismoDia(fecha, date)) {
+                            informacionEventos.add(nombreEvento);
+                        }
+                    }
+                }
+                // Mostramos la info de los eventos en el botón
+                if (!informacionEventos.isEmpty()) {
+                    StringBuilder eventosTexto = new StringBuilder("\nEventos para la fecha seleccionada:\n\n");
+                    for (String evento : informacionEventos) {
+                        eventosTexto.append(evento).append("\n\n");
+                    }
+                    button3.setText(eventosTexto.toString());
+                } else {
+                    button3.setText("No hay eventos para la fecha seleccionada :(");
+                }
+
+                // Mostramos un Toast con los nombres de los eventos si los hay en Firestore
+                if (!informacionEventos.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Eventos seleccionados: " + informacionEventos, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No hay eventos para la fecha seleccionada", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onDateUnselected(Date date) {
+            }
 
+            // Aquí estamos verificando si dos fechas son el mismo día
+            private boolean mismoDia(Date date1, Date date2) {
+                Calendar cal1 = Calendar.getInstance();
+                cal1.setTime(date1);
+                Calendar cal2 = Calendar.getInstance();
+                cal2.setTime(date2);
+                return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                        cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                        cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
             }
         });
+
+        // Decorador para cambiar el color de fondo de las celdas con eventos (EventDecorator)
+        datePicker.setDecorators(Collections.singletonList(new EventDecorator()));
+
+        ////FIN CALENDARIO//////
 
         Fragment fragment = new Map_Fragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
@@ -612,6 +703,65 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarSnackbar(String mensaje) {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG);
         snackbar.show();
+
+    // --> EventDecorator: Aquí cambiamos el color del una fecha del CALENDARIO para ver si hay un evento
+    private class EventDecorator implements CalendarCellDecorator {
+        @Override
+        public void decorate(CalendarCellView cellView, Date date) {
+            // Verificamos si la fecha tiene un evento asociado
+            boolean tieneEvento = tieneEventoEnFecha(date);
+            if (tieneEvento) {
+                // Cambiamos el color de fondo de la celda si tiene un evento
+                cellView.setBackgroundColor(Color.rgb(250, 143, 177)); // Ponemos de color la celda
+            } else if (isToday(date)){
+                cellView.setBackgroundColor(Color.rgb(178, 218, 250)); // Ponemos de color la celda
+            } else {
+                cellView.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+        }
+        // Checamos si hay un evento asociado a una fecha
+        private boolean tieneEventoEnFecha(Date date) {
+            // Creamos un objeto Calendar y establecemos su tiempo para que coincida con la fecha dada
+            Calendar cal1 = Calendar.getInstance();//cal1 representa la fecha asociada a la celda del calendario actual que se está decorando
+            cal1.setTime(date);
+
+            if (eventosTask != null && eventosTask.isSuccessful()) {
+                // Iteramoa sobre los resultados de Firestore
+                for (QueryDocumentSnapshot document : eventosTask.getResult()) {
+                    Date fecha = document.getDate("fecha_eventoo");
+                    if (fecha != null) {
+                        //Estamos verificando si la fecha del evento está en el día actual o en el futuro
+                        if (!fecha.before(today) ) {
+                            // Convertimos la fecha del evento a un objeto Calendar
+                            Calendar cal2 = Calendar.getInstance();
+                            cal2.setTime(fecha);
+
+                            // Comparamos los campos de año, mes y día de cal1 (fecha de la celda del calendario) con los campos correspondientes de cal2 (fecha del evento)
+                            // Si son iguales, significa que hay un evento asociado a la fecha dada
+                            if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+                                // Si hay un evento en la fecha, devuelve verdadero
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            // Si no hay eventos en la fecha dada, devuelve false
+            return false;
+        }
+
+        // Verifica si es la fecha de hoy
+        private boolean isToday(Date date){
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal1.setTime(date);
+            cal2.setTime(today);
+            return cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                    cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+
+        }
     }
 
     protected void onStart(){
