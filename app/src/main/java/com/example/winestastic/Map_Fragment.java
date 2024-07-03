@@ -423,8 +423,8 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
             }
         }, 500); // Retraso de 500 milisegundos
 
-        if (mMap.getCameraPosition().zoom < DEFAULT_ZOOM) {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), DEFAULT_ZOOM));
+        if (mMap.getCameraPosition().zoom < 17) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 17));
         } else {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
         }
