@@ -208,6 +208,17 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                     }
                 });
     }
+
+    private Date getStartOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     private void getAndShowAllEventos() {
         // Verificamos si el diálogo ya está abierto
         if (isAlertDialogVisible) return;
@@ -233,16 +244,6 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                         Log.e(TAG, "Error al obtener éventos desde Firestore", task.getException());
                     }
                 });
-    }
-
-    private Date getStartOfDay(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
     }
 
     private void showPlacesListDialogevento() {
@@ -318,7 +319,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng jardin = new LatLng(20.694695, -99.814685);
+        LatLng jardin = new LatLng(20.58806, -100.38806);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(jardin));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(jardin, 13));
         mMap = googleMap;
@@ -380,7 +381,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                                             .position(new LatLng(location.getLatitude(), location.getLongitude()))
                                             .title(title)
                                             .snippet("¿Cómo llegar?")
-                                            .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.vinoooo)));
+                                            .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.megafono)));
                                     markereList.add(marker); // Agregar el marcador a la lista
 
                                     // Si el título coincide con el targetStr enfocar
@@ -522,4 +523,5 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
 }
