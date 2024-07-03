@@ -345,8 +345,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
         android:background="#853455"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -382,24 +381,22 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="24dp"
                     android:background="@drawable/btn_backgroundcalendar"
-                    android:backgroundTint="#EF578D"
                     android:elevation="13dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/titulocalendar"
-                    app:layout_goneMarginBottom="24dp">
+                    app:layout_constraintTop_toBottomOf="@+id/titulocalendar">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/bebas_regular"
                         android:text="Eventos"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -419,10 +416,9 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="24dp"
                         android:layout_marginBottom="10dp"
-                        android:background="@drawable/btn_backgroundcalendar"
-                        android:backgroundTint="#EF578D"
+                        android:background="@drawable/btn_background"
                         android:text="Seleccione una fecha:"
-                        android:textColor="#FFFF" />
+                        android:textColor="#FFFFFF" />
 
 
                 </LinearLayout>
@@ -430,7 +426,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
 
 
     </RelativeLayout>
@@ -441,8 +436,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible"
-        tools:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progress_main"
