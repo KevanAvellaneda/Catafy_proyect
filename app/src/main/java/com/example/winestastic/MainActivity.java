@@ -17,6 +17,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.text.LineBreaker;
+import android.os.Build;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +38,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -50,12 +53,13 @@ import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -102,12 +106,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        /*notifications = findViewById(R.id.notifications);
+        //notifications = findViewById(R.id.notifications);
         LinearLayout notificationContainer = findViewById(R.id.notificationContainerr);
         LinearLayout notificationContainerNuevas = findViewById(R.id.notificationContainerNuevas);
         LinearLayout notificationContainerUltimos7Dias = findViewById(R.id.notificationContainerUltimos7Dias);
-        LinearLayout notificationContainerUltimos30Dias = findViewById(R.id.notificationContainerUltimos30Dias);*/
+        LinearLayout notificationContainerUltimos30Dias = findViewById(R.id.notificationContainerUltimos30Dias);
 
         Date currentDate = new Date();
 
@@ -156,28 +159,49 @@ public class MainActivity extends AppCompatActivity {
         items2 = new ArrayList<>();
         itemsAdapterEventos = new ItemsAdapterEventos(items2, this);
         recyclerView.setAdapter(itemsAdapterEventos);
-        mFirestore.collection("eventos").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                pbProgressMain.setVisibility(View.VISIBLE);
-                if(error != null){
-                    Log.e("Firestore error", error.getMessage());
-                    return;
-                }
-                for(DocumentChange dc : value.getDocumentChanges()){
-                    if(dc.getType() == DocumentChange.Type.ADDED){
+        mFirestore.collection("eventos")
+                .orderBy("fecha_eventoo")
+                .whereGreaterThanOrEqualTo("fecha_eventoo", todayStartTime)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        pbProgressMain.setVisibility(View.VISIBLE);
+                        if(error != null){
+                            Log.e("Firestore error", error.getMessage());
+                            return;
+                        }
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                Date notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
+                                // Comparar solo el año, mes y día de la fecha del evento
+                                Calendar eventCalendar = Calendar.getInstance();
+                                eventCalendar.setTime(notificationDate);
+                                eventCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                                eventCalendar.set(Calendar.MINUTE, 0);
+                                eventCalendar.set(Calendar.SECOND, 0);
+                                eventCalendar.set(Calendar.MILLISECOND, 0);
+                                Date eventDateOnly = eventCalendar.getTime();
 
-                        items2.add(dc.getDocument().toObject(ItemsDomainEventos.class));
+                                ItemsDomainEventos evento = dc.getDocument().toObject(ItemsDomainEventos.class);
+                                items2.add(evento);
+                                // Obtenemos la fecha del evento como un string que se pueda leer
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a", Locale.getDefault());
+                                String fechaEvento = dateFormat.format(evento.getFecha_eventoo().toDate());
+
+                                // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
+                                if (eventDateOnly.equals(todayStartTime) || eventDateOnly.after(todayStartTime)) {
+                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerNuevas, R.layout.layout_notificatione);
+                                } else if (eventDateOnly.after(date7DaysAgo)) {
+                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos7Dias, R.layout.layout_notificatione);
+                                } else if (eventDateOnly.after(date30DaysAgo)) {
+                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos30Dias, R.layout.layout_notificatione);
+                                }
+                            }
+                        }
+                        itemsAdapterEventos.notifyDataSetChanged();
+                        pbProgressMain.setVisibility(View.GONE);
                     }
-
-                    itemsAdapterEventos.notifyDataSetChanged();
-                    pbProgressMain.setVisibility(View.GONE);
-                }
-
-            }
-        });
-
-
+                });
 
         recyclerView = findViewById(R.id.viewViñedos);
         recyclerView.setHasFixedSize(true);
@@ -189,21 +213,76 @@ public class MainActivity extends AppCompatActivity {
         mFirestore.collection("viñedos").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                pbProgressMain.setVisibility(View.VISIBLE);
                 if(error != null){
                     Log.e("Firestore error", error.getMessage());
                     return;
                 }
-                for(DocumentChange dc : value.getDocumentChanges()){
-                    if(dc.getType() == DocumentChange.Type.ADDED){
+                //items.clear(); // Limpiar la lista actual de lugares
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            // Obtenemos el índice o index en el que se insertó el nuevo elemento
+                            int addedIndex = dc.getNewIndex();
+                            //es menor o igual que el tamaño actual de la lista
+                            if (addedIndex >= 0 && addedIndex <= items.size()) {
+                                // El índice es válido, podemos agregar el elemento a la lista (insertamos el nuevo elemento a items)
+                                items.add(addedIndex, dc.getDocument().toObject(ItemsDomainVinedos.class));
+                                itemsAdapterVinedos.notifyItemInserted(addedIndex);
+                            } else {
+                                // El índice no es válido
+                                Log.e("IndexOutOfBounds", "El índice está fuera de los límites válidos: " + addedIndex);
+                            }
+                            // Procesamos las notificaciones
+                            Date notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
+                            ItemsDomainVinedos evento = dc.getDocument().toObject(ItemsDomainVinedos.class);
+                            //items.add(evento);
 
-                        items.add(dc.getDocument().toObject(ItemsDomainVinedos.class));
+                            // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
+                            if (notificationDate.after(todayStartTime)) {
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerNuevas, R.layout.layout_notification);
+                            } else if (notificationDate.after(date7DaysAgo)) {
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos7Dias, R.layout.layout_notification);
+                            } else if (notificationDate.after(date30DaysAgo)) {
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos30Dias, R.layout.layout_notification);
+                            }
+                            break;
+
+                        case MODIFIED:
+                            int modifiedIndex = dc.getOldIndex();
+                            if (modifiedIndex >= 0 && modifiedIndex < items.size()) {
+                                items.set(modifiedIndex, dc.getDocument().toObject(ItemsDomainVinedos.class));
+                                itemsAdapterVinedos.notifyItemChanged(modifiedIndex);
+                            }
+                            break;
+                        case REMOVED:
+                            int removedIndex = dc.getOldIndex();
+                            if (removedIndex >= 0 && removedIndex < items.size()) {
+                                // Remover el elemento de la lista y notificar al adaptador
+                                items.remove(removedIndex);
+                                itemsAdapterVinedos.notifyItemRemoved(removedIndex);
+                                // Procesar notificaciones
+                                notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
+
+                                // Comparar la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
+                                if (notificationDate.after(todayStartTime)) {
+                                    addNotification(dc.getDocument().getString("nombre_barbacoa")+ " ya no está disponible en Cadereyta :(", notificationContainerNuevas, R.layout.layout_notification);
+                                }
+                            }
+                            break;
                     }
-
-                    itemsAdapterVinedos.notifyDataSetChanged();
-                    pbProgressMain.setVisibility(View.GONE);
                 }
+                // Mostrar lugares al azar
+                List<ItemsDomainVinedos> randomItems = new ArrayList<>(items);
+                Collections.shuffle(randomItems);
+                // Alteramos la lista para que tenga un máximo de 10 elementos
+                if (randomItems.size() > 10) {
+                    randomItems = randomItems.subList(0, 10);
+                }
+                items.clear();
+                items.addAll(randomItems);
+                itemsAdapterVinedos.notifyDataSetChanged();
 
+                pbProgressMain.setVisibility(View.GONE);
             }
         });
 
@@ -596,6 +675,34 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // --> addNotification: Aquí configuramos las NOTIFICACIONES
+    private void addNotification(String mensaje, LinearLayout notificationContainer, int layoutResId) {
+        View notificationView = getLayoutInflater().inflate(layoutResId, null);
+        TextView notificationMessage = notificationView.findViewById(R.id.notificationMessage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationMessage.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
+        }
+        notificationMessage.setText(mensaje);
+
+        // Ajustar márgenes para la vista de notificación
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        int marginPixels = (int) (12 * getResources().getDisplayMetrics().density);
+        layoutParams.setMargins(0, 0, 0, marginPixels);
+
+        // Aplicar los parámetros de diseño a la vista de notificación
+        notificationView.setLayoutParams(layoutParams);
+
+        // Agregar la nueva notificación al contenedor especificado
+        notificationContainer.addView(notificationView);
+    }
+
+    private void mostrarSnackbar(String mensaje) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG);
+        snackbar.show();
 
     // --> EventDecorator: Aquí cambiamos el color del una fecha del CALENDARIO para ver si hay un evento
     private class EventDecorator implements CalendarCellDecorator {

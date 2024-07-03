@@ -1,5 +1,7 @@
 package com.example.winestastic;
 
+import com.google.firebase.Timestamp;
+
 import java.io.Serializable;
 
 public class ItemsDomainEventos implements Serializable {
@@ -8,6 +10,7 @@ public class ItemsDomainEventos implements Serializable {
     private String ubicacion_evento;
 
     private String url;
+    private Timestamp fecha_eventoo; // Cambiado a tipo Timestamp para almacenar la fecha como un objeto Timestamp
 
 
     public String getNombre_evento() {
@@ -34,11 +37,16 @@ public class ItemsDomainEventos implements Serializable {
         this.url = url;
     }
 
+    public Timestamp getFecha_eventoo() {
+        return fecha_eventoo;
+    }
+
 
     public ItemsDomainEventos(String nombre_evento, String ubicacion_evento, String url) {
         this.nombre_evento = nombre_evento;
         this.ubicacion_evento = ubicacion_evento;
         this.url = url;
+        this.fecha_eventoo = fecha_eventoo;
     }
     public ItemsDomainEventos() {
         // Constructor vacío requerido para Firestore
