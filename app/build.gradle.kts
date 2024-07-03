@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.winestastic"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.winestastic"
@@ -30,6 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -44,6 +45,7 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.activity:activity:1.8.0")
     testImplementation("junit:junit:4.13.2")
     implementation ("com.facebook.android:facebook-login:latest.release")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

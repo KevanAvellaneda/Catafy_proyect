@@ -93,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
         pbProgressMain = findViewById(R.id.progress_main);
 
 
+        // Manejo excepciones
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
+
 
         recyclerView = findViewById(R.id.viewEventos);
         recyclerView.setHasFixedSize(true);
