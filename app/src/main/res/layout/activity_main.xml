@@ -347,61 +347,86 @@
         android:background="#853455"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/titulocalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:padding="30dp"
-            android:text="CALENDARIO"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/titulocalendar"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/white_background"
-            android:elevation="3dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titulocalendar"
-            app:layout_goneMarginBottom="24dp">
+            android:layout_height="match_parent">
 
-            <com.squareup.timessquare.CalendarPickerView
-                android:id="@+id/calendarView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
 
-                android:layout_centerVertical="true"
-                android:layout_marginTop="30dp" />
+                <TextView
+                    android:id="@+id/titulocalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/bebas_regular"
+                    android:padding="30dp"
+                    android:text="CALENDARIO"
+                    android:textColor="#FFFFFF"
+                    android:textSize="35sp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--AQUÍ ESTÁ EL CALENDARIOOOOOOOOOOOOOOOOOOOOOOOO -->
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titulocalendar"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/btn_backgroundcalendar"
+                    android:elevation="13dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titulocalendar">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/bebas_regular"
+                        android:text="Eventos"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <com.squareup.timessquare.CalendarPickerView
+                        android:id="@+id/calendarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp"
+                        android:layout_marginTop="0dp"
+                        android:nestedScrollingEnabled="true" />
 
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/btn_background"
-                android:backgroundTint="#853455"
-                android:text="Aquí irá info del viñedo"
-                android:textColor="#FFFF" />
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background"
+                        android:text="Seleccione una fecha:"
+                        android:textColor="#FFFFFF" />
 
 
-        </LinearLayout>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
 
     </RelativeLayout>
 
@@ -411,8 +436,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible"
-        tools:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progress_main"
@@ -696,8 +720,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
         android:background="@drawable/vino"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
 
         <LinearLayout
