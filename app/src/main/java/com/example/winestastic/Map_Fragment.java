@@ -208,6 +208,17 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                     }
                 });
     }
+
+    private Date getStartOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     private void getAndShowAllEventos() {
         // Verificamos si el diálogo ya está abierto
         if (isAlertDialogVisible) return;
@@ -233,16 +244,6 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                         Log.e(TAG, "Error al obtener lugares desde Firestore", task.getException());
                     }
                 });
-    }
-
-    private Date getStartOfDay(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
     }
 
     private void showPlacesListDialogevento() {
@@ -318,7 +319,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng jardin = new LatLng(20.694695, -99.814685);
+        LatLng jardin = new LatLng(20.58806, -100.38806);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(jardin));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(jardin, 13));
         mMap = googleMap;
@@ -327,7 +328,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         Date startOfDay = getStartOfDay(new Date());
 
         // Obtenemos la latitud y la longitud desde Firestore y agregamos marcadores al mapa
-        db.collection("barbacoas")
+        db.collection("viñedos")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -336,7 +337,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                                 // Obtener datos de Firestore
                                 GeoPoint location = document.getGeoPoint("marcador");
                                 if (location != null) {
-                                    String title = document.getString("nombre_barbacoa");
+                                    String title = document.getString("nombre_vinedos");
 
                                     // cada que creamos un marcador tmb lo agregamos a la lista
                                     Marker marker = mMap.addMarker(new MarkerOptions()
@@ -380,7 +381,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                                             .position(new LatLng(location.getLatitude(), location.getLongitude()))
                                             .title(title)
                                             .snippet("¿Cómo llegar?")
-                                            .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.vinoooo)));
+                                            .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.megafono)));
                                     markereList.add(marker); // Agregar el marcador a la lista
 
                                     // Si el título coincide con el targetStr enfocar
@@ -522,4 +523,5 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
 }

@@ -43,7 +43,7 @@
         android:id="@+id/eventos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/vinoooo"
+        android:drawableStart="@drawable/megafono"
         android:drawablePadding="3dp"
         android:paddingEnd="8dp"
         android:text="Eventos"
