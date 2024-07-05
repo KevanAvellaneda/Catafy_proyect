@@ -151,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
         pbProgressMain = findViewById(R.id.progress_main);
 
 
+        // Manejo excepciones
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
+
 
         recyclerView = findViewById(R.id.viewEventos);
         recyclerView.setHasFixedSize(true);
@@ -621,7 +625,7 @@ public class MainActivity extends AppCompatActivity {
         cardviewchatbot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, chatbot.class);
+                Intent intent = new Intent(MainActivity.this, ContactActivity.class);
                 startActivity(intent);
                 finish();
             }
