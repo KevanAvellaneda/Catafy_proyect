@@ -207,7 +207,7 @@
                     android:textStyle="bold"
                     android:layout_margin="20dp"
                     android:textColor="@color/flexible_text_color"
-                    android:text="Preguntas frecuenters" />
+                    android:text="Preguntas frecuentes" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"

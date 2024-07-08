@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore mFirestore;
 
     private Task<QuerySnapshot> eventosTask;
+
+    private static final int REQUEST_CODE_CONTACT = 101; //Constante utilizada para regresar a menu desde contact
+
     private final Date today = new Date(); //fecha actual
 
     private final Calendar nextYear = Calendar.getInstance();
@@ -625,9 +628,9 @@ public class MainActivity extends AppCompatActivity {
         cardviewchatbot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
                 Intent intent = new Intent(MainActivity.this, ContactActivity.class);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
 
@@ -862,6 +865,25 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarMensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
+
+    //Manejar el resultado de la actividad (contact y FAQ)
+    //Se utiliza en Android para recibir resultados de actividades secundarias que han sido iniciadas mediante startActivityForResult()
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CONTACT && resultCode == RESULT_OK) {
+            // Establecer el ícono del menú como activo en el Meow Bottom Navigation
+            bottomNavigation.show(1, true);
+            // Mostrar la vista del menú
+            menu.setVisibility(View.VISIBLE);
+            calendar.setVisibility(View.GONE);
+            home.setVisibility(View.GONE);
+            notifications.setVisibility(View.GONE);
+            map.setVisibility(View.GONE);
+        }
+    }
+
 
     boolean doubleBackToExitPressedOnce = false;
     @Override

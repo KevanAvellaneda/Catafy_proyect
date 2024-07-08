@@ -33,6 +33,12 @@
         <item name="colorOnPrimary">#FFFFFF</item>
     </style>
 
+    <style name="AppBarOverlay2" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+
+
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
         <item name="colorOnSurface">#FFFFFF</item>
         <item name="colorOnPrimary">#FFFFFF</item>
