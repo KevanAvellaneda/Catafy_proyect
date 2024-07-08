@@ -43,7 +43,6 @@ public class ContactActivity extends ScrollingActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("Corri", "iniciamos");
         title = "Ayuda";
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_contact);
@@ -60,9 +59,7 @@ public class ContactActivity extends ScrollingActivity {
         LayoutInflater inflater = getLayoutInflater();
         View myLayout = inflater.inflate(R.layout.activity_contact, nscrollv, false);
         nscrollv.removeAllViews();
-        Log.d("Corri", "} antes agregar");
         nscrollv.addView(myLayout);
-        Log.d("Corri", "} despues agregar");
 
         // Cambiar el color de la barra de estado
         cambiarColorBarraEstado(getResources().getColor(R.color.black));
@@ -150,18 +147,10 @@ public class ContactActivity extends ScrollingActivity {
                 }
             }
         });
-        Log.d("Corri", "Buscar");
-
-
-
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        Log.d("Corri", "antes init");
         initData();
-
-        Log.d("Corri", "onCreate: fini");
-
     }
 
     private void cambiarColorBarraEstado(int color) {
