@@ -9,32 +9,31 @@ public class Opinion {
     private String comentario;
     private float calificacion;
     private Object timestamp;
-    private String idBarbacoa, idEvento, idPulque;
+    private String idVinedos;
+    private String idEvento;
     private Date fecha;
 
     // Constructor vacío requerido para Firestore
     public Opinion() {
     }
 
-    // Constructor para comentarios de barbacoas o eventos
-    public Opinion(String idUsuario, String comentario, float calificacion, String idBarbacoa, String idEvento, String idPulque) {
+    // Constructor para comentarios de viñedos o eventos
+    public Opinion(String idUsuario, String comentario, float calificacion, String idVinedos, String idEvento) {
         this.idUsuario = idUsuario;
         this.comentario = comentario;
         this.calificacion = calificacion;
-        this.idBarbacoa = idBarbacoa;
+        this.idVinedos = idVinedos;
         this.idEvento = idEvento;
-        this.idPulque = idPulque;
         this.timestamp = FieldValue.serverTimestamp();
     }
 
-    // Constructor para comentarios de barbacoas o eventos
-    public Opinion(String idUsuario, String comentario, float calificacion, String idBarbacoa, String idEvento,  String idPulque, Date fecha) {
+    // Constructor para comentarios de viñedos o eventos
+    public Opinion(String idUsuario, String comentario, float calificacion, String idVinedos, String idEvento, Date fecha) {
         this.idUsuario = idUsuario;
         this.comentario = comentario;
         this.calificacion = calificacion;
-        this.idBarbacoa = idBarbacoa;
+        this.idVinedos = idVinedos;
         this.idEvento = idEvento;
-        this.idPulque = idPulque;
         this.timestamp = FieldValue.serverTimestamp();
         this.fecha = fecha;
     }
@@ -65,12 +64,12 @@ public class Opinion {
         this.calificacion = calificacion;
     }
 
-    public String getIdBarbacoa() {
-        return idBarbacoa;
+    public String getIdVinedos() {
+        return idVinedos;
     }
 
-    public void setIdBarbacoa(String idBarbacoa) {
-        this.idBarbacoa = idBarbacoa;
+    public void setIdVinedos(String idVinedos) {
+        this.idVinedos = idVinedos;
     }
 
     public String getIdEvento() {
@@ -87,14 +86,6 @@ public class Opinion {
 
     public void setTimestamp(Object timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public String getIdPulque() {
-        return idPulque;
-    }
-
-    public void setIdPulque(String idPulque) {
-        this.idPulque = idPulque;
     }
 
     public Date obtenerFecha(){

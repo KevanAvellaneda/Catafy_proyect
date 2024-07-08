@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 // Comparar la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
                                 if (notificationDate.after(todayStartTime)) {
-                                    addNotification(dc.getDocument().getString("nombre_barbacoa")+ " ya no está disponible en Cadereyta :(", notificationContainerNuevas, R.layout.layout_notification);
+                                    addNotification(dc.getDocument().getString("nombre_vinedos")+ " ya no está disponible :(", notificationContainerNuevas, R.layout.layout_notification);
                                 }
                             }
                             break;

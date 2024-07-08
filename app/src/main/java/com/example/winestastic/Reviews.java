@@ -37,7 +37,6 @@ public class Reviews extends AppCompatActivity {
 
     // Nombre de campo adecuado para cada item o referencia
     static String BARBACOA = "idBarbacoa";
-    static String PULQUE = "idPulque";
     static String EVENTO = "idEvento";
 
 
@@ -144,13 +143,10 @@ public class Reviews extends AppCompatActivity {
                             // Creamos un nuevo objeto Opinion para la referencia adecuada
                             Opinion nuevaOpinion = null;
                             if(tipoReferencia.equals(BARBACOA)) {
-                                nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idReferencia, null, null, fecha);
+                                nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idReferencia, null, fecha);
                             }
                             else if(tipoReferencia.equals(EVENTO)) {
-                                nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, null, idReferencia, null, fecha);
-                            }
-                            else if(tipoReferencia.equals(PULQUE)) {
-                                nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, null, null, idReferencia, fecha);
+                                nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, null, idReferencia, fecha);
                             }
                             else{
                                 // Manejo de errores
