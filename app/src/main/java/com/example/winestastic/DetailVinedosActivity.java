@@ -153,7 +153,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
             }
         });
 
-        // Mostrar el botón para regresar y eliminar title
+        //Mostrar el botón para regresar y eliminar title
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -210,7 +210,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
                             // Condición para solo mostrar primeros 3 comentarios
                             if(totalCalificaciones <= 3) {
                                 // Crea un nuevo objeto Opinion con los datos del documento
-                                Opinion nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idVinedos, null, null, fecha);
+                                Opinion nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idVinedos, null, fecha);
 
                                 // Agrega la nueva opinión a la lista
                                 opinionesList.add(nuevaOpinion);
@@ -315,7 +315,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
                                             String idUsuario = documentSnapshot.getString("id");
 
                                             // Creamos un nuevo objeto Opinion
-                                            Opinion nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idVinedos, null, null);
+                                            Opinion nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idVinedos, null);
 
                                             // Agregamos la nueva opinión a la colección de opiniones en Firestore
                                             mFirestore.collection("opiniones")
