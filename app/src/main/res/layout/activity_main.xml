@@ -37,8 +37,7 @@
                     android:layout_height="291dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/circles" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/imageView9"
@@ -893,7 +892,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:background="@drawable/vino"
         android:visibility="gone">
 
 
@@ -938,7 +936,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mbn_circleColor="#B13660"
-        android:background="#B13660"
+        android:background="#00FFFFFF"
         app:mbn_backgroundBottomColor="#F3853455"
         app:mbn_countBackgroundColor="#853455"
         app:mbn_countTextColor="#ffffff"
