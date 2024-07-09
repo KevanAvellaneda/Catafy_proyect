@@ -1,16 +1,22 @@
 package com.example.winestastic;
 
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -58,12 +64,19 @@ public class DetailVinedosActivity extends AppCompatActivity {
     private boolean enviandoComentario = false;
     //////
 
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String KEY_FAVORITE = "favorite";
+    private boolean MenuVisible = true;
     LinearLayout ubicacionD2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        // Recuperar el estado del favorito desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        MenuVisible = preferences.getBoolean(KEY_FAVORITE, false);
 
         ubicacionD2 = findViewById(R.id.ubicacionD);
 
@@ -77,6 +90,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
             textDescription.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
         }
         addressText = findViewById(R.id.addressText);
+        ImageView vinedoImg = findViewById(R.id.vinedoImg);
 
         horarioTextView = findViewById(R.id.horarioTextView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -122,6 +136,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
 
         // Obtenemos y mostramos las opiniones que hay
         obtenerYMostrarOpiniones();
+        configSwipe();
 
         // Botón de enviar opinión
         botonEnviarOpinion.setOnClickListener(new View.OnClickListener() {
@@ -159,8 +174,73 @@ public class DetailVinedosActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+    private void configSwipe() {
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Simulamos una actualización de 2 segundos
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        // Refrescar la actividad actual
+                        recreate();
+                    }
+                }, 600);
+            }
+        });
+    }
 
+    ////Todo lo relacionado a seleccionar un favorito
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_heart, menu);
+        // Obtener el ítem del menú de favorito para cambiar su ícono
+        MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
+        toggleMenuIcon(favoriteItem); // Asegurar que el ícono refleje el estado actual
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_favorite) {
+            toggleFavoriteState(item); // Cambiar estado de favorito al hacer clic
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void toggleFavoriteState(MenuItem item) {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Cambiar el estado de favorito
+        MenuVisible = !MenuVisible;
+        editor.putBoolean(KEY_FAVORITE, MenuVisible);
+        editor.apply();
+
+        // Actualizar dinámicamente el ícono del menú
+        toggleMenuIcon(item);
+
+        // Mostrar mensaje según el estado de favorito
+        if (MenuVisible) {
+            Toast.makeText(this, "Este viñedo ha sido agregado a tus favoritos", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Este viñedo ha sido eliminado de tus favoritos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void toggleMenuIcon(MenuItem item) {
+        if (MenuVisible) {
+            item.setIcon(R.drawable.corazon_rojo); // Cambia aquí al ícono lleno de corazón
+        } else {
+            item.setIcon(R.drawable.corazon); // Cambia aquí al ícono vacío de corazón
+        }
+    }
     /* Cargar las imagenes en el recyclerview desde firestore
     private void cargarImagenesDesdeFirestore(String lugarId) {
         mFirestore.collection("imagesall")
@@ -202,7 +282,6 @@ public class DetailVinedosActivity extends AppCompatActivity {
                             float calificacion = document.getDouble("calificacion").floatValue();
                             //Timestamp fecha = (Timestamp) document.getData().get("timestamp");
                             Date fecha = document.getDate("timestamp");
-
 
                             totalCalificaciones += 1;
                             promedioCalificaciones += calificacion;
@@ -351,7 +430,6 @@ public class DetailVinedosActivity extends AppCompatActivity {
                 });
     }
 
-
     // Método para obtener la información de los vinedos ?
     private void obtenerInformacionVinedo() {
         // Obtenemos el nombre de los viñedos desde la intención
@@ -382,6 +460,16 @@ public class DetailVinedosActivity extends AppCompatActivity {
                             textDescription.setText(info);
                             addressText.setText(ubicacion);
                             horarioTextView.setText(horario);
+                            // Cargar la imagen usando Glide o cualquier otra biblioteca de carga de imágenes
+                            if (imageUrl != null && !imageUrl.isEmpty()) {
+                                ImageView vinedoImg = findViewById(R.id.vinedoImg);
+                                Glide.with(DetailVinedosActivity.this)
+                                        .load(imageUrl)
+                                        .into(vinedoImg);
+                            } else {
+                                // Manejo de caso donde no hay URL de imagen
+                                Log.e("DetailVinedosActivity", "La URL de la imagen es nula o vacía.");
+                            }
                         } else {
                             // Manejo de errores
                             Log.e("DetailVinedosActivity", "Documento no encontrado: " + idVinedos);
@@ -397,7 +485,6 @@ public class DetailVinedosActivity extends AppCompatActivity {
             Log.e("DetailVinedosActivity", "El nombre del viñedo es nulo en la intención o idVinedos es inválido.");
         }
     }
-
 
     // Método para verificar si la caja de comentarios está vacía
     private void verificarComentariosVacios() {
@@ -425,7 +512,6 @@ public class DetailVinedosActivity extends AppCompatActivity {
     }
 
     // Método para obtener el ID del viñedo actual
-    // Método para obtener el ID del viñedo actual
     private String obteneridVinedos() {
         Intent intent = getIntent();
         if (intent != null) {
@@ -441,8 +527,6 @@ public class DetailVinedosActivity extends AppCompatActivity {
         }
         return "";
     }
-
-
 
     private void showCommentsActivity() {
 
