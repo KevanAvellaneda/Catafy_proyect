@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CONTACT = 101; //Constante utilizada para regresar a menu desde contact
 
+    private static final int REQUEST_CODE_CONTACT2 = 102;
+
     private final Date today = new Date(); //fecha actual
 
     private final Calendar nextYear = Calendar.getInstance();
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout card2;
     ConstraintLayout card3;
     ConstraintLayout card4;
+    TextView textviewvinoooos20;
 
 
     RecyclerView recyclerView;
@@ -327,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         card2 = findViewById(R.id.cardInicio2);
         card3 = findViewById(R.id.cardInicio3);
         card4 = findViewById(R.id.cardInicio4);
+        textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
 
 
 
@@ -669,6 +673,15 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        textviewvinoooos20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
+                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT2);
+            }
+        });
     }
 
     // METODO PARA PEDIR UBICACION AL USUARIO chi --------------------------------------
@@ -872,15 +885,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_CONTACT && resultCode == RESULT_OK) {
-            // Establecer el ícono del menú como activo en el Meow Bottom Navigation
-            bottomNavigation.show(1, true);
-            // Mostrar la vista del menú
-            menu.setVisibility(View.VISIBLE);
-            calendar.setVisibility(View.GONE);
-            home.setVisibility(View.GONE);
-            notifications.setVisibility(View.GONE);
-            map.setVisibility(View.GONE);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CONTACT:
+                    // Establecer el ícono del menú como activo en el Meow Bottom Navigation
+                    bottomNavigation.show(1, true);
+                    // Mostrar la vista del menú
+                    menu.setVisibility(View.VISIBLE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.GONE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                case REQUEST_CODE_CONTACT2:
+                    bottomNavigation.show(3, true);
+                    menu.setVisibility(View.GONE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.VISIBLE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                default:
+                    // Lógica para cualquier otro requestCode o meter excepcion
+                    break;
+            }
         }
     }
 

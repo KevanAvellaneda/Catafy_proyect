@@ -685,23 +685,34 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
                 </LinearLayout>
-
+                
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/grey_background"
-                    android:padding="5dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/textviewvinoooos"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Eventos"
-                        android:textColor="@color/white"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:text="Viñedos"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color"
+                        />
+                    <TextView
+                        android:id="@+id/textviewvinoooos2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ver más"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#DD4277"
+                        />
 
                 </LinearLayout>
 
@@ -710,25 +721,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
+                    android:layout_marginTop="10dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/grey_background"
-                    android:padding="5dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/textviewvinoooos3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Viñedos"
-                        android:textColor="@color/white"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:text="Eventos disponibles"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color"
+                        />
 
                 </LinearLayout>
 
@@ -737,6 +751,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="70dp"
+                    android:layout_marginTop="10dp"
                     android:clipToPadding="false"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp" />
