@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         items = new ArrayList<>();
-        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this);
+        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this, ItemsAdapterVinedos.LAYOUT_DEFAULT);
         recyclerView.setAdapter(itemsAdapterVinedos);
         mFirestore.collection("viñedos").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

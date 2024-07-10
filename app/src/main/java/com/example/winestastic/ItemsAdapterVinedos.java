@@ -20,20 +20,26 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVinedos.ViewHolder> {
+    public static final int LAYOUT_DEFAULT = 0;
+    public static final int LAYOUT_CUSTOM = 1;
+
     ArrayList<ItemsDomainVinedos> items;
 
     Context context;
+    private int layoutType;
 
-    public ItemsAdapterVinedos(ArrayList<ItemsDomainVinedos> items, Context context) {
+    public ItemsAdapterVinedos(ArrayList<ItemsDomainVinedos> items, Context context, int layoutType) {
         this.items = items;
         this.context = context;
+        this.layoutType = layoutType;
 
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate= LayoutInflater.from(context).inflate(R.layout.item_viewholder,parent,false);
+        int layoutRes = (viewType == LAYOUT_CUSTOM) ? R.layout.item_viewholder_vertodoslugares : R.layout.item_viewholder;
+        View inflate = LayoutInflater.from(context).inflate(layoutRes, parent, false);
         return new ViewHolder(inflate);
     }
 
@@ -77,6 +83,11 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return layoutType;
     }
 
     public void setFilter(ArrayList<ItemsDomainVinedos> filteredList) {

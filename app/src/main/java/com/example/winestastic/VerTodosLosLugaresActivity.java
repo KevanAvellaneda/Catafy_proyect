@@ -60,7 +60,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         items = new ArrayList<>();
-        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this);
+        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this, ItemsAdapterVinedos.LAYOUT_CUSTOM);
         recyclerView.setAdapter(itemsAdapterVinedos);
 
         // Cargar los primeros elementos
