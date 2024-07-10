@@ -65,6 +65,7 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.github.smarteist:autoimageslider:1.4.0")
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
 
 }

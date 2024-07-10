@@ -48,6 +48,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
@@ -635,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cardCatadeVinos.class);
+                Intent intent = new Intent(MainActivity.this, Tasting.class);
                 startActivity(intent);
                 finish();
             }
@@ -676,9 +677,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CONTACT2);
             }
         });
+      
+        iniciarImageSlider();
+      
     }
 
-    // METODO PARA PEDIR UBICACION AL USUARIO chi --------------------------------------
+    // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
     private void getLocalizacionn(){
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
@@ -871,6 +875,46 @@ public class MainActivity extends AppCompatActivity {
 
     private void mostrarMensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+  
+    private void iniciarImageSlider(){
+
+        String url1 = "https://hips.hearstapps.com/hmg-prod/images/types-of-wine-643846a6a95b4.jpg?crop=0.669xw:1.00xh;0.161xw,0&resize=640:*";
+        String url2 = "https://cdn.pixabay.com/photo/2019/12/14/19/18/sunset-4695549_640.jpg";
+        String url3 = "https://image.cdn2.seaart.ai/2023-10-11/19595309263893509/27aec692144d941c477b2fee1765c48d87663316_low.webp";
+
+        ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
+
+        // initializing the slider view.
+        SliderView sliderView = findViewById(R.id.slider);
+
+        // adding the urls inside array list
+        sliderDataArrayList.add(new SliderData(url1));
+        sliderDataArrayList.add(new SliderData(url2));
+        sliderDataArrayList.add(new SliderData(url3));
+
+        // passing this array list inside our adapter class.
+        SliderAdapter adapter = new SliderAdapter(this, sliderDataArrayList);
+
+        // below method is used to set auto cycle direction in left to
+        // right direction you can change according to requirement.
+        sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+
+        // below method is used to
+        // setadapter to sliderview.
+        sliderView.setSliderAdapter(adapter);
+
+        // below method is use to set
+        // scroll time in seconds.
+        sliderView.setScrollTimeInSec(3);
+
+        // to set it scrollable automatically
+        // we use below method.
+        sliderView.setAutoCycle(true);
+
+        // to start autocycle below method is used.
+        sliderView.startAutoCycle();
     }
 
     //Manejar el resultado de la actividad (contact y FAQ)
