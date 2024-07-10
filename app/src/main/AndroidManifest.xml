@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Winestastic"
         tools:targetApi="31">
         <activity
+            android:name=".Tasting"
+            android:exported="false" />
+        <activity
             android:name=".ImageSliderActivity"
             android:exported="false" />
         <activity
@@ -78,12 +81,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyArj1VSEB3RawJVxSGoDUws8a1BlY3AD-Q" />
+
         <activity
             android:name=".DetailVinedosActivity"
             android:exported="false"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Boletos"
             android:exported="false"
