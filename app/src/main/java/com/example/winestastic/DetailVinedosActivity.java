@@ -197,9 +197,9 @@ public class DetailVinedosActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_heart, menu);
-        // Obtener el ítem del menú de favorito para cambiar su ícono
+        // Obtenemos el ítem del menú de favorito para poder cambiar su ícono
         MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
-        toggleMenuIcon(favoriteItem); // Asegurar que el ícono refleje el estado actual
+        toggleMenuIcon(favoriteItem); // estado actual
 
         return true;
     }
@@ -207,7 +207,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_favorite) {
-            toggleFavoriteState(item); // Cambiar estado de favorito al hacer clic
+            toggleFavoriteState(item); // Cambiamos el estado de favorito al hacer seleccionarlo
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -218,15 +218,14 @@ public class DetailVinedosActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        // Cambiar el estado de favorito
+        // Cambiamos el estado de favorito
         MenuVisible = !MenuVisible;
         editor.putBoolean(KEY_FAVORITE, MenuVisible);
         editor.apply();
 
-        // Actualizar dinámicamente el ícono del menú
+        // Actualizamos el ícono del menú
         toggleMenuIcon(item);
 
-        // Mostrar mensaje según el estado de favorito
         if (MenuVisible) {
             Toast.makeText(this, "Este viñedo ha sido agregado a tus favoritos", Toast.LENGTH_SHORT).show();
         } else {
@@ -236,9 +235,9 @@ public class DetailVinedosActivity extends AppCompatActivity {
 
     private void toggleMenuIcon(MenuItem item) {
         if (MenuVisible) {
-            item.setIcon(R.drawable.corazon_rojo); // Cambia aquí al ícono lleno de corazón
+            item.setIcon(R.drawable.corazon_rojo);
         } else {
-            item.setIcon(R.drawable.corazon); // Cambia aquí al ícono vacío de corazón
+            item.setIcon(R.drawable.corazon);
         }
     }
     /* Cargar las imagenes en el recyclerview desde firestore
@@ -531,7 +530,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
     private void showCommentsActivity() {
 
         Intent intent = new Intent(this, Reviews.class);
-        intent.putExtra("tipoReferencia", Reviews.BARBACOA);
+        intent.putExtra("tipoReferencia", Reviews.VINEDO);
         intent.putExtra("idVinedos", idVinedos);
         intent.putExtra("titleTxt", titleText.getText());
         intent.putExtra("totalCalificaciones", totalCalificaciones);
