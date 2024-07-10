@@ -36,7 +36,7 @@ public class Reviews extends AppCompatActivity {
     private String idReferencia, tipoReferencia;
 
     // Nombre de campo adecuado para cada item o referencia
-    static String BARBACOA = "idBarbacoa";
+    static String VINEDO = "idVinedos";
     static String EVENTO = "idEvento";
 
 
@@ -69,7 +69,7 @@ public class Reviews extends AppCompatActivity {
 
         // Obtenemos la información del evento
         try {
-            obtenerInformacionBarbacoa();
+            obtenerInformacionVinedo();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -80,24 +80,24 @@ public class Reviews extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    // Método para obtener la información de la barbacoa ?
-    private void obtenerInformacionBarbacoa() throws Exception {
+    // Método para obtener la información del viñedo ?
+    private void obtenerInformacionVinedo() throws Exception {
         Intent intent = getIntent();
 
         if (intent != null) {
-            // Obtenemos el ID de la barbacoa desde la intención
+            // Obtenemos el ID del viñedo desde la intención
             idReferencia = intent.getStringExtra(tipoReferencia);
             if (idReferencia == null || idReferencia.isEmpty()) {
-                Toast.makeText(this, "Error: ID de barbacoa no válida", Toast.LENGTH_SHORT).show();
-                throw new Exception("Id de barbacoa inválido");
+                Toast.makeText(this, "Error: ID de viñedo no válido", Toast.LENGTH_SHORT).show();
+                throw new Exception("Id de viñedo inválido");
             }
         }
 
-        // Obtenemos el nombre de la barbacoa desde la intención
+        // Obtenemos el nombre del viñedo desde la intención
         String name = (intent != null) ? intent.getExtras().getString("titleTxt") : null;
-        // Obtenemos el nombre de la barbacoa desde la intención
+        // Obtenemos el nombre del viñedo desde la intención
         totalCalificaciones = (intent != null) ? intent.getExtras().getInt("totalCalificaciones") : null;
-        // Obtenemos el nombre de la barbacoa desde la intención
+        // Obtenemos el nombre del viñedo desde la intención
         promedioCalificaciones = (intent != null) ? intent.getExtras().getFloat("promedioCalificaciones") : null;
 
         // Verificamos la existencia del nombre
@@ -110,17 +110,17 @@ public class Reviews extends AppCompatActivity {
             calificacionBar.setRating(promedioCalificaciones);
             calificacionTotal.setText(totalCalificaciones + "");
 
-            // Mostramos los comentarios de la barbacoa en la que estamos comentando
+            // Mostramos los comentarios del viñedo en la que estamos comentando
             mostrarComentarios();
 
         } else {
             // Manejo de errores
-            Log.e("DetailFreixenetActivity", "El nombre de la barbacoa es nulo en la intención.");
+            Log.e("DetailVinedosActivity", "El nombre del viñedo es nulo en la intención.");
         }
     }
 
 
-    // Método para mostrar los comentarios de la respectiva barbacoa
+    // Método para mostrar los comentarios del respectivo viñedo
     private void mostrarComentarios() {
 
         // Consulta en Firestore para obtener comentarios relacionados con la referencia actual
@@ -142,7 +142,7 @@ public class Reviews extends AppCompatActivity {
 
                             // Creamos un nuevo objeto Opinion para la referencia adecuada
                             Opinion nuevaOpinion = null;
-                            if(tipoReferencia.equals(BARBACOA)) {
+                            if(tipoReferencia.equals(VINEDO)) {
                                 nuevaOpinion = new Opinion(idUsuario, comentario, calificacion, idReferencia, null, fecha);
                             }
                             else if(tipoReferencia.equals(EVENTO)) {
@@ -166,14 +166,14 @@ public class Reviews extends AppCompatActivity {
 
     }
 
-    // Método para obtener el ID de la barbacoa actual
+    // Método para obtener el ID del viñedo actual
     private String obtenerIdReferencia() {
         Intent intent = getIntent();
         if (intent != null) {
-            // Obtenemos que la referencia del comentario (Barbacoa, pulque o evento)
+            // Obtenemos que la referencia del comentario (Vinedo o evento)
             tipoReferencia = intent.getStringExtra("tipoReferencia");
             if(tipoReferencia != null){
-                // Obtenemos el ID de la barbacoa desde la intención
+                // Obtenemos el ID del vinedo desde la intención
                 String idReferencia = intent.getStringExtra(tipoReferencia);
                 if (idReferencia != null && !idReferencia.isEmpty()) {
                     return idReferencia;
@@ -181,7 +181,7 @@ public class Reviews extends AppCompatActivity {
 
             }
         }
-        Toast.makeText(this, "Error: ID de barbacoa no válida", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Error: ID del viñedo no válida", Toast.LENGTH_SHORT).show();
         return "";
     }
 

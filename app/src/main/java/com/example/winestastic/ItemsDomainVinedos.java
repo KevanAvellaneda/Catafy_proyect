@@ -13,6 +13,11 @@ public class ItemsDomainVinedos implements Serializable {
     public String getIdVinedos() {
         return idVinedos;
     }
+
+    public void setIdVinedos(String idVinedos) {
+        this.idVinedos = idVinedos;
+    }
+
     public String getNombre_vinedos() {
         return nombre_vinedos;
     }

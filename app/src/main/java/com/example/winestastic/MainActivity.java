@@ -267,21 +267,15 @@ public class MainActivity extends AppCompatActivity {
                         case REMOVED:
                             int removedIndex = dc.getOldIndex();
                             if (removedIndex >= 0 && removedIndex < items.size()) {
-                                // Remover el elemento de la lista y notificar al adaptador
                                 items.remove(removedIndex);
                                 itemsAdapterVinedos.notifyItemRemoved(removedIndex);
-                                // Procesar notificaciones
-                                notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
-
-                                // Comparar la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
-                                if (notificationDate.after(todayStartTime)) {
-                                    addNotification(dc.getDocument().getString("nombre_vinedos")+ " ya no está disponible :(", notificationContainerNuevas, R.layout.layout_notification);
-                                }
+                            } else {
+                                Log.e("IndexOutOfBounds", "El índice está fuera de los límites válidos: " + removedIndex);
                             }
                             break;
                     }
                 }
-                // Mostrar lugares al azar
+                /*Mostrar lugares al azar
                 List<ItemsDomainVinedos> randomItems = new ArrayList<>(items);
                 Collections.shuffle(randomItems);
                 // Alteramos la lista para que tenga un máximo de 10 elementos
@@ -289,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                     randomItems = randomItems.subList(0, 10);
                 }
                 items.clear();
-                items.addAll(randomItems);
+                items.addAll(randomItems);*/
                 itemsAdapterVinedos.notifyDataSetChanged();
 
                 pbProgressMain.setVisibility(View.GONE);
