@@ -53,6 +53,8 @@ public class ContactActivity extends ScrollingActivity {
         toolbar_icon.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
+
+
         //incrustar activity contact
         NestedScrollView nscrollv;
         nscrollv = findViewById(R.id.nestedScrollView);
@@ -168,13 +170,6 @@ public class ContactActivity extends ScrollingActivity {
         recyclerView.setAdapter(versionsAdapter);
     }
 
-    public void onBackPressed() {
-        // Establecer el resultado como RESULT_OK
-        super.onBackPressed();
-        setResult(RESULT_OK);
-        finish();
-    }
-
     public void call(View view){
 
     }
@@ -200,5 +195,18 @@ public class ContactActivity extends ScrollingActivity {
                     }
                 }
         );
+    }
+
+    private boolean handleBackPressed = false;
+
+    @Override
+    public void onBackPressed() {
+        if (handleBackPressed) {
+            super.onBackPressed();  // Llama a super.onBackPressed() solo si handleBackPressed es true
+        } else {
+            // Establece el resultado como RESULT_OK y finaliza la actividad
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }

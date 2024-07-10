@@ -34,7 +34,11 @@
             android:exported="false" />
         <activity
             android:name=".ErrorActivity"
-            android:exported="false" />
+            android:hardwareAccelerated="true"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"  />
         <activity
             android:name=".DetailCoteActivity"
             android:exported="false"
@@ -90,6 +94,12 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Boletos"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".Reviews"
             android:exported="false"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"

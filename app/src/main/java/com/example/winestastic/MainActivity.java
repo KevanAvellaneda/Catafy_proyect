@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore mFirestore;
 
     private Task<QuerySnapshot> eventosTask;
+
+    private static final int REQUEST_CODE_CONTACT = 101; //Constante utilizada para regresar a menu desde contact
+
+    private static final int REQUEST_CODE_CONTACT2 = 102;
+
     private final Date today = new Date(); //fecha actual
 
     private final Calendar nextYear = Calendar.getInstance();
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout card2;
     ConstraintLayout card3;
     ConstraintLayout card4;
+    TextView textviewvinoooos20;
 
 
     RecyclerView recyclerView;
@@ -262,21 +268,15 @@ public class MainActivity extends AppCompatActivity {
                         case REMOVED:
                             int removedIndex = dc.getOldIndex();
                             if (removedIndex >= 0 && removedIndex < items.size()) {
-                                // Remover el elemento de la lista y notificar al adaptador
                                 items.remove(removedIndex);
                                 itemsAdapterVinedos.notifyItemRemoved(removedIndex);
-                                // Procesar notificaciones
-                                notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
-
-                                // Comparar la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
-                                if (notificationDate.after(todayStartTime)) {
-                                    addNotification(dc.getDocument().getString("nombre_vinedos")+ " ya no está disponible :(", notificationContainerNuevas, R.layout.layout_notification);
-                                }
+                            } else {
+                                Log.e("IndexOutOfBounds", "El índice está fuera de los límites válidos: " + removedIndex);
                             }
                             break;
                     }
                 }
-                // Mostrar lugares al azar
+                /*Mostrar lugares al azar
                 List<ItemsDomainVinedos> randomItems = new ArrayList<>(items);
                 Collections.shuffle(randomItems);
                 // Alteramos la lista para que tenga un máximo de 10 elementos
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     randomItems = randomItems.subList(0, 10);
                 }
                 items.clear();
-                items.addAll(randomItems);
+                items.addAll(randomItems);*/
                 itemsAdapterVinedos.notifyDataSetChanged();
 
                 pbProgressMain.setVisibility(View.GONE);
@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
         card2 = findViewById(R.id.cardInicio2);
         card3 = findViewById(R.id.cardInicio3);
         card4 = findViewById(R.id.cardInicio4);
+        textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
 
 
 
@@ -626,9 +627,9 @@ public class MainActivity extends AppCompatActivity {
         cardviewchatbot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
                 Intent intent = new Intent(MainActivity.this, ContactActivity.class);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
 
@@ -668,7 +669,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        textviewvinoooos20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
+                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT2);
+            }
+        });
+      
         iniciarImageSlider();
+      
     }
 
     // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
@@ -866,6 +877,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
+  
     private void iniciarImageSlider(){
 
         String url1 = "https://hips.hearstapps.com/hmg-prod/images/types-of-wine-643846a6a95b4.jpg?crop=0.669xw:1.00xh;0.161xw,0&resize=640:*";
@@ -904,6 +916,42 @@ public class MainActivity extends AppCompatActivity {
         // to start autocycle below method is used.
         sliderView.startAutoCycle();
     }
+
+    //Manejar el resultado de la actividad (contact y FAQ)
+    //Se utiliza en Android para recibir resultados de actividades secundarias que han sido iniciadas mediante startActivityForResult()
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CONTACT:
+                    // Establecer el ícono del menú como activo en el Meow Bottom Navigation
+                    bottomNavigation.show(1, true);
+                    // Mostrar la vista del menú
+                    menu.setVisibility(View.VISIBLE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.GONE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                case REQUEST_CODE_CONTACT2:
+                    bottomNavigation.show(3, true);
+                    menu.setVisibility(View.GONE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.VISIBLE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                default:
+                    // Lógica para cualquier otro requestCode o meter excepcion
+                    break;
+            }
+        }
+    }
+
 
     boolean doubleBackToExitPressedOnce = false;
     @Override

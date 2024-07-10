@@ -33,6 +33,12 @@
         <item name="colorOnPrimary">#FFFFFF</item>
     </style>
 
+    <style name="AppBarOverlay2" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+
+
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
         <item name="colorOnSurface">#FFFFFF</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -42,5 +48,11 @@
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerSizeBottomLeft">30dp</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
+    </style>
+
+    <style name="CustomCardViewStyle">
+        <item name="cardCornerRadius">40dp</item>
+        <item name="cardElevation">20dp</item>
+        <item name="android:layout_marginTop">-30dp</item>
     </style>
 </resources>
