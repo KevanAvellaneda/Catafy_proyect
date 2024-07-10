@@ -53,7 +53,6 @@ import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -613,7 +612,34 @@ public class MainActivity extends AppCompatActivity {
 
         ////FIN CALENDARIO//////
 
+
+        // Lee el extra del Intent para ver si se debe mostrar un ID específico, es para linkear al mapa
+
+        int selectedItemId = getIntent().getIntExtra("selectedItemId", -1);
+        String markerTitle = null;
+        if (selectedItemId != -1) {
+            // Extraer datos del markerTitle
+            markerTitle = getIntent().getStringExtra("markerTitle");
+
+            // Se cambió el estado debido al extra del Intent
+            bottomNavigation.show(selectedItemId, true);
+
+            // Limpiar el extra del Intent
+            getIntent().removeExtra("selectedItemId");
+            getIntent().removeExtra("markerTitle");
+        } else {
+            // Estado predeterminado
+            bottomNavigation.show(3, true);
+        }
+
+
         Fragment fragment = new Map_Fragment();
+
+        // Bundle para mandar argumentos al Map_Fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("markerTitle", markerTitle);
+        fragment.setArguments(bundle);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
 
         cerrar.setOnClickListener(new View.OnClickListener() {
@@ -663,7 +689,7 @@ public class MainActivity extends AppCompatActivity {
         card4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                Intent intent = new Intent(MainActivity.this, VerTodosLosLugaresActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -673,7 +699,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult
-                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                Intent intent = new Intent(MainActivity.this, VerTodosLosLugaresActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT2);
             }
         });

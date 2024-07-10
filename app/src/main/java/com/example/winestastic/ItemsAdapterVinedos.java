@@ -79,6 +79,11 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
         return items.size();
     }
 
+    public void setFilter(ArrayList<ItemsDomainVinedos> filteredList) {
+        items = filteredList;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView titleTxt, addressTxt;
         ImageView pic;
