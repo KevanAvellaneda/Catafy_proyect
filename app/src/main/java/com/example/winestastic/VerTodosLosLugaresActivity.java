@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
@@ -37,10 +38,11 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
     //private ScrollView scrollView;
     private NestedScrollView scrollView;
     protected Class lastActivity = MainActivity.class;
-    private DocumentSnapshot lastVisible; // Último documento visible en la lista
 
     // Constantes
-    private static final int PAGE_SIZE = 5; // Tamaño de la página
+    private static final int PAGE_SIZE = 3; // Tamaño de la página
+    private int currentPage = 0;
+    private List<List<ItemsDomainVinedos>> paginatedItems = new ArrayList<>(); // Lista de páginas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,10 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         // Cargar los primeros elementos
         loadFirstPage();
 
+        // Configuración de botones de paginación
+        findViewById(R.id.nextPageButton).setOnClickListener(v -> loadNextPage());
+        findViewById(R.id.prevPageButton).setOnClickListener(v -> loadPreviousPage());
+
         // Inicializar el ScrollView
         scrollView = findViewById(R.id.scrollView);
 
@@ -79,10 +85,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
                 int totalItemCount = layoutManager.getItemCount();
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-                // Si hemos llegado al final de la lista y hay más elementos por cargar
-                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    loadMoreItems();
-                }
+
             }
         });
 
@@ -127,20 +130,24 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    // Método para cargar la primera página de elementos
+    // Método para cargar los elementos
     private void loadFirstPage() {
         pbProgressMain.setVisibility(View.VISIBLE);
         mFirestore.collection("viñedos")
+                .orderBy("nombre_vinedos")  // Ordenar por nombre (o por algún campo adecuado)
                 .limit(PAGE_SIZE)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        for (DocumentSnapshot document : task.getResult()) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        items.clear();
+                        for (DocumentSnapshot document : documents) {
                             items.add(document.toObject(ItemsDomainVinedos.class));
                         }
                         itemsAdapterVinedos.notifyDataSetChanged();
-                        // Guardar la referencia al último documento visible
-                        lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
+                        paginatedItems.clear();
+                        paginatedItems.add(new ArrayList<>(items));  // Agregar la primera página
+                        currentPage = 0;
                     } else {
                         Log.e("Firestore error", "Error getting documents: ", task.getException());
                     }
@@ -148,32 +155,63 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
                 });
     }
 
-    // Método para cargar más elementos cuando el usuario se desplaza hacia abajo
-    private void loadMoreItems() {
+    // Método para cargar la página siguiente
+    private void loadNextPage() {
         pbProgressMain.setVisibility(View.VISIBLE);
-        mFirestore.collection("viñedos")
-                .startAfter(lastVisible)
-                .limit(PAGE_SIZE)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                        if (!documents.isEmpty()) {
-                            for (DocumentSnapshot document : documents) {
-                                items.add(document.toObject(ItemsDomainVinedos.class));
+
+        // Verificar si ya estamos en la última página localmente
+        if (currentPage >= paginatedItems.size() - 1) {
+            // Realizar la consulta a Firestore para obtener la siguiente página
+            mFirestore.collection("viñedos")
+                    .orderBy("nombre_vinedos")
+                    .startAfter(paginatedItems.get(currentPage).get(paginatedItems.get(currentPage).size() - 1).getNombre_vinedos())
+                    .limit(PAGE_SIZE)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                            if (documents.isEmpty()) {
+                                Log.d("Paginación", "No hay más elementos para cargar.");
+                                pbProgressMain.setVisibility(View.GONE);
+                            } else {
+                                items.clear();
+                                for (DocumentSnapshot document : documents) {
+                                    items.add(document.toObject(ItemsDomainVinedos.class));
+                                }
+                                itemsAdapterVinedos.notifyDataSetChanged();
+                                paginatedItems.add(new ArrayList<>(items));
+                                currentPage++;
+                                pbProgressMain.setVisibility(View.GONE);
                             }
-                            itemsAdapterVinedos.notifyDataSetChanged();
-                            // Actualizar la referencia al último documento visible
-                            lastVisible = documents.get(documents.size() - 1);
-                        }else {
-                            Log.d("Paginación", "Se alcanzó el final de la lista.");
+                        } else {
+                            Log.e("Firestore error", "Error getting documents: ", task.getException());
                         }
-                    } else {
-                        Log.e("Firestore error", "Error getting documents: ", task.getException());
-                    }
-                    pbProgressMain.setVisibility(View.GONE);
-                });
+                        pbProgressMain.setVisibility(View.GONE);
+                    });
+        } else {
+            // Cargar la siguiente página localmente
+            currentPage++;
+            items.clear();
+            items.addAll(paginatedItems.get(currentPage));
+            itemsAdapterVinedos.notifyDataSetChanged();
+            pbProgressMain.setVisibility(View.GONE);
+        }
     }
+
+
+    // Método para cargar la página anterior
+    private void loadPreviousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            items.clear();
+            items.addAll(paginatedItems.get(currentPage));
+            itemsAdapterVinedos.notifyDataSetChanged();
+        } else {
+            Log.d("Paginación", "Estás en la primera página, no hay página anterior para cargar.");
+        }
+    }
+
+
 
     private void configSwipe() {
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);

@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVinedos.ViewHolder> {
     public static final int LAYOUT_DEFAULT = 0;
@@ -83,6 +84,11 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setItems(List<ItemsDomainVinedos> items) {
+        this.items = new ArrayList<>(items);
+        notifyDataSetChanged();
     }
 
     @Override

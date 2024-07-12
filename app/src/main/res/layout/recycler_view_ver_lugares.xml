@@ -87,6 +87,26 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_below="@+id/recycler_view_ver_lugares">
+
+                    <Button
+                        android:id="@+id/prevPageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prev"/>
+
+                    <Button
+                        android:id="@+id/nextPageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next"/>
+                </LinearLayout>
+
             </RelativeLayout>
 
         </androidx.core.widget.NestedScrollView>
