@@ -47,6 +47,7 @@ public class ItemsAdapterEventos extends  RecyclerView.Adapter<ItemsAdapterEvent
             public void onClick(View view) {
                 Toast.makeText(context,itemsDomainEventos.getNombre_evento(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailFreixenetActivity.class);
+                intent.putExtra("idEvento", itemsDomainEventos.getIdEvento());  // Asegúrate de tener un método getIdEvento() en tu modelo
                 intent.putExtra("titleTxt", itemsDomainEventos.getNombre_evento());
                 intent.putExtra("addressTxt", itemsDomainEventos.getUbicacion_evento());
                 intent.putExtra("imageUrl", itemsDomainEventos.getUrl());
