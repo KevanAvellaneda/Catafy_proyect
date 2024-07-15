@@ -41,8 +41,11 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
     private NestedScrollView scrollView;
     protected Class lastActivity = MainActivity.class;
 
+    private Button nextPageButton;
+    private Button prevPageButton;
+
     // Constantes
-    private static final int PAGE_SIZE = 3; // Tamaño de la página
+    private static final int PAGE_SIZE = 2; // Tamaño de la página
     private int currentPage = 0;
     private List<List<ItemsDomainVinedos>> paginatedItems = new ArrayList<>(); // Lista de páginas
 
@@ -70,6 +73,10 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
 
         // Cargar los primeros elementos
         loadAllItems();
+
+        // Configuración de botones de paginación
+        nextPageButton = findViewById(R.id.nextPageButton);
+        prevPageButton = findViewById(R.id.prevPageButton);
 
         // Configuración de botones de paginación
         findViewById(R.id.nextPageButton).setOnClickListener(v -> loadNextPage());
@@ -131,6 +138,11 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Ocultar el botón "Anterior" al iniciar la actividad si estamos en la primera página
+        if (currentPage == 0) {
+            prevPageButton.setVisibility(View.GONE);
+        }
     }
 
     // Este método carga todos los elementos de la colección viñedos desde Firestore y los almacena en la lista allItems.
@@ -185,7 +197,12 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
             items.clear();
             items.addAll(paginatedItems.get(currentPage));
             itemsAdapterVinedos.notifyDataSetChanged();
+            prevPageButton.setVisibility(View.VISIBLE);
+            if (currentPage == paginatedItems.size() - 1) {
+                nextPageButton.setVisibility(View.GONE); // Ocultar el botón "Siguiente" al final de la lista
+            }
         } else {
+            //nextPageButton.setVisibility(View.GONE);
             Toast.makeText(this, "No hay más viñedos disponibles.", Toast.LENGTH_SHORT).show();
             //Log.d("Paginación", "No hay más páginas.");
         }
@@ -198,7 +215,12 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
             items.clear();
             items.addAll(paginatedItems.get(currentPage));
             itemsAdapterVinedos.notifyDataSetChanged();
+            nextPageButton.setVisibility(View.VISIBLE);
+            if (currentPage == 0) {
+                prevPageButton.setVisibility(View.GONE); // Ocultar el botón "Anterior" al principio de la lista
+            }
         } else {
+            //prevPageButton.setVisibility(View.GONE);
             Toast.makeText(this, "Estás en la primera página.", Toast.LENGTH_SHORT).show();
             //Log.d("Paginación", "Estás en la primera página.");
         }
