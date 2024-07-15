@@ -1,16 +1,36 @@
 package com.example.winestastic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
-public class cardDemasEntradas extends AppCompatActivity {
+import java.util.List;
+
+public class cardDemasEntradas extends ImageSliderActivity {
+
+
+
+    List<Versions> versionsList;
+    protected RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // name of document that contains the images for slider
+        nameImageDocument = "entradas";
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_demas_entradas);
+
+        //incrustar activity contact
+        NestedScrollView nscrollv;
+        nscrollv = findViewById(R.id.nestedScrollView);
+        LayoutInflater inflater = getLayoutInflater();
+        View myLayout = inflater.inflate(R.layout.activity_tasting, nscrollv, false);
+        nscrollv.removeAllViews();
+        nscrollv.addView(myLayout);
     }
 
     private boolean handleBackPressed = false;
@@ -25,4 +45,11 @@ public class cardDemasEntradas extends AppCompatActivity {
             finish();
         }
     }
+
+
+    private void setRecyclerView() {
+        VersionsAdapter versionsAdapter = new VersionsAdapter(versionsList);
+        recyclerView.setAdapter(versionsAdapter);
+    }
+
 }

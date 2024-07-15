@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bodegon"
     tools:context=".cardDemasEntradas">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tituloentradas"
-        android:background="@drawable/grey_background"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="160dp"
-        android:padding="5dp"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Demás Entradas"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="italic"
-            />
-
-    </LinearLayout>
 
 
 
@@ -34,21 +12,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tituloentradas"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="250dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/white_background"
         android:elevation="3dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_goneMarginBottom="24dp">
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Demás Entradas"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:background="@color/wine"
+            android:textStyle="italic"
+            />
 
         <ImageView
             android:layout_width="60dp"
@@ -117,4 +102,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

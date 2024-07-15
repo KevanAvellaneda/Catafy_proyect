@@ -31,6 +31,9 @@ public class Tasting extends ImageSliderActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // name of document that contains the images for slider
+        nameImageDocument = "cata";
+
         super.onCreate(savedInstanceState);
 
         //incrustar activity contact

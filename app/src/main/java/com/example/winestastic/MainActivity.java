@@ -53,6 +53,10 @@ import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,19 +65,21 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView.Adapter adapterEventos,adapterVinedos;
+    private RecyclerView.Adapter adapterEventos, adapterVinedos;
     private RecyclerView recyclerViewEventos, recyclerViewVinedos;
 
 
     private MeowBottomNavigation bottomNavigation;
-    TextView txt_Nombre,txt_correo,txt_telefono,txt_Nombre2,txt_correo2;
+    TextView txt_Nombre, txt_correo, txt_telefono, txt_Nombre2, txt_correo2;
     Button cerrar;
-    RelativeLayout  menu, calendar, home, notifications, map;
+    RelativeLayout menu, calendar, home, notifications, map;
     FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseFirestore mFirestore;
@@ -162,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
 
-
         recyclerView = findViewById(R.id.viewEventos);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -177,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         pbProgressMain.setVisibility(View.VISIBLE);
-                        if(error != null){
+                        if (error != null) {
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
@@ -224,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         mFirestore.collection("viñedos").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null){
+                if (error != null) {
                     Log.e("Firestore error", error.getMessage());
                     return;
                 }
@@ -250,11 +255,11 @@ public class MainActivity extends AppCompatActivity {
 
                             // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
                             if (notificationDate.after(todayStartTime)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerNuevas, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerNuevas, R.layout.layout_notification);
                             } else if (notificationDate.after(date7DaysAgo)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos7Dias, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos7Dias, R.layout.layout_notification);
                             } else if (notificationDate.after(date30DaysAgo)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos30Dias, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos30Dias, R.layout.layout_notification);
                             }
                             break;
 
@@ -297,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         calendar = findViewById(R.id.calendar);
         home = findViewById(R.id.home);
-        notifications =findViewById(R.id.notifications);
+        notifications = findViewById(R.id.notifications);
         map = findViewById(R.id.map);
         txt_Nombre = findViewById(R.id.Mostrarnombre);
         txt_Nombre2 = findViewById(R.id.nombre2);
@@ -308,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         cardviewchatbot = findViewById(R.id.cardviewchat);
-        bottomNavigation.show(3,true);
+        bottomNavigation.show(3, true);
         //-------------Servicios Google----------------
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -328,8 +333,6 @@ public class MainActivity extends AppCompatActivity {
         textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
 
 
-
-
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menuanvorgesa));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.baseline_calendar_month_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_home_24));
@@ -341,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
 
                     case 1:
@@ -404,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
                     case 1:
 
@@ -426,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
                     case 2:
 
@@ -448,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
                     case 3:
 
@@ -471,7 +474,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
                     case 4:
 
@@ -493,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()){
+                switch (model.getId()) {
 
                     case 5:
 
@@ -511,7 +514,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-
 
 
         ////CALENDARIO//////
@@ -677,19 +679,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CONTACT2);
             }
         });
-      
+
         iniciarImageSlider();
-      
+
     }
 
     // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
-    private void getLocalizacionn(){
+    private void getLocalizacionn() {
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        if(permiso == PackageManager.PERMISSION_DENIED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-            }else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        if (permiso == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
@@ -732,12 +734,13 @@ public class MainActivity extends AppCompatActivity {
             if (tieneEvento) {
                 // Cambiamos el color de fondo de la celda si tiene un evento
                 cellView.setBackgroundColor(Color.rgb(250, 143, 177)); // Ponemos de color la celda
-            } else if (isToday(date)){
+            } else if (isToday(date)) {
                 cellView.setBackgroundColor(Color.rgb(178, 218, 250)); // Ponemos de color la celda
             } else {
                 cellView.setBackgroundColor(getResources().getColor(R.color.white));
             }
         }
+
         // Checamos si hay un evento asociado a una fecha
         private boolean tieneEventoEnFecha(Date date) {
             // Creamos un objeto Calendar y establecemos su tiempo para que coincida con la fecha dada
@@ -750,7 +753,7 @@ public class MainActivity extends AppCompatActivity {
                     Date fecha = document.getDate("fecha_eventoo");
                     if (fecha != null) {
                         //Estamos verificando si la fecha del evento está en el día actual o en el futuro
-                        if (!fecha.before(today) ) {
+                        if (!fecha.before(today)) {
                             // Convertimos la fecha del evento a un objeto Calendar
                             Calendar cal2 = Calendar.getInstance();
                             cal2.setTime(fecha);
@@ -772,7 +775,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Verifica si es la fecha de hoy
-        private boolean isToday(Date date){
+        private boolean isToday(Date date) {
             Calendar cal1 = Calendar.getInstance();
             Calendar cal2 = Calendar.getInstance();
             cal1.setTime(date);
@@ -783,12 +786,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user == null){
+        if (user == null) {
             irLogin();
-        }else{
+        } else {
             verifyUser();
             cargardatos();
         }
@@ -796,45 +799,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void verifyUser() {
         // Verifica si un usuario ha autenticado su correo
-            user.reload();
-            if(!user.isEmailVerified()){
-                // Ubicación desactivada, mostrar un diálogo para permitir al usuario activarla
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Para continuar con la aplicación es necesario verificar tu correo.\n\nPor favor, revisa tu correo incluso tu spam.")
-                        .setCancelable(false)
-                        .setNegativeButton("Enviar correo", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                user.sendEmailVerification();
-                                dialog.cancel();
+        user.reload();
+        if (!user.isEmailVerified()) {
+            // Ubicación desactivada, mostrar un diálogo para permitir al usuario activarla
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Para continuar con la aplicación es necesario verificar tu correo.\n\nPor favor, revisa tu correo incluso tu spam.")
+                    .setCancelable(false)
+                    .setNegativeButton("Enviar correo", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            user.sendEmailVerification();
+                            dialog.cancel();
 
-                                AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
-                                confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                logout();
-                                            }
-                                        });
-                                confirmationBuilder.create().show();
-                            }
-                        })
-                        .setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                logout();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
+                            AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
+                            confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            logout();
+                                        }
+                                    });
+                            confirmationBuilder.create().show();
+                        }
+                    })
+                    .setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            logout();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
+    }
 
-    private void cargardatos(){
+    private void cargardatos() {
         mFirestore.collection("usuarios").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
+                    if (document.exists()) {
                         String nombre = document.getString("nombre");
                         String correo = document.getString("correo");
                         String telefono = document.getString("telefono");
@@ -852,69 +855,100 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void logout(){
+    private void logout() {
         mAuth.signOut();
 
         mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     irLogin();
-                }else {
+                } else {
                     mostrarMensaje("No se logro cerrar sesion");
                 }
             }
         });
     }
 
-    private void irLogin(){
+    private void irLogin() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void mostrarMensaje(String mensaje){
+    private void mostrarMensaje(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
-  
-    private void iniciarImageSlider(){
 
-        String url1 = "https://hips.hearstapps.com/hmg-prod/images/types-of-wine-643846a6a95b4.jpg?crop=0.669xw:1.00xh;0.161xw,0&resize=640:*";
-        String url2 = "https://cdn.pixabay.com/photo/2019/12/14/19/18/sunset-4695549_640.jpg";
-        String url3 = "https://image.cdn2.seaart.ai/2023-10-11/19595309263893509/27aec692144d941c477b2fee1765c48d87663316_low.webp";
+    private void iniciarImageSlider() {
+
 
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
 
         // initializing the slider view.
         SliderView sliderView = findViewById(R.id.slider);
 
-        // adding the urls inside array list
-        sliderDataArrayList.add(new SliderData(url1));
-        sliderDataArrayList.add(new SliderData(url2));
-        sliderDataArrayList.add(new SliderData(url3));
+        mFirestore
+                .collection("static_info")
+                .document("main")
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                         @Override
+                                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                             if (error != null) {
+                                                 Log.w(TAG, "Listen failed.", error);
+                                                 return;
+                                             }
 
-        // passing this array list inside our adapter class.
-        SliderAdapter adapter = new SliderAdapter(this, sliderDataArrayList);
+                                             if (value != null && value.exists()) {
+                                                 Log.d(TAG, "Current data: " + value.getData());
+                                                 Map<String, Object> data = value.getData();
+                                                 if (data != null) {
 
-        // below method is used to set auto cycle direction in left to
-        // right direction you can change according to requirement.
-        sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+                                                     try {
 
-        // below method is used to
-        // setadapter to sliderview.
-        sliderView.setSliderAdapter(adapter);
+                                                         JSONArray sliderArray = new JSONArray((List) data.get("slider"));
 
-        // below method is use to set
-        // scroll time in seconds.
-        sliderView.setScrollTimeInSec(3);
 
-        // to set it scrollable automatically
-        // we use below method.
-        sliderView.setAutoCycle(true);
+                                                         for (int i = 0; i < sliderArray.length(); i++) {
+                                                             JSONObject sliderObject = sliderArray.getJSONObject(i);
+                                                             String image = sliderObject.optString("image");
+                                                             String destination = sliderObject.optString("destination");
 
-        // to start autocycle below method is used.
-        sliderView.startAutoCycle();
+                                                             if (destination != null)
+                                                                 sliderDataArrayList.add(new SliderData(image, destination));
+                                                             else
+                                                                 sliderDataArrayList.add(new SliderData(image));
+
+                                                         }
+
+                                                     } catch (JSONException e) {
+                                                         Log.e(TAG, "JSON parsing error: ", e);
+                                                     }
+                                                 }
+
+
+                                             } else {
+                                                 Log.d(TAG, "Current data: null");
+                                             }
+
+
+                                             SliderAdapter adapter = new SliderAdapter(getBaseContext(), sliderDataArrayList);
+
+                                             // cycle direction: left to right
+                                             sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+
+                                             sliderView.setSliderAdapter(adapter);
+
+                                             sliderView.setScrollTimeInSec(6);
+
+                                             sliderView.setAutoCycle(true);
+                                             sliderView.startAutoCycle();
+
+                                         }
+                                     }
+
+                );
     }
 
     //Manejar el resultado de la actividad (contact y FAQ)
@@ -954,6 +988,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -968,7 +1003,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
