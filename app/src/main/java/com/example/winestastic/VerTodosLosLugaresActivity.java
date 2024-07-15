@@ -20,6 +20,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +35,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
     private ProgressBar pbProgressMain;
     private FirebaseFirestore mFirestore;
     private ArrayList<ItemsDomainVinedos> items;
+    private ArrayList<ItemsDomainVinedos> allItems; // Lista de todos los elementos cargados
     private ItemsAdapterVinedos itemsAdapterVinedos;
     //private ScrollView scrollView;
     private NestedScrollView scrollView;
@@ -62,11 +64,12 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         items = new ArrayList<>();
+        allItems = new ArrayList<>();
         itemsAdapterVinedos = new ItemsAdapterVinedos(items, this, ItemsAdapterVinedos.LAYOUT_CUSTOM);
         recyclerView.setAdapter(itemsAdapterVinedos);
 
         // Cargar los primeros elementos
-        loadFirstPage();
+        loadAllItems();
 
         // Configuración de botones de paginación
         findViewById(R.id.nextPageButton).setOnClickListener(v -> loadNextPage());
@@ -130,24 +133,22 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    // Método para cargar los elementos
-    private void loadFirstPage() {
+    // Este método carga todos los elementos de la colección viñedos desde Firestore y los almacena en la lista allItems.
+    private void loadAllItems() {
         pbProgressMain.setVisibility(View.VISIBLE);
         mFirestore.collection("viñedos")
-                .orderBy("nombre_vinedos")  // Ordenar por nombre (o por algún campo adecuado)
-                .limit(PAGE_SIZE)
+                .orderBy("nombre_vinedos")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                        items.clear();
+                        allItems.clear();
                         for (DocumentSnapshot document : documents) {
-                            items.add(document.toObject(ItemsDomainVinedos.class));
+                            ItemsDomainVinedos item = document.toObject(ItemsDomainVinedos.class);
+                            allItems.add(item);
                         }
-                        itemsAdapterVinedos.notifyDataSetChanged();
-                        paginatedItems.clear();
-                        paginatedItems.add(new ArrayList<>(items));  // Agregar la primera página
-                        currentPage = 0;
+                        // Llama al método initializePagination() para dividir los elementos cargados en páginas
+                        initializePagination();
                     } else {
                         Log.e("Firestore error", "Error getting documents: ", task.getException());
                     }
@@ -155,49 +156,40 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
                 });
     }
 
+    // Este método divide los elementos en allItems en páginas,
+    // según el tamaño de página definido (PAGE_SIZE), y almacena estas páginas en paginatedItems.
+    private void initializePagination() {
+        paginatedItems.clear();
+        // calcula el num total de elementos en allitems
+        int totalItems = allItems.size();
+        // dividimos allitems en sublistas (paginas) del tamano del pagesize
+        for (int i = 0; i < totalItems; i += PAGE_SIZE) {
+            int end = Math.min(i + PAGE_SIZE, totalItems);
+            // agregamos cada sublista a paginatedItems
+            paginatedItems.add(new ArrayList<>(allItems.subList(i, end)));
+        }
+        currentPage = 0;
+        // Si paginatedItems no está vacío, carga los elementos de la primera página en items
+        // y notifica al adaptador para que actualice el RecyclerView.
+        if (!paginatedItems.isEmpty()) {
+            items.clear();
+            items.addAll(paginatedItems.get(currentPage));
+            itemsAdapterVinedos.notifyDataSetChanged();
+        }
+    }
+
     // Método para cargar la página siguiente
     private void loadNextPage() {
-        pbProgressMain.setVisibility(View.VISIBLE);
-
-        // Verificar si ya estamos en la última página localmente
-        if (currentPage >= paginatedItems.size() - 1) {
-            // Realizar la consulta a Firestore para obtener la siguiente página
-            mFirestore.collection("viñedos")
-                    .orderBy("nombre_vinedos")
-                    .startAfter(paginatedItems.get(currentPage).get(paginatedItems.get(currentPage).size() - 1).getNombre_vinedos())
-                    .limit(PAGE_SIZE)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                            if (documents.isEmpty()) {
-                                Log.d("Paginación", "No hay más elementos para cargar.");
-                                pbProgressMain.setVisibility(View.GONE);
-                            } else {
-                                items.clear();
-                                for (DocumentSnapshot document : documents) {
-                                    items.add(document.toObject(ItemsDomainVinedos.class));
-                                }
-                                itemsAdapterVinedos.notifyDataSetChanged();
-                                paginatedItems.add(new ArrayList<>(items));
-                                currentPage++;
-                                pbProgressMain.setVisibility(View.GONE);
-                            }
-                        } else {
-                            Log.e("Firestore error", "Error getting documents: ", task.getException());
-                        }
-                        pbProgressMain.setVisibility(View.GONE);
-                    });
-        } else {
-            // Cargar la siguiente página localmente
+        if (currentPage < paginatedItems.size() - 1) {
             currentPage++;
             items.clear();
             items.addAll(paginatedItems.get(currentPage));
             itemsAdapterVinedos.notifyDataSetChanged();
-            pbProgressMain.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, "No hay más viñedos disponibles.", Toast.LENGTH_SHORT).show();
+            //Log.d("Paginación", "No hay más páginas.");
         }
     }
-
 
     // Método para cargar la página anterior
     private void loadPreviousPage() {
@@ -207,7 +199,8 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
             items.addAll(paginatedItems.get(currentPage));
             itemsAdapterVinedos.notifyDataSetChanged();
         } else {
-            Log.d("Paginación", "Estás en la primera página, no hay página anterior para cargar.");
+            Toast.makeText(this, "Estás en la primera página.", Toast.LENGTH_SHORT).show();
+            //Log.d("Paginación", "Estás en la primera página.");
         }
     }
 
@@ -228,7 +221,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
 
     // Aquí realixzamos un método para la búsqueda por texto ingresado
     private void performSearch(String query) {
-        if(items == null)
+        if(allItems == null)
         {
             return;
         }
@@ -236,7 +229,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
         String lowerCaseQuery = query.toLowerCase();
         // Filtrar los lugares por nombre basado en el texto de búsqueda sin distinción de mayúsculas y minúsculas ni acentos
         ArrayList<ItemsDomainVinedos> filteredList = new ArrayList<>();
-        for (ItemsDomainVinedos item : items) {
+        for (ItemsDomainVinedos item : allItems) {
             if (item.getNombre_vinedos() != null && removeAccents(item.getNombre_vinedos()).toLowerCase().contains(removeAccents(lowerCaseQuery))) {
                 filteredList.add(item);
             }
