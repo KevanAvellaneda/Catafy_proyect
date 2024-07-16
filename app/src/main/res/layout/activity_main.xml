@@ -366,8 +366,20 @@
                         android:orientation="horizontal">
 
                         <Button
+                            android:id="@+id/mis_favoritos"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_background"
+                            android:backgroundTint="#853455"
+                            android:text="Mis favoritos"
+                            android:textColor="#FFFF" />
+
+                        <Button
                             android:id="@+id/cerrar_sesion"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:layout_weight="1"

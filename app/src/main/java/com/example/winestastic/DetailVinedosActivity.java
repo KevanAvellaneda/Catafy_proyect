@@ -204,17 +204,20 @@ public class DetailVinedosActivity extends AppCompatActivity {
 
     ////Todo lo relacionado a seleccionar un favorito
     @Override
+    //Creamos/inflamos el coraon desde el xml
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_heart, menu);
-        MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
+        // Estamos encontrando el ítem del menú del corazón
+        MenuItem favoriteItem = menu.findItem(R.id.corazon);
         toggleMenuIcon(favoriteItem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_favorite) {
+        // Verificamos si el ítem es el ícono del corazón
+        if (item.getItemId() == R.id.corazon) {
             toggleFavoriteState(item);
             return true;
         } else {
@@ -226,16 +229,16 @@ public class DetailVinedosActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        // Cambiar el estado de favorito
+        // Cambiampos el estado del corazon
         MenuVisible = !MenuVisible;
         String favoriteKey = KEY_FAVORITE + idVinedos;
         editor.putBoolean(favoriteKey, MenuVisible);
         editor.apply();
 
-        // Actualizar el ícono del menú
+        // Actualizamos el ícono del menú
         toggleMenuIcon(item);
 
-        // Obtener el nombre del viñedo
+        // Obtenemos el nombre del viñedo
         String nombreVinedo = titleText.getText().toString();
 
         if (MenuVisible) {
@@ -254,13 +257,13 @@ public class DetailVinedosActivity extends AppCompatActivity {
             // ID del usuario actual
             String userId = user.getUid();
 
-            // Crear un mapa con los datos del favorito
+            // Creaamos un mapa con los datos del favorito
             Map<String, Object> favorito = new HashMap<>();
             favorito.put("nombre_vinedos", nombreVinedo);
             favorito.put("idVinedos", idVinedos);
             favorito.put("id_usuario", userId);
 
-            // Añadir el documento a la colección "favoritos" en Firestore
+            // Añadimos el documento a la colección en Firestore
             mFirestore.collection("favoritos")
                     .add(favorito)
                     .addOnSuccessListener(documentReference -> {
@@ -305,7 +308,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
                     });
         }
     }
-
+    // Cambiamos el ícono del menú según el estado de corazon
     private void toggleMenuIcon(MenuItem item) {
         if (MenuVisible) {
             item.setIcon(R.drawable.corazon_rojo);
