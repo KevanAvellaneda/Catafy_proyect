@@ -122,7 +122,15 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
                 // Si el texto está vacío, mostrar todos los lugares nuevamente
                 if (newText.isEmpty()) {
                     showAllPlaces();
+                    nextPageButton.setVisibility(View.VISIBLE);
+                    if (currentPage == 0) {
+                        prevPageButton.setVisibility(View.GONE);
+                    } else {
+                        prevPageButton.setVisibility(View.VISIBLE);
+                    }
                 } else {
+                    nextPageButton.setVisibility(View.GONE);
+                    prevPageButton.setVisibility(View.GONE);
                     // Realizar la búsqueda en tiempo real mientras el usuario escribe
                     performSearch(newText);
                 }
@@ -269,6 +277,7 @@ public class VerTodosLosLugaresActivity extends AppCompatActivity {
 
     // Método para mostrar todos los lugares nuevamente
     private void showAllPlaces() {
+
         itemsAdapterVinedos.setFilter(items);
     }
 
