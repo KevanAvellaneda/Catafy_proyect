@@ -1,28 +1,17 @@
 package com.example.winestastic;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Tasting extends ImageSliderActivity {
+public class cardDemasEntradas extends ImageSliderActivity {
 
 
 
@@ -32,8 +21,7 @@ public class Tasting extends ImageSliderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // name of document that contains the images for slider
-        nameImageDocument = "cata";
-
+        nameImageDocument = "entradas";
         super.onCreate(savedInstanceState);
 
         //incrustar activity contact
@@ -43,14 +31,25 @@ public class Tasting extends ImageSliderActivity {
         View myLayout = inflater.inflate(R.layout.activity_tasting, nscrollv, false);
         nscrollv.removeAllViews();
         nscrollv.addView(myLayout);
-
     }
+
+    private boolean handleBackPressed = false;
+
+    @Override
+    public void onBackPressed() {
+        if (handleBackPressed) {
+            super.onBackPressed();  // Llama a super.onBackPressed() solo si handleBackPressed es true
+        } else {
+            // Establece el resultado como RESULT_OK y finaliza la actividad
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
 
     private void setRecyclerView() {
         VersionsAdapter versionsAdapter = new VersionsAdapter(versionsList);
         recyclerView.setAdapter(versionsAdapter);
     }
-
-
 
 }
