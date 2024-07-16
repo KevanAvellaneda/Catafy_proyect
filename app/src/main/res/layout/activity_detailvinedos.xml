@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/back_arrow_rounded"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.Toolbar>
 
@@ -387,6 +388,7 @@
                 android:layout_margin="20dp"
                 android:isIndicator="false"
                 android:progressTint="@color/yellow"
+                android:progressBackgroundTint="#27FFFFFF"
                 android:numStars="5"
                 android:stepSize="1"
                 android:rating="0" />
@@ -400,6 +402,8 @@
                 android:textStyle="italic"
                 android:inputType="textMultiLine"
                 android:minLines="3"
+                android:textColor="@color/white"
+                android:textColorHint="#80FFFFFF"
                 android:background="@drawable/edittext_bg"
                 android:padding="12dp"
                 android:layout_marginHorizontal="20dp"/>

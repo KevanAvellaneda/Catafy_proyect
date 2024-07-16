@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:background="#853455"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        app:theme="@style/AppBarOverlay2"
+        app:navigationIcon="@drawable/back_arrow_rounded"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.Toolbar>
 

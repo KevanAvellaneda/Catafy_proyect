@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -365,6 +366,47 @@
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
 
+                        <LinearLayout
+                            android:id="@+id/mis_favoritoss"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_weight="0.333"
+                            android:background="@drawable/grey_background"
+                            android:elevation="5dp"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="12dp"
+                                android:background="@drawable/oval_background">
+
+                                <ImageView
+                                    android:id="@+id/imageView144"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/favorito" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/textView633"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Mis Favoritos"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        <!--
                         <Button
                             android:id="@+id/mis_favoritos"
                             android:layout_width="0dp"
@@ -375,64 +417,106 @@
                             android:background="@drawable/btn_background"
                             android:backgroundTint="#853455"
                             android:text="Mis favoritos"
-                            android:textColor="#FFFF" />
+                            android:textColor="#FFFF" /> -->
 
-                        <Button
+                        <LinearLayout
                             android:id="@+id/cerrar_sesion"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="#853455"
-                            android:text="Cerrar sesión"
-                            android:textColor="#FFFF" />
+                            android:layout_margin="10dp"
+                            android:layout_weight="0.333"
+                            android:background="@drawable/grey_background"
+                            android:elevation="5dp"
+                            android:orientation="vertical">
 
-                    </LinearLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="12dp"
+                                android:background="@drawable/oval_background">
 
+                                <ImageView
+                                    android:id="@+id/imageView1444"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
 
-                </LinearLayout>
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/cerrarsesion" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/textView6333"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Cerrar sesíon"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-        </ScrollView>
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/calendar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigation"
-        android:background="#853455"
-        android:visibility="gone">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titulocalendar"
-                    android:layout_width="wrap_content"
+                <!--
+                <Button
+                    android:id="@+id/cerrar_sesion"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/bebas_regular"
-                    android:padding="30dp"
-                    android:text="CALENDARIO"
-                    android:textColor="#FFFFFF"
-                    android:textSize="35sp"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_background"
+                    android:backgroundTint="#853455"
+                    android:text="Cerrar sesión"
+                    android:textColor="#FFFF" /> -->
 
-                <!--AQUÍ ESTÁ EL CALENDARIOOOOOOOOOOOOOOOOOOOOOOOO -->
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+
+</RelativeLayout>
+
+
+<RelativeLayout
+android:id="@+id/calendar"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_above="@id/bottomNavigation"
+android:background="#853455"
+android:visibility="gone">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/titulocalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/bebas_regular"
+            android:padding="30dp"
+            android:text="CALENDARIO"
+            android:textColor="#FFFFFF"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--AQUÍ ESTÁ EL CALENDARIOOOOOOOOOOOOOOOOOOOOOOOO -->
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -498,7 +582,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <ProgressBar
             android:id="@+id/progress_main"
@@ -731,12 +816,12 @@
                     app:sliderIndicatorSelectedColor="#5A5A5A"
                     app:sliderIndicatorUnselectedColor="#FFF"
                     app:sliderScrollTimeInSec="1" />
-              
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="18dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="horizontal">
 
@@ -746,19 +831,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Viñedos"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         android:textColor="@color/text_color"
-                        />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/textviewvinoooos2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ver más"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         android:textColor="#DD4277"
-                        />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -775,8 +859,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="18dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="horizontal">
 
@@ -786,10 +870,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Eventos disponibles"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         android:textColor="@color/text_color"
-                        />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -798,9 +881,9 @@
                     android:id="@+id/viewEventos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="70dp"
                     android:clipToPadding="false"
-                    android:layout_marginTop="10dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp" />
 
