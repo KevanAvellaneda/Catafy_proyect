@@ -40,7 +40,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"  />
         <activity
-            android:name=".DetailCoteActivity"
+            android:name=".FavoritosActivity"
             android:exported="false"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -52,7 +52,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".DetailFreixenetActivity"
+            android:name=".DetailEventosActivity"
             android:exported="false"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"

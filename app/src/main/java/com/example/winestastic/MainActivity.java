@@ -53,6 +53,11 @@ import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +65,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -655,7 +662,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult
-                Intent intent = new Intent(MainActivity.this, DetailCoteActivity.class);
+                Intent intent = new Intent(MainActivity.this, FavoritosActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
@@ -844,26 +851,26 @@ public class MainActivity extends AppCompatActivity {
                                 user.sendEmailVerification();
                                 dialog.cancel();
 
-                                AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
-                                confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                logout();
-                                            }
-                                        });
-                                confirmationBuilder.create().show();
-                            }
-                        })
-                        .setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                logout();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
+                            AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
+                            confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            logout();
+                                        }
+                                    });
+                            confirmationBuilder.create().show();
+                        }
+                    })
+                    .setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            logout();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
+    }
 
     private void cargardatos(){
         mFirestore.collection("usuarios").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -917,41 +924,72 @@ public class MainActivity extends AppCompatActivity {
   
     private void iniciarImageSlider(){
 
-        String url1 = "https://hips.hearstapps.com/hmg-prod/images/types-of-wine-643846a6a95b4.jpg?crop=0.669xw:1.00xh;0.161xw,0&resize=640:*";
-        String url2 = "https://cdn.pixabay.com/photo/2019/12/14/19/18/sunset-4695549_640.jpg";
-        String url3 = "https://image.cdn2.seaart.ai/2023-10-11/19595309263893509/27aec692144d941c477b2fee1765c48d87663316_low.webp";
 
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
 
         // initializing the slider view.
         SliderView sliderView = findViewById(R.id.slider);
 
-        // adding the urls inside array list
-        sliderDataArrayList.add(new SliderData(url1));
-        sliderDataArrayList.add(new SliderData(url2));
-        sliderDataArrayList.add(new SliderData(url3));
+        mFirestore
+                .collection("static_info")
+                .document("main")
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                         @Override
+                                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                             if (error != null) {
+                                                 Log.w(TAG, "Listen failed.", error);
+                                                 return;
+                                             }
 
-        // passing this array list inside our adapter class.
-        SliderAdapter adapter = new SliderAdapter(this, sliderDataArrayList);
+                                             if (value != null && value.exists()) {
+                                                 Log.d(TAG, "Current data: " + value.getData());
+                                                 Map<String, Object> data = value.getData();
+                                                 if (data != null) {
 
-        // below method is used to set auto cycle direction in left to
-        // right direction you can change according to requirement.
-        sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+                                                     try {
 
-        // below method is used to
-        // setadapter to sliderview.
-        sliderView.setSliderAdapter(adapter);
+                                                         JSONArray sliderArray = new JSONArray((List) data.get("slider"));
 
-        // below method is use to set
-        // scroll time in seconds.
-        sliderView.setScrollTimeInSec(3);
 
-        // to set it scrollable automatically
-        // we use below method.
-        sliderView.setAutoCycle(true);
+                                                         for (int i = 0; i < sliderArray.length(); i++) {
+                                                             JSONObject sliderObject = sliderArray.getJSONObject(i);
+                                                             String image = sliderObject.optString("image");
+                                                             String destination = sliderObject.optString("destination");
 
-        // to start autocycle below method is used.
-        sliderView.startAutoCycle();
+                                                             if (destination != null)
+                                                                 sliderDataArrayList.add(new SliderData(image, destination));
+                                                             else
+                                                                 sliderDataArrayList.add(new SliderData(image));
+
+                                                         }
+
+                                                     } catch (JSONException e) {
+                                                         Log.e(TAG, "JSON parsing error: ", e);
+                                                     }
+                                                 }
+
+
+                                             } else {
+                                                 Log.d(TAG, "Current data: null");
+                                             }
+
+
+                                             SliderAdapter adapter = new SliderAdapter(getBaseContext(), sliderDataArrayList);
+
+                                             // cycle direction: left to right
+                                             sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+
+                                             sliderView.setSliderAdapter(adapter);
+
+                                             sliderView.setScrollTimeInSec(6);
+
+                                             sliderView.setAutoCycle(true);
+                                             sliderView.startAutoCycle();
+
+                                         }
+                                     }
+
+                );
     }
 
     //Manejar el resultado de la actividad (contact y FAQ)
