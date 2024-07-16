@@ -2,16 +2,23 @@ package com.example.winestastic;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.winestastic.databinding.ActivityScrollingBinding;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +37,10 @@ public class ImageSliderActivity extends AppCompatActivity {
     FirebaseFirestore mFirestore;
     String nameImageDocument = "main";
 
+    //  SCROLLING
+    protected String title = "scr9olling";
+    protected Class lastActivity = MainActivity.class;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,10 @@ public class ImageSliderActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
 
         iniciarImageSlider();
+
+
+        setupActionBar();
+//        configSwipe();
     }
 
 
@@ -108,5 +123,52 @@ public class ImageSliderActivity extends AppCompatActivity {
                                      }
 
                 );
+    }
+
+
+    private void configSwipe() {
+//        binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // Simulamos una actualización de 2 segundos
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        binding.swipe.setRefreshing(false);
+//                        // Refrescar la actividad actual
+//                        //recreate();
+//                    }
+//                }, 600);
+//            }
+//        });
+    }
+
+    public void onBackPressed(){
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, lastActivity);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public void setupActionBar(){
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
+        toolBarLayout.setTitle(title);
+
+        //toolBarLayout.setCollapsedTitleTextColor("");
+        //toolBarLayout.setCollapsedTitleTextColor(R.color.flexible_text_color);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 }
