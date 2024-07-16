@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class DetailCoteActivity extends AppCompatActivity {
+public class FavoritosActivity extends AppCompatActivity {
     private RecyclerView recyclerViewFavorites;
     private TextView emptyView;
     private GifImageView errorGif;
@@ -32,7 +31,7 @@ public class DetailCoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_cote);
+        setContentView(R.layout.activity_favoritos);
 
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         emptyView = findViewById(R.id.emptyView);
@@ -79,7 +78,7 @@ public class DetailCoteActivity extends AppCompatActivity {
                                 }
                                 updateUI();
                             }).addOnFailureListener(e -> {
-                                Toast.makeText(DetailCoteActivity.this, "Error al cargar datos del viñedo", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FavoritosActivity.this, "Error al cargar datos del viñedo", Toast.LENGTH_SHORT).show();
                                 updateUI();
                             });
                         }
@@ -87,7 +86,7 @@ public class DetailCoteActivity extends AppCompatActivity {
                             updateUI();
                         }
                     } else {
-                        Toast.makeText(DetailCoteActivity.this, "Error al obtener favoritos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FavoritosActivity.this, "Error al obtener favoritos", Toast.LENGTH_SHORT).show();
                         updateUI();
                     }
                 });

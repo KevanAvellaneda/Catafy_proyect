@@ -661,7 +661,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult
-                Intent intent = new Intent(MainActivity.this, DetailCoteActivity.class);
+                Intent intent = new Intent(MainActivity.this, FavoritosActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
