@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     private MeowBottomNavigation bottomNavigation;
     TextView txt_Nombre,txt_correo,txt_telefono,txt_Nombre2,txt_correo2;
-    Button cerrar, fav;
     RelativeLayout  menu, calendar, home, notifications, map;
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -91,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     LinearLayout cardviewchatbot;
+    LinearLayout misfavvv;
+    LinearLayout cerrarses;
     ConstraintLayout card1;
     ConstraintLayout card2;
     ConstraintLayout card3;
@@ -292,8 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        cerrar = findViewById(R.id.cerrar_sesion);
-        fav = findViewById(R.id.mis_favoritos);
+        cerrarses = findViewById(R.id.cerrar_sesion);
         menu = findViewById(R.id.menu);
         calendar = findViewById(R.id.calendar);
         home = findViewById(R.id.home);
@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         cardviewchatbot = findViewById(R.id.cardviewchat);
+        misfavvv = findViewById(R.id.mis_favoritoss);
         bottomNavigation.show(3,true);
         //-------------Servicios Google----------------
 
@@ -643,14 +644,14 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
 
-        cerrar.setOnClickListener(new View.OnClickListener() {
+        cerrarses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
             }
         });
 
-        fav.setOnClickListener(new View.OnClickListener() {
+        misfavvv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult

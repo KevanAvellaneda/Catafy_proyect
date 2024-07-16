@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/wine"
+    android:background="@drawable/background_goat"
     tools:context=".Reviews">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/back_arrow_rounded"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"/>
@@ -77,6 +78,7 @@
                     android:isIndicator="true"
                     android:numStars="5"
                     android:progressTint="@color/yellow"
+                    android:progressBackgroundTint="#27FFFFFF"
                     android:rating="0"
                     android:scaleX="0.6"
                     android:scaleY="0.6"

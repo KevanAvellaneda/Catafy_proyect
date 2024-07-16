@@ -181,6 +181,7 @@ public class DetailVinedosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
     private void configSwipe() {
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
