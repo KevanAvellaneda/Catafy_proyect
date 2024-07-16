@@ -366,8 +366,20 @@
                         android:orientation="horizontal">
 
                         <Button
+                            android:id="@+id/mis_favoritos"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_background"
+                            android:backgroundTint="#853455"
+                            android:text="Mis favoritos"
+                            android:textColor="#FFFF" />
+
+                        <Button
                             android:id="@+id/cerrar_sesion"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:layout_weight="1"
@@ -751,13 +763,14 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/viewEventos"
+                    android:id="@+id/viewViñedos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipToPadding="false"
                     android:layout_marginTop="10dp"
+                    android:clipToPadding="false"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -780,13 +793,14 @@
 
                 </LinearLayout>
 
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/viewViñedos"
+                    android:id="@+id/viewEventos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="70dp"
-                    android:layout_marginTop="10dp"
                     android:clipToPadding="false"
+                    android:layout_marginTop="10dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp" />
 

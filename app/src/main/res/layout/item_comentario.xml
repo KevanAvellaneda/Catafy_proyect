@@ -9,6 +9,7 @@
         android:id="@+id/nombreUsuarioTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         android:text="Nombre De Usuario"/>
@@ -38,6 +39,7 @@
             android:id="@+id/fechaComentario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:layout_marginStart="20dp"
             android:text="00/00/0000"/>
@@ -48,6 +50,7 @@
         android:id="@+id/comentarioTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:justificationMode="inter_word"
         android:textSize="14sp"/>
 

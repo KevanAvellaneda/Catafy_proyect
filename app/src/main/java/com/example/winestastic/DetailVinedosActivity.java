@@ -32,11 +32,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,7 +48,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DetailVinedosActivity extends AppCompatActivity {
     private TextView titleText, addressText, textDescription, horarioTextView;
@@ -76,7 +82,9 @@ public class DetailVinedosActivity extends AppCompatActivity {
 
         // Recuperar el estado del favorito desde SharedPreferences
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        MenuVisible = preferences.getBoolean(KEY_FAVORITE, false);
+        idVinedos = obteneridVinedos();
+        String favoriteKey = KEY_FAVORITE + idVinedos;
+        MenuVisible = preferences.getBoolean(favoriteKey, false);
 
         ubicacionD2 = findViewById(R.id.ubicacionD);
 
@@ -190,24 +198,27 @@ public class DetailVinedosActivity extends AppCompatActivity {
                 }, 600);
             }
         });
+        // Configurar el menú de favoritos
+        invalidateOptionsMenu();
     }
 
     ////Todo lo relacionado a seleccionar un favorito
     @Override
+    //Creamos/inflamos el coraon desde el xml
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_heart, menu);
-        // Obtenemos el ítem del menú de favorito para poder cambiar su ícono
-        MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
-        toggleMenuIcon(favoriteItem); // estado actual
-
+        // Estamos encontrando el ítem del menú del corazón
+        MenuItem favoriteItem = menu.findItem(R.id.corazon);
+        toggleMenuIcon(favoriteItem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_favorite) {
-            toggleFavoriteState(item); // Cambiamos el estado de favorito al hacer seleccionarlo
+        // Verificamos si el ítem es el ícono del corazón
+        if (item.getItemId() == R.id.corazon) {
+            toggleFavoriteState(item);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -218,21 +229,86 @@ public class DetailVinedosActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        // Cambiamos el estado de favorito
+        // Cambiampos el estado del corazon
         MenuVisible = !MenuVisible;
-        editor.putBoolean(KEY_FAVORITE, MenuVisible);
+        String favoriteKey = KEY_FAVORITE + idVinedos;
+        editor.putBoolean(favoriteKey, MenuVisible);
         editor.apply();
 
         // Actualizamos el ícono del menú
         toggleMenuIcon(item);
 
+        // Obtenemos el nombre del viñedo
+        String nombreVinedo = titleText.getText().toString();
+
         if (MenuVisible) {
-            Toast.makeText(this, "Este viñedo ha sido agregado a tus favoritos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, nombreVinedo + " ha sido agregado a tus favoritos", Toast.LENGTH_SHORT).show();
+            // Guardar en Firestore
+            guardarFavoritoEnFirestore(nombreVinedo, idVinedos);
         } else {
-            Toast.makeText(this, "Este viñedo ha sido eliminado de tus favoritos", Toast.LENGTH_SHORT).show();
+            eliminarFavoritoEnFirestore(nombreVinedo, idVinedos);
         }
     }
 
+    private void guardarFavoritoEnFirestore(String nombreVinedo, String idVinedos) {
+        // Obtenemos el usuario actual
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // ID del usuario actual
+            String userId = user.getUid();
+
+            // Creaamos un mapa con los datos del favorito
+            Map<String, Object> favorito = new HashMap<>();
+            favorito.put("nombre_vinedos", nombreVinedo);
+            favorito.put("idVinedos", idVinedos);
+            favorito.put("id_usuario", userId);
+
+            // Añadimos el documento a la colección en Firestore
+            mFirestore.collection("favoritos")
+                    .add(favorito)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("DetailVinedosActivity", "Favorito guardado en Firestore con ID: " + documentReference.getId());
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("DetailVinedosActivity", "Error al guardar favorito en Firestore", e);
+                    });
+        }
+        }
+
+    private void eliminarFavoritoEnFirestore(String nombreVinedo, String idVinedos) {
+        // Obtenemos el usuario actual
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // ID del usuario actual
+            String userId = user.getUid();
+
+            // Consultamos el documento de favorito para obtener su ID en Firestore
+            mFirestore.collection("favoritos")
+                    .whereEqualTo("idVinedos", idVinedos)
+                    .whereEqualTo("id_usuario", userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Eliminamos el documento encontrado
+                                mFirestore.collection("favoritos")
+                                        .document(document.getId())
+                                        .delete()
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(this, nombreVinedo + " ha sido eliminado de tus favoritos", Toast.LENGTH_SHORT).show();
+                                            Log.d("DetailVinedosActivity", "Favorito eliminado de Firestore");
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e("DetailVinedosActivity", "Error al eliminar favorito de Firestore", e);
+                                        });
+                            }
+                        } else {
+                            Log.e("DetailVinedosActivity", "Error al buscar favorito en Firestore para eliminar", task.getException());
+                        }
+                    });
+        }
+    }
+    // Cambiamos el ícono del menú según el estado de corazon
     private void toggleMenuIcon(MenuItem item) {
         if (MenuVisible) {
             item.setIcon(R.drawable.corazon_rojo);

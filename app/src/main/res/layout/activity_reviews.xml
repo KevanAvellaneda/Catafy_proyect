@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/wine"
     tools:context=".Reviews">
 
     <androidx.appcompat.widget.Toolbar
@@ -75,7 +76,7 @@
                     android:layout_gravity="center_horizontal"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:progressTint="@color/white"
+                    android:progressTint="@color/yellow"
                     android:rating="0"
                     android:scaleX="0.6"
                     android:scaleY="0.6"

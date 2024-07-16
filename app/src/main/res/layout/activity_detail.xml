@@ -238,7 +238,7 @@
                     android:textStyle="bold|italic"/>
 
 
-                <Button
+                <!--<Button
                     android:id="@+id/botonRestar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -263,7 +263,7 @@
                     android:text="+"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"/>-->
             </LinearLayout>
 
             <!-- Separador -->
@@ -327,6 +327,7 @@
                 android:layout_height="wrap_content"
                 android:text="No hay ninguna opinión todavía sobre este evento. Sé el primero en escribir una."
                 android:textStyle="italic"
+                android:textColor="@android:color/white"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginBottom="20dp"

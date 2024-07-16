@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MeowBottomNavigation bottomNavigation;
-    TextView txt_Nombre, txt_correo, txt_telefono, txt_Nombre2, txt_correo2;
-    Button cerrar;
-    RelativeLayout menu, calendar, home, notifications, map;
+    TextView txt_Nombre,txt_correo,txt_telefono,txt_Nombre2,txt_correo2;
+    Button cerrar, fav;
+    RelativeLayout  menu, calendar, home, notifications, map;
     FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseFirestore mFirestore;
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
 
+
         recyclerView = findViewById(R.id.viewEventos);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         pbProgressMain.setVisibility(View.VISIBLE);
-                        if (error != null) {
+                        if(error != null){
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
@@ -224,12 +225,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         items = new ArrayList<>();
-        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this);
+        itemsAdapterVinedos = new ItemsAdapterVinedos(items, this, ItemsAdapterVinedos.LAYOUT_DEFAULT);
         recyclerView.setAdapter(itemsAdapterVinedos);
         mFirestore.collection("viñedos").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
+                if(error != null){
                     Log.e("Firestore error", error.getMessage());
                     return;
                 }
@@ -255,11 +256,11 @@ public class MainActivity extends AppCompatActivity {
 
                             // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
                             if (notificationDate.after(todayStartTime)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerNuevas, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerNuevas, R.layout.layout_notification);
                             } else if (notificationDate.after(date7DaysAgo)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos7Dias, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos7Dias, R.layout.layout_notification);
                             } else if (notificationDate.after(date30DaysAgo)) {
-                                addNotification(dc.getDocument().getString("nombre_vinedos") + " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos30Dias, R.layout.layout_notification);
+                                addNotification(dc.getDocument().getString("nombre_vinedos")+ " está disponible, ¡Ven a Conocerlo!", notificationContainerUltimos30Dias, R.layout.layout_notification);
                             }
                             break;
 
@@ -299,10 +300,11 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottomNavigation);
         cerrar = findViewById(R.id.cerrar_sesion);
+        fav = findViewById(R.id.mis_favoritos);
         menu = findViewById(R.id.menu);
         calendar = findViewById(R.id.calendar);
         home = findViewById(R.id.home);
-        notifications = findViewById(R.id.notifications);
+        notifications =findViewById(R.id.notifications);
         map = findViewById(R.id.map);
         txt_Nombre = findViewById(R.id.Mostrarnombre);
         txt_Nombre2 = findViewById(R.id.nombre2);
@@ -331,6 +333,8 @@ public class MainActivity extends AppCompatActivity {
         card3 = findViewById(R.id.cardInicio3);
         card4 = findViewById(R.id.cardInicio4);
         textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
+
+
 
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menuanvorgesa));
@@ -407,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()) {
+                switch (model.getId()){
 
                     case 1:
 
@@ -429,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()) {
+                switch (model.getId()){
 
                     case 2:
 
@@ -451,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()) {
+                switch (model.getId()){
 
                     case 3:
 
@@ -474,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()) {
+                switch (model.getId()){
 
                     case 4:
 
@@ -496,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 // YOUR CODES
 
-                switch (model.getId()) {
+                switch (model.getId()){
 
                     case 5:
 
@@ -514,6 +518,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+
 
 
         ////CALENDARIO//////
@@ -615,13 +620,49 @@ public class MainActivity extends AppCompatActivity {
 
         ////FIN CALENDARIO//////
 
+
+        // Lee el extra del Intent para ver si se debe mostrar un ID específico, es para linkear al mapa
+
+        int selectedItemId = getIntent().getIntExtra("selectedItemId", -1);
+        String markerTitle = null;
+        if (selectedItemId != -1) {
+            // Extraer datos del markerTitle
+            markerTitle = getIntent().getStringExtra("markerTitle");
+
+            // Se cambió el estado debido al extra del Intent
+            bottomNavigation.show(selectedItemId, true);
+
+            // Limpiar el extra del Intent
+            getIntent().removeExtra("selectedItemId");
+            getIntent().removeExtra("markerTitle");
+        } else {
+            // Estado predeterminado
+            bottomNavigation.show(3, true);
+        }
+
+
         Fragment fragment = new Map_Fragment();
+
+        // Bundle para mandar argumentos al Map_Fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("markerTitle", markerTitle);
+        fragment.setArguments(bundle);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
 
         cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
+            }
+        });
+
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
+                Intent intent = new Intent(MainActivity.this, DetailCoteActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT);
             }
         });
 
@@ -665,7 +706,7 @@ public class MainActivity extends AppCompatActivity {
         card4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                Intent intent = new Intent(MainActivity.this, VerTodosLosLugaresActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -675,23 +716,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult
-                Intent intent = new Intent(MainActivity.this, cardDemasEntradas.class);
+                Intent intent = new Intent(MainActivity.this, VerTodosLosLugaresActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_CONTACT2);
             }
         });
-
+      
         iniciarImageSlider();
-
+      
     }
 
     // METODO PARA PEDIR UBICACION AL USUARIO --------------------------------------
-    private void getLocalizacionn() {
+    private void getLocalizacionn(){
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        if (permiso == PackageManager.PERMISSION_DENIED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if(permiso == PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
             }
         }
     }
@@ -734,13 +775,12 @@ public class MainActivity extends AppCompatActivity {
             if (tieneEvento) {
                 // Cambiamos el color de fondo de la celda si tiene un evento
                 cellView.setBackgroundColor(Color.rgb(250, 143, 177)); // Ponemos de color la celda
-            } else if (isToday(date)) {
+            } else if (isToday(date)){
                 cellView.setBackgroundColor(Color.rgb(178, 218, 250)); // Ponemos de color la celda
             } else {
                 cellView.setBackgroundColor(getResources().getColor(R.color.white));
             }
         }
-
         // Checamos si hay un evento asociado a una fecha
         private boolean tieneEventoEnFecha(Date date) {
             // Creamos un objeto Calendar y establecemos su tiempo para que coincida con la fecha dada
@@ -753,7 +793,7 @@ public class MainActivity extends AppCompatActivity {
                     Date fecha = document.getDate("fecha_eventoo");
                     if (fecha != null) {
                         //Estamos verificando si la fecha del evento está en el día actual o en el futuro
-                        if (!fecha.before(today)) {
+                        if (!fecha.before(today) ) {
                             // Convertimos la fecha del evento a un objeto Calendar
                             Calendar cal2 = Calendar.getInstance();
                             cal2.setTime(fecha);
@@ -775,7 +815,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Verifica si es la fecha de hoy
-        private boolean isToday(Date date) {
+        private boolean isToday(Date date){
             Calendar cal1 = Calendar.getInstance();
             Calendar cal2 = Calendar.getInstance();
             cal1.setTime(date);
@@ -786,12 +826,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onStart() {
+    protected void onStart(){
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
+        if(user == null){
             irLogin();
-        } else {
+        }else{
             verifyUser();
             cargardatos();
         }
@@ -799,16 +839,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void verifyUser() {
         // Verifica si un usuario ha autenticado su correo
-        user.reload();
-        if (!user.isEmailVerified()) {
-            // Ubicación desactivada, mostrar un diálogo para permitir al usuario activarla
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Para continuar con la aplicación es necesario verificar tu correo.\n\nPor favor, revisa tu correo incluso tu spam.")
-                    .setCancelable(false)
-                    .setNegativeButton("Enviar correo", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            user.sendEmailVerification();
-                            dialog.cancel();
+            user.reload();
+            if(!user.isEmailVerified()){
+                // Ubicación desactivada, mostrar un diálogo para permitir al usuario activarla
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Para continuar con la aplicación es necesario verificar tu correo.\n\nPor favor, revisa tu correo incluso tu spam.")
+                        .setCancelable(false)
+                        .setNegativeButton("Enviar correo", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                user.sendEmailVerification();
+                                dialog.cancel();
 
                             AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(MainActivity.this);
                             confirmationBuilder.setMessage("Busca en tu correo electrónico el mensaje de verificación, da clic al enlace y vuelve a iniciar sesión.")
@@ -831,13 +871,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void cargardatos() {
+    private void cargardatos(){
         mFirestore.collection("usuarios").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
+                if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                    if(document.exists()){
                         String nombre = document.getString("nombre");
                         String correo = document.getString("correo");
                         String telefono = document.getString("telefono");
@@ -855,33 +895,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void logout() {
+    private void logout(){
         mAuth.signOut();
 
         mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
+                if(task.isSuccessful()){
                     irLogin();
-                } else {
+                }else {
                     mostrarMensaje("No se logro cerrar sesion");
                 }
             }
         });
     }
 
-    private void irLogin() {
+    private void irLogin(){
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void mostrarMensaje(String mensaje) {
+    private void mostrarMensaje(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
-
-    private void iniciarImageSlider() {
+  
+    private void iniciarImageSlider(){
 
 
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
@@ -988,7 +1028,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -1003,7 +1042,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce = false;
+                doubleBackToExitPressedOnce=false;
             }
         }, 2000);
     }
