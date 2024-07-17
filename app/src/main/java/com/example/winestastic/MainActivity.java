@@ -57,7 +57,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout cardviewchatbot;
     LinearLayout misfavvv;
+    LinearLayout miseventos;
     LinearLayout cerrarses;
     ConstraintLayout card1;
     ConstraintLayout card2;
@@ -318,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardviewchatbot = findViewById(R.id.cardviewchat);
         misfavvv = findViewById(R.id.mis_favoritoss);
+        miseventos = findViewById(R.id.mis_eventos);
         bottomNavigation.show(3,true);
         //-------------Servicios Google----------------
 
@@ -660,6 +661,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        miseventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
+                Intent intent = new Intent(MainActivity.this, misEventos.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT);
+            }
+        });
+
         misfavvv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -668,7 +678,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CONTACT3);
             }
         });
-
 
         cardviewchatbot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -691,7 +700,7 @@ public class MainActivity extends AppCompatActivity {
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cardVinedos.class);
+                Intent intent = new Intent(MainActivity.this, misEventos.class);
                 startActivity(intent);
                 finish();
             }
