@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CONTACT2 = 102;
 
+    private static final int REQUEST_CODE_CONTACT3 = 103;
+
     private final Date today = new Date(); //fecha actual
 
     private final Calendar nextYear = Calendar.getInstance();
@@ -663,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Iniciar la actividad "contact" con startActivityForResult
                 Intent intent = new Intent(MainActivity.this, FavoritosActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_CONTACT);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT3);
             }
         });
 
@@ -1016,6 +1018,17 @@ public class MainActivity extends AppCompatActivity {
                     menu.setVisibility(View.GONE);
                     calendar.setVisibility(View.GONE);
                     home.setVisibility(View.VISIBLE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                case REQUEST_CODE_CONTACT3:
+                    // Establecer el ícono del menú como activo en el Meow Bottom Navigation
+                    bottomNavigation.show(1, true);
+                    // Mostrar la vista del menú
+                    menu.setVisibility(View.VISIBLE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.GONE);
                     notifications.setVisibility(View.GONE);
                     map.setVisibility(View.GONE);
                     break;
