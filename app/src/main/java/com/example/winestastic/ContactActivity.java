@@ -49,7 +49,7 @@ public class ContactActivity extends ScrollingActivity {
 
         // Change Icon of top_background
         toolbar_icon = findViewById(R.id.toolbar_icon);
-        //toolbar_icon.setImageResource(R.drawable.vinoxd);
+        toolbar_icon.setImageResource(R.mipmap.ic_launcher_foreground);
         toolbar_icon.setScaleType(ImageView.ScaleType.FIT_XY);
 
 

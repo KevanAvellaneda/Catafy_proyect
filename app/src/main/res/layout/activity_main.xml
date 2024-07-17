@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -460,7 +459,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                <!--
+                        <!--
                 <Button
                     android:id="@+id/cerrar_sesion"
                     android:layout_width="0dp"
@@ -472,17 +471,17 @@
                     android:text="Cerrar sesión"
                     android:textColor="#FFFF" /> -->
 
-            </LinearLayout>
+                    </LinearLayout>
 
 
-        </LinearLayout>
+                </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+        </ScrollView>
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 
 <RelativeLayout
@@ -582,8 +581,7 @@ android:visibility="gone">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
-        android:visibility="visible"
-        tools:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progress_main"
