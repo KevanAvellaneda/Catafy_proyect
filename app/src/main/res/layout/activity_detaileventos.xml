@@ -43,8 +43,7 @@
             android:layout_height="400dp"
             android:src="@drawable/laredonda"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view2" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <!--<View
             android:id="@+id/view2"
@@ -174,7 +173,7 @@
                 android:id="@+id/textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero sit amet est mollis, ut maximus arcu ultrices. Sed nec libero nunc. Duis auctor massa eu ante rhoncus, sed ultricies tortor aliquam."
+                android:text="CARGANDO...."
                 android:textStyle="italic"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"

@@ -59,6 +59,7 @@ public class DetailEventosActivity extends AppCompatActivity {
     //////
 
     LinearLayout ubicacionD2;
+    Button botonReservar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class DetailEventosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detaileventos);
 
         ubicacionD2 = findViewById(R.id.ubicacionD);
+        botonReservar2 = findViewById(R.id.botonReservar);
 
         // Inicializamos Firestore
         mFirestore = FirebaseFirestore.getInstance();
@@ -142,6 +144,8 @@ public class DetailEventosActivity extends AppCompatActivity {
             }
         });
 
+
+
         ubicacionD2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +158,19 @@ public class DetailEventosActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        botonReservar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailEventosActivity.this, reservation_event.class);
+                intent.putExtra("idEvento", idEvento); // Aquí pasamos el idEvento
+                intent.putExtra("titleTxt", titleText.getText());
+                startActivity(intent);
+                //finish();
+            }
+        });
+
+
 
         //Mostrar el botón para regresar y eliminar title
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -180,25 +197,6 @@ public class DetailEventosActivity extends AppCompatActivity {
         // Configurar el menú de favoritos
         invalidateOptionsMenu();
     }
-
-    /* Cargar las imagenes en el recyclerview desde firestore
-    private void cargarImagenesDesdeFirestore(String lugarId) {
-        mFirestore.collection("imagesall")
-                .whereEqualTo("idEvento", lugarId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Obtener la URL de la imagen de cada documento y agregarla a la lista
-                            String imageUrl = document.getString("url");
-                            items.add(imageUrl);
-                        }
-                        // Notificar al adaptador sobre el cambio en los datos
-                        itemsAdapterHistoria.notifyDataSetChanged();
-                    } else {
-                    }
-                });
-    }*/
 
     // Método para obtener y mostrar las opiniones que hay
     private void obtenerYMostrarOpiniones() {
