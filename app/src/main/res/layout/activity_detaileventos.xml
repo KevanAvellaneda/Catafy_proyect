@@ -140,8 +140,8 @@
 
                 <ImageView
                     android:id="@+id/imgUbicacion"
-                    android:layout_width="25dp"
-                    android:layout_height="36dp"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:src="@drawable/marcador" />
 
@@ -156,35 +156,6 @@
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>
-
-            <!-- Horario del Vinedo -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="16dp">
-
-                <ImageView
-                    android:id="@+id/imgHorario"
-                    android:layout_width="25dp"
-                    android:layout_height="36dp"
-                    android:contentDescription="Icono de Horario"
-                    android:src="@drawable/vinoooo"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="16dp"/>
-
-                <TextView
-                    android:id="@+id/horarioTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Cargando..."
-                    android:textColor="@android:color/white"
-                    android:layout_marginEnd="30dp"
-                    android:textSize="15sp"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-
 
             <!-- Descripción del Vinedo -->
             <TextView
@@ -209,6 +180,39 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"/>
+
+            <!-- Horario del Vinedo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:layout_marginTop="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horarios disponibles"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="italic|bold"
+                    android:gravity="center"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:id="@+id/horariosContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="20dp">
+                </LinearLayout>
+            </LinearLayout>
+
 
 
             <!-- Reserva -->

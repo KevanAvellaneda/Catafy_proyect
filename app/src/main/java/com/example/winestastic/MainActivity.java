@@ -39,6 +39,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -194,21 +195,25 @@ public class MainActivity extends AppCompatActivity {
                         }
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
-                                Date notificationDate = dc.getDocument().getTimestamp("fecha").toDate();
-                                // Comparar solo el año, mes y día de la fecha del evento
-                                Calendar eventCalendar = Calendar.getInstance();
-                                eventCalendar.setTime(notificationDate);
-                                eventCalendar.set(Calendar.HOUR_OF_DAY, 0);
-                                eventCalendar.set(Calendar.MINUTE, 0);
-                                eventCalendar.set(Calendar.SECOND, 0);
-                                eventCalendar.set(Calendar.MILLISECOND, 0);
-                                Date eventDateOnly = eventCalendar.getTime();
-
                                 ItemsDomainEventos evento = dc.getDocument().toObject(ItemsDomainEventos.class);
-                                items2.add(evento);
-                                // Obtenemos la fecha del evento como un string que se pueda leer
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a", Locale.getDefault());
-                                String fechaEvento = dateFormat.format(evento.getFecha_eventoo().toDate());
+
+                                // Obtener la lista de fechas del evento
+                                List<Timestamp> fechas = (List<Timestamp>) dc.getDocument().get("fecha_eventos");
+                                if (fechas != null) {
+                                    for (Timestamp timestamp : fechas) {
+                                        Date notificationDate = timestamp.toDate();
+                                        // Comparar solo el año, mes y día de la fecha del evento
+                                        Calendar eventCalendar = Calendar.getInstance();
+                                        eventCalendar.setTime(notificationDate);
+                                        eventCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                                        eventCalendar.set(Calendar.MINUTE, 0);
+                                        eventCalendar.set(Calendar.SECOND, 0);
+                                        eventCalendar.set(Calendar.MILLISECOND, 0);
+                                        Date eventDateOnly = eventCalendar.getTime();
+
+                                        // Obtenemos la fecha del evento como un string que se pueda leer
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a", Locale.getDefault());
+                                        String fechaEvento = dateFormat.format(notificationDate);
 
                                 // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
                                 if (eventDateOnly.equals(todayStartTime) || eventDateOnly.after(todayStartTime)) {
@@ -218,6 +223,9 @@ public class MainActivity extends AppCompatActivity {
                                 } else if (eventDateOnly.after(date30DaysAgo)) {
                                     addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos30Dias, R.layout.layout_notificatione);
                                 }
+                            }
+                        }
+                                items2.add(evento);
                             }
                         }
                         itemsAdapterEventos.notifyDataSetChanged();
@@ -548,17 +556,21 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         // Obtenemos la información del evento (nombre y fecha)
                         String nombreEvento = document.getString("nombre_evento");
-                        Date fecha = document.getDate("fecha_eventoo");
+                        List<Timestamp> fecha = (List<Timestamp>) document.get("fecha_eventos");
+                        //Date fecha = document.getDate("fecha_eventoo");
 
                         // Verificamos si la fecha del evento es nula
 
                         if (fecha != null) {
-                            //Estamos verificando si la fecha del evento está en el día actual o en el futuro
-                            if (!fecha.before(today)) {
-                                // Marcamos la fecha del evento en el calendario
-                                Calendar cal = Calendar.getInstance();
-                                cal.setTime(fecha);
-                                datePicker.selectDate(cal.getTime());
+                            for (Timestamp timestamp : fecha) {
+                                Date fechas = timestamp.toDate();
+                                // Estamos verificando si la fecha del evento está en el día actual o en el futuro
+                                if (!fechas.before(today)) {
+                                    // Marcamos la fecha del evento en el calendario
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.setTime(fechas);
+                                    datePicker.selectDate(cal.getTime());
+                                }
                             }
                         }
                     }
@@ -578,11 +590,18 @@ public class MainActivity extends AppCompatActivity {
                 if (eventosTask != null && eventosTask.isSuccessful()) {
                     for (QueryDocumentSnapshot document : eventosTask.getResult()) {
                         String nombreEvento = document.getString("nombre_evento");
-                        Date fecha = document.getDate("fecha_eventoo");
+                        List<Timestamp> fecha = (List<Timestamp>) document.get("fecha_eventos");
+                        //Date fecha = document.getDate("fecha_eventoo");
 
-                        // Verificamos si la fecha del evento coincide con la fecha seleccionada
-                        if (fecha != null && mismoDia(fecha, date)) {
-                            informacionEventos.add(nombreEvento);
+                        // Verificamos si la lista de fechas no es nula
+                        if (fecha != null) {
+                            for (Timestamp timestamp : fecha) {
+                                Date fechas = timestamp.toDate();
+                                // Verificamos si la fecha del evento coincide con la fecha seleccionada
+                                if (mismoDia(fechas, date)) {
+                                    informacionEventos.add(nombreEvento);
+                                }
+                            }
                         }
                     }
                 }
@@ -804,13 +823,16 @@ public class MainActivity extends AppCompatActivity {
             if (eventosTask != null && eventosTask.isSuccessful()) {
                 // Iteramoa sobre los resultados de Firestore
                 for (QueryDocumentSnapshot document : eventosTask.getResult()) {
-                    Date fecha = document.getDate("fecha_eventoo");
+                    List<Timestamp> fecha = (List<Timestamp>) document.get("fecha_eventos");
+                    //Date fecha = document.getDate("fecha_eventoo");
                     if (fecha != null) {
+                        for (Timestamp timestamp : fecha) {
+                            Date fechas = timestamp.toDate();
                         //Estamos verificando si la fecha del evento está en el día actual o en el futuro
-                        if (!fecha.before(today) ) {
+                        if (!fechas.before(today) ) {
                             // Convertimos la fecha del evento a un objeto Calendar
                             Calendar cal2 = Calendar.getInstance();
-                            cal2.setTime(fecha);
+                            cal2.setTime(fechas);
 
                             // Comparamos los campos de año, mes y día de cal1 (fecha de la celda del calendario) con los campos correspondientes de cal2 (fecha del evento)
                             // Si son iguales, significa que hay un evento asociado a la fecha dada
@@ -819,6 +841,7 @@ public class MainActivity extends AppCompatActivity {
                                     cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
                                 // Si hay un evento en la fecha, devuelve verdadero
                                 return true;
+                                }
                             }
                         }
                     }

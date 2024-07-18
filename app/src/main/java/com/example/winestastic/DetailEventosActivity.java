@@ -81,10 +81,10 @@ public class DetailEventosActivity extends AppCompatActivity {
         addressText = findViewById(R.id.addressText);
         ImageView vinedoImg = findViewById(R.id.vinedoImg);
 
-        horarioTextView = findViewById(R.id.horarioTextView);
+        /*horarioTextView = findViewById(R.id.horarioTextView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             textDescription.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-        }
+        }*/
 
         recyclerViewComentarios = findViewById(R.id.recyclerViewComentarios);
         recyclerViewComentarios.setLayoutManager(new LinearLayoutManager(this));
@@ -391,20 +391,39 @@ public class DetailEventosActivity extends AppCompatActivity {
                             String nombre = document.getString("nombre_evento");
                             String info = document.getString("descripcion");
                             String ubicacion = document.getString("ubicacion_evento");
-                            Timestamp horario = document.getTimestamp("fecha_eventoo");
+                            List<Timestamp> horario = (List<Timestamp>) document.get("fecha_eventos");
                             String imageUrl = document.getString("url");
 
-                            // Convertimos el Timestamp a un String con un formato de fecha específico para los Eventos
-                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
-                            String horarioStr = sdf.format(horario.toDate());
-                            horarioTextView.setText(horarioStr);
                             // Configuramos los elementos de la interfaz de usuario con la información obtenida
                             Log.d("MyExceptionHandler -> nombre", nombre);
                             Log.d("MyExceptionHandler -> name", name);
                             titleText.setText(nombre);
                             textDescription.setText(info);
                             addressText.setText(ubicacion);
-                            //horarioTextView.setText(horario);
+
+                            // Contenedor para los horarios
+                            LinearLayout horariosContainer = findViewById(R.id.horariosContainer);
+
+                            // Convertimos el array de Timestamps a un String con un formato de fecha específico para los Eventos
+                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
+
+                            for (Timestamp hora : horario) {
+                                String horarioFormatted = sdf.format(hora.toDate());
+
+                                TextView horarioTextView = new TextView(DetailEventosActivity.this);
+                                horarioTextView.setText(horarioFormatted);
+                                horarioTextView.setTextColor(getResources().getColor(android.R.color.white));
+                                horarioTextView.setTextSize(15);
+                                horarioTextView.setBackground(getResources().getDrawable(R.drawable.horario_background)); // Cambia 'horario_background' por tu drawable
+
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                                params.setMargins(0, 10, 0, 20); // Margen inferior para separar cada horario
+                                horarioTextView.setLayoutParams(params);
+
+                                horariosContainer.addView(horarioTextView);
+                            }
 
                             // Cargar la imagen usando Glide o cualquier otra biblioteca de carga de imágenes
                             if (imageUrl != null && !imageUrl.isEmpty()) {
@@ -437,6 +456,7 @@ public class DetailEventosActivity extends AppCompatActivity {
             }
         }
     }
+
 
 
     // Método para verificar si la caja de comentarios está vacía
