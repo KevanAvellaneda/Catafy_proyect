@@ -44,8 +44,7 @@
                     android:layout_height="400dp"
                     android:src="@drawable/laredonda"
                     android:scaleType="centerCrop"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/view2" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!--<View
                     android:id="@+id/view2"
