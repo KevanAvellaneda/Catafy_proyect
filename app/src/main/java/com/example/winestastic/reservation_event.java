@@ -42,6 +42,10 @@ public class reservation_event extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private String idEvento;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Handler swipeHandler = new Handler(Looper.getMainLooper());
+    private Runnable swipeRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,20 +89,21 @@ public class reservation_event extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
     private void configSwipe() {
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Simulamos una actualización de 2 segundos
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                swipeRunnable = new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                         // Refrescar la actividad actual
                         recreate();
                     }
-                }, 600);
+                };
+                swipeHandler.postDelayed(swipeRunnable, 600);
             }
         });
         // Configurar el menú de favoritos
@@ -112,8 +117,8 @@ public class reservation_event extends AppCompatActivity {
         String name = (intent != null) ? intent.getStringExtra("titleTxt") : null;
         idEvento = obteneridEvento(); // Asegúrate de obtener el idEvento correctamente
 
-        Log.d("DetailEventosActivity", "Nombre del evento recibido: " + name);
-        Log.d("DetailEventosActivity", "ID de evento obtenido: " + idEvento);
+        Log.d("reservation_event", "Nombre del evento recibido: " + name);
+        Log.d("reservation_event", "ID de evento obtenido: " + idEvento);
 
         // Verificamos la existencia del nombre y que idEvento no sea vacío
         if (name != null && !idEvento.isEmpty()) {
@@ -145,32 +150,32 @@ public class reservation_event extends AppCompatActivity {
 
                             // Cargar la imagen usando Glide o cualquier otra biblioteca de carga de imágenes
                             if (imageUrl != null && !imageUrl.isEmpty()) {
-                                Log.d("DetailEventosActivity", "URL de la imagen: " + imageUrl);
+                                Log.d("reservation_event", "URL de la imagen: " + imageUrl);
                                 ImageView vinedoImg = findViewById(R.id.vinedoImg);
                                 Glide.with(reservation_event.this)
                                         .load(imageUrl)
                                         .into(vinedoImg);
                             } else {
                                 // Manejo de caso donde no hay URL de imagen
-                                Log.e("DetailEventosActivity", "La URL de la imagen es nula o vacía.");
+                                Log.e("reservation_event", "La URL de la imagen es nula o vacía.");
                             }
                         } else {
                             // Manejo de errores
-                            Log.e("DetailEventosActivity", "Documento no encontrado en Firestore para el ID: " + idEvento);
+                            Log.e("reservation_event", "Documento no encontrado en Firestore para el ID: " + idEvento);
                         }
                     } else {
                         // Manejo de errores
-                        Log.e("DetailEventosActivity", "Error al obtener la información de los eventos desde Firestore", task.getException());
+                        Log.e("reservation_event", "Error al obtener la información de los eventos desde Firestore", task.getException());
                     }
                 }
             });
         } else {
             // Manejo de errores
             if (name == null) {
-                Log.e("DetailEventosActivity", "El nombre del evento es nulo en la intención.");
+                Log.e("reservation_event", "El nombre del evento es nulo en la intención.");
             }
             if (idEvento.isEmpty()) {
-                Log.e("DetailEventosActivity", "El ID de evento es inválido o vacío.");
+                Log.e("reservation_event", "El ID de evento es inválido o vacío.");
             }
         }
     }
@@ -184,18 +189,28 @@ public class reservation_event extends AppCompatActivity {
         if (intent != null) {
             // Obtenemos el ID del evento desde la intención
             String idEvento = intent.getStringExtra("idEvento");
-            Log.e("DetailEventosActivity", "Intent recibida correctamente.");
-            Log.e("DetailEventosActivity", "ID de evento obtenido: " + idEvento);
+            Log.e("reservation_event", "Intent recibida correctamente.");
+            Log.e("reservation_event", "ID de evento obtenido: " + idEvento);
             if (idEvento != null && !idEvento.isEmpty()) {
                 return idEvento;
             } else {
                 Toast.makeText(this, "Error: ID de evento no válida", Toast.LENGTH_SHORT).show();
-                Log.e("DetailEventosActivity", "ID de evento no válido: " + idEvento);
+                Log.e("reservation_event", "ID de evento no válido: " + idEvento);
             }
         } else {
-            Log.e("DetailEventosActivity", "Intent es nulo.");
+            Log.e("reservation_event", "Intent es nulo.");
         }
         return "";
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setRefreshing(false);
+        if (swipeRunnable != null) {
+            swipeHandler.removeCallbacks(swipeRunnable);
+        }
     }
 
 

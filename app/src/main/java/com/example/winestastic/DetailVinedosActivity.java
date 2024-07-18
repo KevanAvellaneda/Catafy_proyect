@@ -64,6 +64,10 @@ public class DetailVinedosActivity extends AppCompatActivity {
     private boolean enviandoComentario = false;
     //////
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Handler swipeHandler = new Handler(Looper.getMainLooper());
+    private Runnable swipeRunnable;
+
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String KEY_FAVORITE = "favorite";
     private boolean MenuVisible = true;
@@ -182,15 +186,15 @@ public class DetailVinedosActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Simulamos una actualización de 2 segundos
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                swipeRunnable = new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                         // Refrescar la actividad actual
                         recreate();
                     }
-                }, 600);
+                };
+                swipeHandler.postDelayed(swipeRunnable, 600);
             }
         });
         // Configurar el menú de favoritos
@@ -607,6 +611,16 @@ public class DetailVinedosActivity extends AppCompatActivity {
         intent.putExtra("totalCalificaciones", totalCalificaciones);
         intent.putExtra("promedioCalificaciones", promedioCalificaciones);
         this.startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setRefreshing(false);
+        if (swipeRunnable != null) {
+            swipeHandler.removeCallbacks(swipeRunnable);
+        }
     }
 
     @Override
