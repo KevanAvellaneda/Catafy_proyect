@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapterEventos = new ItemsAdapterEventos(items2, this);
         recyclerView.setAdapter(itemsAdapterEventos);
         mFirestore.collection("eventos")
-                .orderBy("fecha_eventoo")
-                .whereGreaterThanOrEqualTo("fecha_eventoo", todayStartTime)
+                //.orderBy("fecha_eventoo")
+                //.whereGreaterThanOrEqualTo("fecha_eventoo", todayStartTime)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -193,13 +193,16 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
+                        //items2.clear();
                         for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                            if (dc.getType() == DocumentChange.Type.ADDED || dc.getType() == DocumentChange.Type.MODIFIED) {
                                 ItemsDomainEventos evento = dc.getDocument().toObject(ItemsDomainEventos.class);
 
                                 // Obtener la lista de fechas del evento
                                 List<Timestamp> fechas = (List<Timestamp>) dc.getDocument().get("fecha_eventos");
                                 if (fechas != null) {
+                                    boolean eventoValido = false;
+                                    Date ultimaFecha = null;
                                     for (Timestamp timestamp : fechas) {
                                         Date notificationDate = timestamp.toDate();
                                         // Comparar solo el año, mes y día de la fecha del evento
@@ -215,17 +218,31 @@ public class MainActivity extends AppCompatActivity {
                                         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a", Locale.getDefault());
                                         String fechaEvento = dateFormat.format(notificationDate);
 
-                                // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
-                                if (eventDateOnly.equals(todayStartTime) || eventDateOnly.after(todayStartTime)) {
-                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerNuevas, R.layout.layout_notificatione);
-                                } else if (eventDateOnly.after(date7DaysAgo)) {
-                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos7Dias, R.layout.layout_notificatione);
-                                } else if (eventDateOnly.after(date30DaysAgo)) {
-                                    addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos30Dias, R.layout.layout_notificatione);
+                                        // Comparamos la fecha de la notificación con la fecha actual y las fechas de hace 7 y 30 días
+                                        if (eventDateOnly.equals(todayStartTime) || eventDateOnly.after(todayStartTime)) {
+                                            eventoValido = true; // Hay una fecha futura
+                                            ultimaFecha = eventDateOnly;
+                                            addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerNuevas, R.layout.layout_notificatione);
+                                        } else if (eventDateOnly.after(date7DaysAgo)) {
+                                            addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos7Dias, R.layout.layout_notificatione);
+                                        } else if (eventDateOnly.after(date30DaysAgo)) {
+                                            addNotification("¡Nuevo Evento Disponible! " + evento.getNombre_evento() + ". ¡No te lo pierdas! el " + fechaEvento, notificationContainerUltimos30Dias, R.layout.layout_notificatione);
+                                        }
+                                    }
+                                    if (eventoValido) {
+                                        boolean eventoExistente = false;
+                                        for (int i = 0; i < items2.size(); i++) {
+                                            if (items2.get(i).getIdEvento().equals(evento.getIdEvento())) {
+                                                items2.set(i, evento);
+                                                eventoExistente = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!eventoExistente) {
+                                            items2.add(evento); // Agregar solo si tiene una fecha futura y no existe en la lista
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                                items2.add(evento);
                             }
                         }
                         itemsAdapterEventos.notifyDataSetChanged();

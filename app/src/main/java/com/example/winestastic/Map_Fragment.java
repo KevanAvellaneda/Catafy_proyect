@@ -229,19 +229,30 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
 
         // Obtenemos la lista completa de eventos de vinedos en Firestore y actualizamos el TextView
         db.collection("eventos")
-                .whereGreaterThanOrEqualTo("fecha_eventoo", new Timestamp(startOfDay))
+                //.whereGreaterThanOrEqualTo("fecha_eventoo", new Timestamp(startOfDay))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         placesList.clear(); // Limpiamos la lista antes de actualizarla
+                        Date now = new Date(); // Fecha y hora actual
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String placeName = document.getString("nombre_evento");
-                            placesList.add(placeName);
+                            List<Timestamp> fechas = (List<Timestamp>) document.get("fecha_eventos");
+                            if (fechas != null) {
+                                for (Timestamp timestamp : fechas) {
+                                    Date eventDate = timestamp.toDate();
+                                    if (eventDate.after(now)) { // Solo agregamos eventos con fechas futuras
+                                        String placeName = document.getString("nombre_evento");
+                                        placesList.add(placeName);
+                                        break; // No necesitamos seguir revisando otras fechas del mismo evento
+                                    }
+                                }
+                            }
                         }
                         // Luego de obtener los eventos, mostramos el diálogo con la lista
                         showPlacesListDialogevento();
                     } else {
-                        Log.e(TAG, "Error al obtener éventos desde Firestore", task.getException());
+                        Log.e(TAG, "Error al obtener eventos desde Firestore", task.getException());
                     }
                 });
     }
@@ -365,7 +376,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
 
         // Obtenemos la latitud y la longitud desde Firestore y agregamos marcadores al mapa
         db.collection("eventos")
-                .whereGreaterThanOrEqualTo("fecha_eventoo", new Timestamp(startOfDay))
+                //.whereGreaterThanOrEqualTo("fecha_eventoo", new Timestamp(startOfDay))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -374,19 +385,30 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                                 // Obtener datos de Firestore
                                 GeoPoint location = document.getGeoPoint("marcador");
                                 if (location != null) {
-                                    String title = document.getString("nombre_evento");
+                                    List<Timestamp> fechas = (List<Timestamp>) document.get("fecha_eventos");
+                                    if (fechas != null) {
+                                        Date now = new Date();
+                                        for (Timestamp timestamp : fechas) {
+                                            Date eventDate = timestamp.toDate();
+                                            if (eventDate.after(now)) { // Solo agregamos eventos con fechas futuras
+                                                String title = document.getString("nombre_evento");
 
-                                    // cada que creamos un marcador tmb lo agregamos a la lista
-                                    Marker marker = mMap.addMarker(new MarkerOptions()
-                                            .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                                            .title(title)
-                                            .snippet("¿Cómo llegar?")
-                                            .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.megafono)));
-                                    markereList.add(marker); // Agregar el marcador a la lista
+                                                // Cada que creamos un marcador también lo agregamos a la lista
+                                                Marker marker = mMap.addMarker(new MarkerOptions()
+                                                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                                                        .title(title)
+                                                        .snippet("¿Cómo llegar?")
+                                                        .icon(bitmapDescriptor(getActivity().getApplicationContext(), R.drawable.megafono)));
+                                                markereList.add(marker); // Agregar el marcador a la lista
 
-                                    // Si el título coincide con el targetStr enfocar
-                                    if (targetStr != null && title.trim().equals(targetStr.trim())) {
-                                        onMarkerClick(marker);
+                                                // Si el título coincide con el targetStr enfocar
+                                                if (targetStr != null && title.trim().equals(targetStr.trim())) {
+                                                    onMarkerClick(marker);
+                                                }
+
+                                                break; // No necesitamos seguir revisando otras fechas del mismo evento
+                                            }
+                                        }
                                     }
                                 } else {
                                     Log.e(TAG, "El campo 'ubicacion' es nulo para el documento: " + document.getId());
@@ -399,6 +421,7 @@ public class Map_Fragment extends Fragment implements OnMapReadyCallback, Google
                         Log.e(TAG, "Error al obtener marcadores desde Firestore", task.getException());
                     }
                 });
+
 
 
         // Configuramos el listener para los clicks en los marcadores
