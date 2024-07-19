@@ -42,6 +42,11 @@ public class reservation_event extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private String idEvento;
 
+    private static final int MAX_COUNT = 15;
+    private TextView textContador;
+    private Button botonSumar, botonRestar,botonReservar;
+    private int contador = 1;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private Handler swipeHandler = new Handler(Looper.getMainLooper());
     private Runnable swipeRunnable;
@@ -53,6 +58,11 @@ public class reservation_event extends AppCompatActivity {
 
         // Inicializamos Firestore
         mFirestore = FirebaseFirestore.getInstance();
+
+        textContador = findViewById(R.id.textContador);
+        botonSumar = findViewById(R.id.botonSumar);
+        botonRestar = findViewById(R.id.botonRestar);
+        botonReservar = findViewById(R.id.botonReservar);
 
         //Aquí encontramos las referencias a los elementos de la interfaz de usuario
         titleText = findViewById(R.id.titleText);
@@ -79,7 +89,39 @@ public class reservation_event extends AppCompatActivity {
         // Obtenemos el nombre del viñedo
         obtenerInformacionEvento();
 
+        botonSumar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contador < MAX_COUNT) {
+                    contador++;
+                    textContador.setText(String.valueOf(contador));
+                } else {
+                    //Log.d("reservation_event", "Máximo de 15 alcanzado");
+                    Toast.makeText(reservation_event.this, "Máximo 15 entradas por compra", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
+        botonRestar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contador > 1) {
+                    contador--;
+                    textContador.setText(String.valueOf(contador));
+                }
+            }
+        });
+
+        botonReservar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(reservation_event.this, resumencompra_activity.class);
+                //intent.putExtra("idEvento", idEvento); // Aquí pasamos el idEvento
+                //intent.putExtra("titleTxt", titleText.getText());
+                startActivity(intent);
+                //finish();
+            }
+        });
 
 
 
