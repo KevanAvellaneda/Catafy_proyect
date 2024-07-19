@@ -63,10 +63,10 @@ public class reservation_event extends AppCompatActivity {
         addressText = findViewById(R.id.addressText);
         ImageView vinedoImg = findViewById(R.id.vinedoImg);
 
-        horarioTextView = findViewById(R.id.horarioTextView);
+        /*horarioTextView = findViewById(R.id.horarioTextView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             textDescription.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-        }
+        }*/
 
         // Obtenemos el ID del viñedo actual
         idEvento = obteneridEvento();
@@ -133,13 +133,13 @@ public class reservation_event extends AppCompatActivity {
                             String nombre = document.getString("nombre_evento");
                             String info = document.getString("descripcion");
                             String ubicacion = document.getString("ubicacion_evento");
-                            Timestamp horario = document.getTimestamp("fecha_eventoo");
+                            //Timestamp horario = document.getTimestamp("fecha_eventoo");
                             String imageUrl = document.getString("url");
 
                             // Convertimos el Timestamp a un String con un formato de fecha específico para los Eventos
-                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
-                            String horarioStr = sdf.format(horario.toDate());
-                            horarioTextView.setText(horarioStr);
+                            //SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
+                            //String horarioStr = sdf.format(horario.toDate());
+                            //horarioTextView.setText(horarioStr);
                             // Configuramos los elementos de la interfaz de usuario con la información obtenida
                             Log.d("MyExceptionHandler -> nombre", nombre);
                             Log.d("MyExceptionHandler -> name", name);
