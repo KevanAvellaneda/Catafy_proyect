@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Winestastic"
         tools:targetApi="31">
         <activity
+            android:name=".resumencompra_activity"
+            android:exported="false" />
+        <activity
             android:name=".Tasting"
             android:exported="false" />
         <activity
@@ -34,11 +37,11 @@
             android:exported="false" />
         <activity
             android:name=".ErrorActivity"
-            android:hardwareAccelerated="true"
             android:exported="false"
+            android:hardwareAccelerated="true"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"  />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".FavoritosActivity"
             android:exported="false"

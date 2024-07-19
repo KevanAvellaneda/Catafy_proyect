@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/cashtitle"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
                             app:layout_constraintTop_toBottomOf="@+id/titleText"
                             app:layout_constraintStart_toStartOf="parent"
@@ -97,8 +97,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="MXN"
                                 android:textColor="@color/text_color"
-                                android:textStyle="bold"
-                                android:textSize="20sp"
+                                android:textSize="15sp"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="15dp"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -111,8 +110,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="00.00"
                                 android:textColor="@color/text_color"
-                                android:textStyle="bold"
-                                android:textSize="20sp"
+                                android:textSize="15sp"
                                 android:layout_marginStart="20dp"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/costoxd"
@@ -123,6 +121,23 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="italic"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp"
+                                android:text="200 Disponibles"/>
+
+                        </LinearLayout>
+
 
 
                         <LinearLayout
@@ -130,7 +145,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="15dp"
                             app:layout_constraintTop_toBottomOf="@+id/cashtitle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -234,7 +249,7 @@
                                 android:id="@+id/textContador"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="1"
                                 android:textColor="@color/text_color"
                                 android:textSize="18sp"
                                 android:padding="8dp"/>
@@ -332,8 +347,6 @@
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- Reserva -->
 
 
 
