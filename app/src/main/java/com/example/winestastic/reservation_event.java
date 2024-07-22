@@ -36,9 +36,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class reservation_event extends AppCompatActivity {
-    private TextView titleText, addressText, textDescription, horarioTextView;
+    private TextView titleText, addressText, textDescription, boletosDisponiblesTextView,horarioTextView;
     private FirebaseFirestore mFirestore;
     private String idEvento;
 
@@ -63,6 +65,7 @@ public class reservation_event extends AppCompatActivity {
         botonSumar = findViewById(R.id.botonSumar);
         botonRestar = findViewById(R.id.botonRestar);
         botonReservar = findViewById(R.id.botonReservar);
+        boletosDisponiblesTextView= findViewById(R.id.boletosDisponibles);
 
         //Aquí encontramos las referencias a los elementos de la interfaz de usuario
         titleText = findViewById(R.id.titleText);
@@ -115,15 +118,66 @@ public class reservation_event extends AppCompatActivity {
         botonReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(reservation_event.this, resumencompra_activity.class);
-                //intent.putExtra("idEvento", idEvento); // Aquí pasamos el idEvento
-                //intent.putExtra("titleTxt", titleText.getText());
-                startActivity(intent);
-                //finish();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    String userId = user.getUid();
+                    String idEvento = obteneridEvento();
+                    String nombreEvento = titleText.getText().toString();
+                    int numberOfTickets = contador; // cantidad de boletos
+
+                    // Obtener el documento del evento para obtener el precio y la cantidad de boletos disponibles
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("eventos").document(idEvento).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+                                double pricePerTicket = document.getDouble("precio");
+                                int boletosDisponiblesTextView = document.getLong("boletos_dispo").intValue();
+                                double totalPrice = numberOfTickets * pricePerTicket;
+
+                                // Verificar si hay suficientes boletos disponibles
+                                if (boletosDisponiblesTextView >= numberOfTickets) {
+                                    // Actualizar la cantidad de boletos disponibles
+                                    db.collection("eventos").document(idEvento)
+                                            .update("boletos_dispo", boletosDisponiblesTextView - numberOfTickets)
+                                            .addOnSuccessListener(aVoid -> {
+                                                // Guardamos la compra en la colección "resumen"
+                                                Map<String, Object> purchase = new HashMap<>();
+                                                purchase.put("userId", userId);
+                                                purchase.put("idEvento", idEvento);
+                                                purchase.put("nombreEvento", nombreEvento);
+                                                purchase.put("numeroTickets", numberOfTickets);
+                                                purchase.put("precioTotal", totalPrice);
+                                                purchase.put("timestamp", System.currentTimeMillis());
+
+                                                db.collection("resumen").add(purchase)
+                                                        .addOnSuccessListener(documentReference -> {
+                                                            Intent intent = new Intent(reservation_event.this, resumencompra_activity.class);
+                                                            intent.putExtra("compraId", documentReference.getId());
+                                                            startActivity(intent);
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(reservation_event.this, "Error al guardar la compra", Toast.LENGTH_SHORT).show();
+                                                            Log.e("Firestore", "Error al agregar documento", e);
+                                                        });
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(reservation_event.this, "Error al actualizar boletos disponibles", Toast.LENGTH_SHORT).show();
+                                                Log.e("Firestore", "Error al actualizar boletos_dispo", e);
+                                            });
+                                } else {
+                                    Toast.makeText(reservation_event.this, "No hay suficientes boletos disponibles", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(reservation_event.this, "Evento no encontrado", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(reservation_event.this, "Error al obtener el evento", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
-
-
 
         //Mostrar el botón para regresar y eliminar title
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -177,6 +231,7 @@ public class reservation_event extends AppCompatActivity {
                             String ubicacion = document.getString("ubicacion_evento");
                             //Timestamp horario = document.getTimestamp("fecha_eventoo");
                             String imageUrl = document.getString("url");
+                            int boletosDisponibles = document.getLong("boletos_dispo").intValue();
 
                             // Convertimos el Timestamp a un String con un formato de fecha específico para los Eventos
                             //SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
@@ -188,6 +243,8 @@ public class reservation_event extends AppCompatActivity {
                             titleText.setText(nombre);
                             textDescription.setText(info);
                             addressText.setText(ubicacion);
+                            boletosDisponiblesTextView.setText("Boletos disponibles: " + boletosDisponibles);
+
                             //horarioTextView.setText(horario);
 
                             // Cargar la imagen usando Glide o cualquier otra biblioteca de carga de imágenes
