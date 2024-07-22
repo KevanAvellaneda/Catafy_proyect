@@ -49,6 +49,7 @@ public class DetailEventosActivity extends AppCompatActivity {
     private RecyclerView recyclerViewComentarios;
     private OpinionAdapter comentarioAdapter;
     private List<Opinion> opinionesList;
+    private Number precio;
 
     // Para cargar las imagenes, este es de Kevan
     private RecyclerView imagesRecycler1;
@@ -169,6 +170,7 @@ public class DetailEventosActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailEventosActivity.this, reservation_event.class);
                 intent.putExtra("idEvento", idEvento); // Aquí pasamos el idEvento
                 intent.putExtra("titleTxt", titleText.getText());
+                intent.putExtra("precio", precio.doubleValue());
                 startActivity(intent);
                 //finish();
             }
@@ -397,6 +399,7 @@ public class DetailEventosActivity extends AppCompatActivity {
                             String ubicacion = document.getString("ubicacion_evento");
                             List<Timestamp> horario = (List<Timestamp>) document.get("fecha_eventos");
                             String imageUrl = document.getString("url");
+                            precio = document.getDouble("precio");
 
                             // Configuramos los elementos de la interfaz de usuario con la información obtenida
                             Log.d("MyExceptionHandler -> nombre", nombre);
