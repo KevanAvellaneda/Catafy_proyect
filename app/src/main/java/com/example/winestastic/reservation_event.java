@@ -40,7 +40,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class reservation_event extends AppCompatActivity {
-    private TextView titleText, addressText, textDescription, boletosDisponiblesTextView,horarioTextView;
+  
+    private TextView titleText, addressText, textDescription, precioboletoText, boletosDisponiblesTextView, cashtotal, horarioTextView;
     private FirebaseFirestore mFirestore;
     private String idEvento;
 
@@ -48,6 +49,7 @@ public class reservation_event extends AppCompatActivity {
     private TextView textContador;
     private Button botonSumar, botonRestar,botonReservar;
     private int contador = 1;
+    private Number precio;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private Handler swipeHandler = new Handler(Looper.getMainLooper());
@@ -75,6 +77,8 @@ public class reservation_event extends AppCompatActivity {
         }
         addressText = findViewById(R.id.addressText);
         ImageView vinedoImg = findViewById(R.id.vinedoImg);
+        precioboletoText = findViewById(R.id.precioboleto);
+        cashtotal = findViewById(R.id.cash);
 
         /*horarioTextView = findViewById(R.id.horarioTextView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -98,6 +102,7 @@ public class reservation_event extends AppCompatActivity {
                 if (contador < MAX_COUNT) {
                     contador++;
                     textContador.setText(String.valueOf(contador));
+                    actualizarPrecioTotal();
                 } else {
                     //Log.d("reservation_event", "Máximo de 15 alcanzado");
                     Toast.makeText(reservation_event.this, "Máximo 15 entradas por compra", Toast.LENGTH_SHORT).show();
@@ -111,6 +116,7 @@ public class reservation_event extends AppCompatActivity {
                 if (contador > 1) {
                     contador--;
                     textContador.setText(String.valueOf(contador));
+                    actualizarPrecioTotal();
                 }
             }
         });
@@ -186,6 +192,11 @@ public class reservation_event extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void actualizarPrecioTotal() {
+        double precioTotal = precio.doubleValue() * contador;
+        cashtotal.setText(String.format("%.2f", precioTotal));
+    }
+
     private void configSwipe() {
         swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -232,6 +243,9 @@ public class reservation_event extends AppCompatActivity {
                             //Timestamp horario = document.getTimestamp("fecha_eventoo");
                             String imageUrl = document.getString("url");
                             int boletosDisponibles = document.getLong("boletos_dispo").intValue();
+                            precio = document.getDouble("precio");
+                            actualizarPrecioTotal();
+
 
                             // Convertimos el Timestamp a un String con un formato de fecha específico para los Eventos
                             //SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM 'de' yyyy 'a las' HH:mm:ss a");
@@ -244,6 +258,7 @@ public class reservation_event extends AppCompatActivity {
                             textDescription.setText(info);
                             addressText.setText(ubicacion);
                             boletosDisponiblesTextView.setText("Boletos disponibles: " + boletosDisponibles);
+                            precioboletoText.setText(String.valueOf(precio));
 
                             //horarioTextView.setText(horario);
 
