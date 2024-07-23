@@ -66,5 +66,5 @@ dependencies {
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.github.smarteist:autoimageslider:1.4.0")
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
-
+    implementation ("io.conekta:conektasdk:2.0")
 }
