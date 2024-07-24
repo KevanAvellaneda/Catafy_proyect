@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CONTACT4 = 104;
 
+    private static final int REQUEST_CODE_CONTACT5 = 105;
+
     private final Date today = new Date(); //fecha actual
 
     private final Calendar nextYear = Calendar.getInstance();
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout card3;
     ConstraintLayout card4;
     TextView textviewvinoooos20;
+    Button button1;
 
 
     RecyclerView recyclerView;
@@ -364,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
         card3 = findViewById(R.id.cardInicio3);
         card4 = findViewById(R.id.cardInicio4);
         textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
+        button1 = findViewById(R.id.button);
 
 
 
@@ -770,6 +774,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CONTACT2);
             }
         });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad "contact" con startActivityForResult
+                Intent intent = new Intent(MainActivity.this, privacidad_activity.class);
+                startActivityForResult(intent, REQUEST_CODE_CONTACT5);
+            }
+        });
       
         iniciarImageSlider();
       
@@ -1085,6 +1098,17 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case REQUEST_CODE_CONTACT4:
+                    // Establecer el ícono del menú como activo en el Meow Bottom Navigation
+                    bottomNavigation.show(1, true);
+                    // Mostrar la vista del menú
+                    menu.setVisibility(View.VISIBLE);
+                    calendar.setVisibility(View.GONE);
+                    home.setVisibility(View.GONE);
+                    notifications.setVisibility(View.GONE);
+                    map.setVisibility(View.GONE);
+                    break;
+
+                case REQUEST_CODE_CONTACT5:
                     // Establecer el ícono del menú como activo en el Meow Bottom Navigation
                     bottomNavigation.show(1, true);
                     // Mostrar la vista del menú

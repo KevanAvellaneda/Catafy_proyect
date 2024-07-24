@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ScrollingActivity extends AppCompatActivity {
+public class    ScrollingActivity extends AppCompatActivity {
 
     protected ActivityScrollingBinding binding;
     protected String title = "";
