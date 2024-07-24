@@ -115,7 +115,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_background"
                             android:backgroundTint="#853455"
-                            android:text="Seguridad y Privacidad"
+                            android:text="Términos y Privacidad"
                             android:textColor="#FFFF" />
 
                     </LinearLayout>
