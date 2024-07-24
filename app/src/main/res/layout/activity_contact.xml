@@ -13,6 +13,7 @@
         android:id="@+id/faq_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:layout_margin="8dp"
         android:elevation="10dp"
         app:cardCornerRadius="20dp"
@@ -23,6 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/contacto_background"
             android:padding="16dp">
 
             <TextView
@@ -32,7 +34,7 @@
                 android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="Preguntas frecuentes"
-                android:textColor="@color/flexible_text_color"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="italic|bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,122 +55,145 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Contáctanos -->
+    <!-- Nuevo Mensaje de Contacto -->
     <androidx.cardview.widget.CardView
         android:id="@+id/contact_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginTop="18dp"
         android:elevation="10dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintTop_toBottomOf="@id/faq_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/contacto_background"
+        android:padding="16dp">
 
-            <TextView
-                android:id="@+id/contact_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Contáctanos"
-                android:gravity="center"
-                android:textStyle="italic|bold"
-                android:textSize="22sp"
-                android:textColor="@color/flexible_text_color"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/contact_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="¿Tienes alguna duda, queja o sugerencia? Contáctanos"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="italic|bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Phone Layout -->
+        <LinearLayout
+            android:id="@+id/phone_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact_title">
 
             <ImageView
                 android:id="@+id/phone_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/phoneicon"
-                app:tint="@color/wine"
-                app:layout_constraintTop_toBottomOf="@id/contact_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/call_us_legend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Llámanos"
-                android:textAlignment="center"
-                android:textColor="@color/flexible_text_color"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/phone_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:tint="@color/wine" />
 
             <TextView
                 android:id="@+id/phone_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:autoLink="phone"
+                android:gravity="center|start"
                 android:text="Cargando...."
-                android:textAlignment="center"
-                android:textColor="@color/flexible_text_color"
+                android:textColor="@color/white"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/call_us_legend"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/email_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/emailicon"
-                app:tint="@color/wine"
-                app:layout_constraintTop_toBottomOf="@id/phone_number"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/email_legend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Escríbenos"
-                android:textAlignment="center"
-                android:textColor="@color/flexible_text_color"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/email_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Email Layout -->
+        <LinearLayout
+            android:id="@+id/email_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_layout">
 
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:autoLink="email"
-                android:text="Cargando...."
-                android:textAlignment="center"
-                android:textColor="@color/flexible_text_color"
-                android:textIsSelectable="true"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/email_legend"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <ImageView
+            android:id="@+id/email_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/emailicon"
+            app:tint="@color/wine" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoLink="email"
+            android:gravity="center|start"
+            android:text="Cargando...."
+            android:textColor="@color/white"
+            android:textIsSelectable="true"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+    <!-- Redes Sociales -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/social_media_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintTop_toBottomOf="@id/contact_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/contacto_background"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/social_media_legend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Redes sociales"
+                android:text="Síguenos en nuestras redes sociales"
+                android:textStyle="italic|bold"
                 android:textAlignment="center"
-                android:textColor="@color/flexible_text_color"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/email"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
