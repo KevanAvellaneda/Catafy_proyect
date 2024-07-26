@@ -6,7 +6,8 @@ public class SliderData {
 
     public enum Route{
         TASTING("TASTING", Tasting.class),
-        ENTRADAS("ENTRADAS", cardDemasEntradas.class);
+        ENTRADAS("ENTRADAS", cardDemasEntradas.class),
+        HOLA("HOLA", Boletos.class);
 
         public Class<?> destinationClass;
         public String destinationName;

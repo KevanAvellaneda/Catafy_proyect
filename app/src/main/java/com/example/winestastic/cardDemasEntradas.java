@@ -28,7 +28,7 @@ public class cardDemasEntradas extends ImageSliderActivity {
         NestedScrollView nscrollv;
         nscrollv = findViewById(R.id.nestedScrollView);
         LayoutInflater inflater = getLayoutInflater();
-        View myLayout = inflater.inflate(R.layout.activity_tasting, nscrollv, false);
+        View myLayout = inflater.inflate(R.layout.activity_card_demas_entradas, nscrollv, false);
         nscrollv.removeAllViews();
         nscrollv.addView(myLayout);
     }

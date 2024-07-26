@@ -38,7 +38,7 @@ public class ImageSliderActivity extends AppCompatActivity {
     String nameImageDocument = "main";
 
     //  SCROLLING
-    protected String title = "scr9olling";
+    protected String title = "";
     protected Class lastActivity = MainActivity.class;
 
     @Override

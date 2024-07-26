@@ -1,6 +1,7 @@
 package com.example.winestastic;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +44,13 @@ public class Tasting extends ImageSliderActivity {
         View myLayout = inflater.inflate(R.layout.activity_tasting, nscrollv, false);
         nscrollv.removeAllViews();
         nscrollv.addView(myLayout);
+
+
+        // Obtener y aplicar formato HTML al texto de términos y condiciones
+        TextView textDescription = findViewById(R.id.textDescription);
+
+        String termsText = getString(R.string.historia_vino);
+        textDescription.setText(Html.fromHtml(termsText));
 
     }
 
