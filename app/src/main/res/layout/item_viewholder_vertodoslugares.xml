@@ -51,7 +51,18 @@
 
             </TextView>
 
-            <TextView
+            <ImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/corazon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="38dp" />
+
+            <!--<TextView
                 android:id="@+id/calificacionLugarScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +77,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="18dp">
 
-            </TextView>
+            </TextView>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

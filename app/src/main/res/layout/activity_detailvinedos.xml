@@ -42,7 +42,7 @@
                     android:id="@+id/vinedoImg"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:src="@drawable/laredonda"
+                    android:src="@drawable/cargandoo"
                     android:scaleType="centerCrop"
                     app:layout_constraintTop_toTopOf="parent" />
 

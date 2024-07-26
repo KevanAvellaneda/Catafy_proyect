@@ -49,6 +49,18 @@
             </TextView>
 
             <ImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/corazon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="38dp" />
+
+            <ImageView
                 android:id="@+id/marcador"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
