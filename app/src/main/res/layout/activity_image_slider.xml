@@ -39,8 +39,8 @@
                 app:sliderIndicatorGravity="center_horizontal|bottom"
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
-                app:sliderIndicatorPadding="10dp"
-                app:sliderIndicatorRadius="5dp"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
                 app:sliderIndicatorSelectedColor="@color/wine"
                 app:sliderIndicatorUnselectedColor="#FFF"
                 app:sliderScrollTimeInSec="1" />
