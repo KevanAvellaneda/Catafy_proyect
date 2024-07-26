@@ -2,6 +2,7 @@ package com.example.winestastic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,41 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
                 .asBitmap() // Cargar como un bitmap para la carga progresiva
                 .load(itemsDomainVinedos.getUrl())
                 .thumbnail(0.20f)
-                .placeholder(R.drawable.vinoooo) // Cargamos una imagen de baja resolución inicialmente
-                .error(R.drawable.puertadellobo2) //Imagen en caso de error al cargar
+                .placeholder(R.drawable.cargandoo) // Cargamos una imagen de baja resolución inicialmente
+                .error(R.drawable.errorr) //Imagen en caso de error al cargar
                 .apply(requestOptions) // Aplicar opciones de cache
                 .transition(BitmapTransitionOptions.withCrossFade()) // Agregar transición al cargar la imagen
                 .fitCenter()
                 .into(holder.pic);
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("favoritos", Context.MODE_PRIVATE);
+        final boolean[] esFavorito = {sharedPreferences.contains(itemsDomainVinedos.getIdVinedos())};
+
+        if (esFavorito[0]) {
+            holder.favoriteIcon.setImageResource(R.drawable.corazon_rojo);
+        } else {
+            holder.favoriteIcon.setImageResource(R.drawable.corazon);
+        }
+
+        holder.favoriteIcon.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            if (esFavorito[0]) {
+                editor.remove(itemsDomainVinedos.getIdVinedos());
+                holder.favoriteIcon.setImageResource(R.drawable.corazon);
+                Toast.makeText(context, "Lugar eliminado de favoritos", Toast.LENGTH_SHORT).show();
+            } else {
+                editor.putString(itemsDomainVinedos.getIdVinedos(), itemsDomainVinedos.getNombre_vinedos());
+                holder.favoriteIcon.setImageResource(R.drawable.corazon_rojo);
+                Toast.makeText(context, "Lugar añadido a favoritos", Toast.LENGTH_SHORT).show();
+            }
+
+            editor.apply();
+            // Actualizar la variable esFavorito después de hacer clic
+            esFavorito[0] = !esFavorito[0];
+        });
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,13 +133,15 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView titleTxt, addressTxt;
-        ImageView pic;
+        ImageView pic, favoriteIcon;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTxt=itemView.findViewById(R.id.nombrevinedo);
             addressTxt=itemView.findViewById(R.id.direccion);
             pic=itemView.findViewById(R.id.url);
+            favoriteIcon = itemView.findViewById(R.id.favorite_icon);
         }
     }
 }

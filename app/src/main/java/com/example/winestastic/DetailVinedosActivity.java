@@ -539,10 +539,14 @@ public class DetailVinedosActivity extends AppCompatActivity {
                                 ImageView vinedoImg = findViewById(R.id.vinedoImg);
                                 Glide.with(DetailVinedosActivity.this)
                                         .load(imageUrl)
+                                        .placeholder(R.drawable.cargandoo) // Imagen mientras se carga
+                                        .error(R.drawable.errorr) // Imagen en caso de error
                                         .into(vinedoImg);
                             } else {
                                 // Manejo de caso donde no hay URL de imagen
                                 Log.e("DetailVinedosActivity", "La URL de la imagen es nula o vacía.");
+                                ImageView vinedoImg = findViewById(R.id.vinedoImg);
+                                vinedoImg.setImageResource(R.drawable.errorr);
                             }
                         } else {
                             // Manejo de errores

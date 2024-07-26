@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -438,10 +439,14 @@ public class DetailEventosActivity extends AppCompatActivity {
                                 ImageView vinedoImg = findViewById(R.id.vinedoImg);
                                 Glide.with(DetailEventosActivity.this)
                                         .load(imageUrl)
+                                        .placeholder(R.drawable.cargandoo) // Imagen mientras se carga
+                                        .error(R.drawable.errorr) // Imagen en caso de error
                                         .into(vinedoImg);
                             } else {
                                 // Manejo de caso donde no hay URL de imagen
                                 Log.e("DetailEventosActivity", "La URL de la imagen es nula o vacía.");
+                                ImageView vinedoImg = findViewById(R.id.vinedoImg);
+                                vinedoImg.setImageResource(R.drawable.errorr);
                             }
                         } else {
                             // Manejo de errores

@@ -2,7 +2,9 @@ package com.example.winestastic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -41,7 +51,23 @@ public class ItemsAdapterEventos extends  RecyclerView.Adapter<ItemsAdapterEvent
         holder.titleTxt.setText(itemsDomainEventos.getNombre_evento());
         holder.addressTxt.setText(itemsDomainEventos.getUbicacion_evento());
 
-        Glide.with(context).load(itemsDomainEventos.getUrl()).into(holder.pic);
+        // Configuración de resolucion para Glide
+        RequestOptions requestOptions = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(400,400);
+
+        Glide.with(context)
+                .asBitmap() // Cargar como un bitmap para la carga progresiva
+                .load(itemsDomainEventos.getUrl())
+                .thumbnail(0.20f)
+                .placeholder(R.drawable.cargandoo) // Cargamos una imagen de baja resolución inicialmente
+                .error(R.drawable.errorr) //Imagen en caso de error al cargar
+                .apply(requestOptions) // Aplicar opciones de cache
+                .transition(BitmapTransitionOptions.withCrossFade()) // Agregar transición al cargar la imagen
+                .fitCenter()
+                .into(holder.pic);
+
+        //Glide.with(context).load(itemsDomainEventos.getUrl()).into(holder.pic);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
