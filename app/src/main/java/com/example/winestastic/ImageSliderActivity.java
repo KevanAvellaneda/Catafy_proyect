@@ -41,17 +41,22 @@ public class ImageSliderActivity extends AppCompatActivity {
     protected String title = "";
     protected Class lastActivity = MainActivity.class;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_slider);
         mFirestore = FirebaseFirestore.getInstance();
 
+
+        // Initialize SwipeRefreshLayout and SliderView
+        swipeRefreshLayout = findViewById(R.id.swipe);
         iniciarImageSlider();
 
 
         setupActionBar();
-//        configSwipe();
+        configSwipe();
     }
 
 
@@ -127,20 +132,20 @@ public class ImageSliderActivity extends AppCompatActivity {
 
 
     private void configSwipe() {
-//        binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // Simulamos una actualización de 2 segundos
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        binding.swipe.setRefreshing(false);
-//                        // Refrescar la actividad actual
-//                        //recreate();
-//                    }
-//                }, 600);
-//            }
-//        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Simulamos una actualización de 2 segundos
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        // Refrescar la actividad actual
+                        recreate();
+                    }
+                }, 600);
+            }
+        });
     }
 
     public void onBackPressed(){
