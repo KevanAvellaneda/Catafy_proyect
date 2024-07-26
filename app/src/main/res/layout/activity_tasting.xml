@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Tasting">
 
     <LinearLayout
@@ -14,19 +15,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="300dp"
         android:src="@drawable/pregunta"
         android:layout_marginTop="10dp"
-        />
+        />-->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/grey_background"
+        android:background="@drawable/vinedo_background"
         android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:padding="5dp"
@@ -37,8 +39,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:padding="10dp"
             android:textSize="25dp"
-            android:text="¿En qué consiste?"
+            android:text="¿Lo sabías?"
             />
 
     </LinearLayout>
@@ -46,27 +49,20 @@
 
 
         <TextView
+            android:id="@+id/textDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:textSize="16dp"
-            android:textStyle="italic"
-            android:text="En la cata, los catadores prueban con atención distintos tipos de vinos para apreciar sus cualidades, escriben sus impresiones y asignan puntaje. También existen degustaciones turísticas o para clientes que no necesariamente puntúan los vinos, sino simplemente lo disfrutan."
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:textStyle="italic"
-            android:textSize="16dp"
-            android:text="En la cata de vinos (o degustación de vinos) no solo se utiliza el paladar para degustar, sino el olfato y la vista. Las copas a usar por los catadores deben ser transparentes e incoloras, para apreciar su color y brillo."
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/text_color"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="@string/historia_vino"
+            android:justificationMode="inter_word"
             />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
