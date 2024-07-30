@@ -268,10 +268,14 @@ public class reservation_event extends AppCompatActivity {
                                 ImageView vinedoImg = findViewById(R.id.vinedoImg);
                                 Glide.with(reservation_event.this)
                                         .load(imageUrl)
+                                        .placeholder(R.drawable.cargandoo) // Imagen mientras se carga
+                                        .error(R.drawable.errorr) // Imagen en caso de error
                                         .into(vinedoImg);
                             } else {
                                 // Manejo de caso donde no hay URL de imagen
                                 Log.e("reservation_event", "La URL de la imagen es nula o vacía.");
+                                ImageView vinedoImg = findViewById(R.id.vinedoImg);
+                                vinedoImg.setImageResource(R.drawable.errorr);
                             }
                         } else {
                             // Manejo de errores
