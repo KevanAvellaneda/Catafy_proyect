@@ -62,9 +62,6 @@ public class ImageSliderActivity extends AppCompatActivity {
 
     private void iniciarImageSlider() {
 
-
-        ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
-
         // initializing the slider view.
         SliderView sliderView = findViewById(R.id.slider);
 
@@ -83,6 +80,8 @@ public class ImageSliderActivity extends AppCompatActivity {
                                                  Log.d(TAG, "Current data: " + value.getData());
                                                  Map<String, Object> data = value.getData();
                                                  if (data != null) {
+
+                                                     ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
 
                                                      try {
 
@@ -104,29 +103,23 @@ public class ImageSliderActivity extends AppCompatActivity {
                                                      } catch (JSONException e) {
                                                          Log.e(TAG, "JSON parsing error: ", e);
                                                      }
+                                                     SliderAdapter adapter = new SliderAdapter(getBaseContext(), sliderDataArrayList);
+
+                                                     // cycle direction: left to right
+                                                     sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+
+                                                     sliderView.setSliderAdapter(adapter);
+
+                                                     sliderView.setScrollTimeInSec(6);
+
+                                                     sliderView.setAutoCycle(true);
+                                                     sliderView.startAutoCycle();
                                                  }
-
-
                                              } else {
                                                  Log.d(TAG, "Current data: null");
                                              }
-
-
-                                             SliderAdapter adapter = new SliderAdapter(getBaseContext(), sliderDataArrayList);
-
-                                             // cycle direction: left to right
-                                             sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
-
-                                             sliderView.setSliderAdapter(adapter);
-
-                                             sliderView.setScrollTimeInSec(6);
-
-                                             sliderView.setAutoCycle(true);
-                                             sliderView.startAutoCycle();
-
                                          }
                                      }
-
                 );
     }
 
