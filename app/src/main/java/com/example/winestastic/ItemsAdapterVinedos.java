@@ -83,16 +83,24 @@ public class ItemsAdapterVinedos extends  RecyclerView.Adapter<ItemsAdapterVined
                 editor.remove(itemsDomainVinedos.getIdVinedos());
                 holder.favoriteIcon.setImageResource(R.drawable.corazon);
                 Toast.makeText(context, "Lugar eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                FirestoreFav.eliminarFavoritoEnFirestore(context, itemsDomainVinedos.getNombre_vinedos(), itemsDomainVinedos.getIdVinedos());
             } else {
                 editor.putString(itemsDomainVinedos.getIdVinedos(), itemsDomainVinedos.getNombre_vinedos());
                 holder.favoriteIcon.setImageResource(R.drawable.corazon_rojo);
                 Toast.makeText(context, "Lugar añadido a favoritos", Toast.LENGTH_SHORT).show();
+                FirestoreFav.guardarFavoritoEnFirestore(context, itemsDomainVinedos.getNombre_vinedos(), itemsDomainVinedos.getIdVinedos());
             }
 
             editor.apply();
-            // Actualizar la variable esFavorito después de hacer clic
             esFavorito[0] = !esFavorito[0];
+
+            // Notificamos a la actividad: DetailVinedosActivity sobre el cambio
+            Intent intent = new Intent("FAVORITE_UPDATED");
+            intent.putExtra("idVinedos", itemsDomainVinedos.getIdVinedos());
+            intent.putExtra("isFavorite", esFavorito[0]);
+            context.sendBroadcast(intent);
         });
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
