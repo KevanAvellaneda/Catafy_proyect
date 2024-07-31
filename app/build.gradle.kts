@@ -67,4 +67,5 @@ dependencies {
     implementation ("com.github.smarteist:autoimageslider:1.4.0")
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
     implementation ("io.conekta:conektasdk:2.0")
+    implementation ("jp.wasabeef:glide-transformations:4.3.0")
 }
