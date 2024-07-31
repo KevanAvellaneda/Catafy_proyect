@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -15,7 +15,8 @@
         app:layout_constraintBottom_toTopOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/barril" />
+        app:srcCompat="@drawable/barril"
+        app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
 
     <TextView
         android:id="@+id/textViewTitle"
