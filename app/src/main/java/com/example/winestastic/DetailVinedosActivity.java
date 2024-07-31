@@ -1,7 +1,9 @@
 package com.example.winestastic;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Build;
@@ -70,7 +72,10 @@ public class DetailVinedosActivity extends AppCompatActivity {
 
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String KEY_FAVORITE = "favorite";
-    private boolean MenuVisible = true;
+    private boolean MenuVisible = false;
+
+    private String idVinedo;
+    private BroadcastReceiver favoriteReceiver;
     LinearLayout ubicacionD2;
 
     @Override
@@ -173,6 +178,27 @@ public class DetailVinedosActivity extends AppCompatActivity {
                 finish();
             }
         });
+        /*Para poder sincronizar el itemAdapter con DetailVinedos*/
+        idVinedo = getIntent().getStringExtra("idVinedos");
+
+        favoriteReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null && intent.getAction() != null && intent.getAction().equals("FAVORITE_UPDATED")) {
+                    String receivedIdVinedo = intent.getStringExtra("idVinedos");
+                    boolean isFavorite = intent.getBooleanExtra("isFavorite", false);
+                    if (receivedIdVinedo != null && receivedIdVinedo.equals(idVinedo)) {
+                        MenuVisible = isFavorite;
+                        invalidateOptionsMenu(); // Actualiza el ícono de menú
+                    }
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("FAVORITE_UPDATED");
+        registerReceiver(favoriteReceiver, filter);
+
+        checkIfFavorite(idVinedo);
 
         //Mostrar el botón para regresar y eliminar title
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -181,6 +207,13 @@ public class DetailVinedosActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
+    private void checkIfFavorite(String idVinedo) {
+        SharedPreferences sharedPreferences = getSharedPreferences("favoritos", Context.MODE_PRIVATE);
+        MenuVisible = sharedPreferences.contains(idVinedo);
+        invalidateOptionsMenu(); // Actualiza el ícono de menú
+    }
+
     private void configSwipe() {
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -205,26 +238,49 @@ public class DetailVinedosActivity extends AppCompatActivity {
     @Override
     //Creamos/inflamos el coraon desde el xml
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_heart, menu);
-        // Estamos encontrando el ítem del menú del corazón
+        getMenuInflater().inflate(R.menu.toolbar_heart, menu);
         MenuItem favoriteItem = menu.findItem(R.id.corazon);
-        toggleMenuIcon(favoriteItem);
+        if (MenuVisible) {
+            favoriteItem.setIcon(R.drawable.corazon_rojo);
+        } else {
+            favoriteItem.setIcon(R.drawable.corazon);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Verificamos si el ítem es el ícono del corazón
         if (item.getItemId() == R.id.corazon) {
-            toggleFavoriteState(item);
+            SharedPreferences sharedPreferences = getSharedPreferences("favoritos", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            if (MenuVisible) {
+                editor.remove(idVinedo);
+                item.setIcon(R.drawable.corazon);
+                Toast.makeText(this, "Lugar eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                FirestoreFav.eliminarFavoritoEnFirestore(this, getIntent().getStringExtra("titleTxt"), idVinedo);
+            } else {
+                editor.putString(idVinedo, getIntent().getStringExtra("titleTxt"));
+                item.setIcon(R.drawable.corazon_rojo);
+                Toast.makeText(this, "Lugar añadido a favoritos", Toast.LENGTH_SHORT).show();
+                FirestoreFav.guardarFavoritoEnFirestore(this, getIntent().getStringExtra("titleTxt"), idVinedo);
+            }
+
+            editor.apply();
+            MenuVisible = !MenuVisible;
+
+            // Notificamos al RecyclerView sobre el cambio
+            Intent intent = new Intent("FAVORITE_UPDATED");
+            intent.putExtra("idVinedos", idVinedo);
+            intent.putExtra("isFavorite", MenuVisible);
+            sendBroadcast(intent);
+
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
-    private void toggleFavoriteState(MenuItem item) {
+private void toggleFavoriteState(MenuItem item) {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -625,6 +681,12 @@ public class DetailVinedosActivity extends AppCompatActivity {
         if (swipeRunnable != null) {
             swipeHandler.removeCallbacks(swipeRunnable);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(favoriteReceiver);
     }
 
     @Override
