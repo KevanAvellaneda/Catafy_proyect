@@ -68,4 +68,6 @@ dependencies {
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
     implementation ("io.conekta:conektasdk:2.0")
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
+
+    implementation ("com.tbuonomo:dotsindicator:4.3")
 }
