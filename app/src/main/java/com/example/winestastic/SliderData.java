@@ -5,8 +5,8 @@ public class SliderData {
     private Class<?> destination;
 
     public enum Route{
-        TASTING("TASTING", Tasting.class),
-        ENTRADAS("ENTRADAS", cardDemasEntradas.class),
+        TASTING("TASTING", preparaprueba.class),
+        ENTRADAS("ENTRADAS", preparaprueba.class),
         HOLA("HOLA", preparaprueba.class);
 
         public Class<?> destinationClass;
