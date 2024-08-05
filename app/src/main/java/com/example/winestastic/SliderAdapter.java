@@ -43,7 +43,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         // Set destination Activity
         Class<?> destination = sliderItem.getDestination();
         if(destination != null)
-            viewHolder.setDestination(destination);
+            viewHolder.setDestination(destination, position);
     }
 
     @Override
@@ -62,12 +62,13 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
             this.itemView = itemView;
         }
 
-        public void setDestination(Class<?> destination){
+        public void setDestination(Class<?> destination, int position){
             imageViewBackground.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     Intent intent = new Intent(view.getContext(), destination);
+                    intent.putExtra("position", position);
                     view.getContext().startActivity(intent);
 
                 }
