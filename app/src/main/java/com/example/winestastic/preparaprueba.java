@@ -73,6 +73,9 @@ public class preparaprueba extends AppCompatActivity {
 
                     // Asocia el adaptador al DotsIndicator después de establecer el adaptador
                     dotsIndicator.setViewPager2(viewPager);
+                    // Configurar la página inicial del ViewPager
+                    int initialPosition = getIntent().getIntExtra("position", 0);
+                    viewPager.setCurrentItem(initialPosition, true);
                 }
             } else {
                 // Manejar errores
