@@ -175,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:text="CARGANDO...."
                 android:textStyle="italic"
+                android:fontFamily="@font/afacad"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:textColor="@android:color/white"
