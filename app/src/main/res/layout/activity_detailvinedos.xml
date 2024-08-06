@@ -402,6 +402,7 @@
                 android:textStyle="italic"
                 android:inputType="textMultiLine"
                 android:minLines="3"
+                android:fontFamily="@font/afacad"
                 android:textColor="@color/white"
                 android:textColorHint="#80FFFFFF"
                 android:background="@drawable/edittext_bg"

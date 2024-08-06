@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:justificationMode="inter_word"
+        android:fontFamily="@font/afacad"
         android:textSize="14sp"/>
 
 
