@@ -48,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/terminos_y_condiciones"
                     android:textSize="16sp"
+                    android:fontFamily="@font/afacad"
                     android:textColor="@android:color/black"
                     android:lineSpacingMultiplier="1.5"
                     android:layout_marginBottom="20dp"/>
@@ -80,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aviso_de_privacidad"
                     android:textSize="16sp"
+                    android:fontFamily="@font/afacad"
                     android:textColor="@android:color/black"
                     android:lineSpacingMultiplier="1.5"
                     android:layout_marginBottom="20dp"/>

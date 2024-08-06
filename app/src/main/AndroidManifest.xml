@@ -100,6 +100,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyArj1VSEB3RawJVxSGoDUws8a1BlY3AD-Q" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".DetailVinedosActivity"

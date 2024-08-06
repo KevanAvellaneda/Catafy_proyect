@@ -208,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero sit amet est mollis, ut maximus arcu ultrices. Sed nec libero nunc. Duis auctor massa eu ante rhoncus, sed ultricies tortor aliquam."
                 android:textStyle="italic"
+                android:fontFamily="@font/afacad"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:textColor="@android:color/white"

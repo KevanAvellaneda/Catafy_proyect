@@ -4,6 +4,7 @@
         <item name="colorPrimaryDark">#853455</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="selectableItemBackground">@drawable/selector_backgroundnotifiy</item>
+        <item name="android:fontFamily">@font/coming_soon</item>
     </style>
 
     <style name="DialogBasicCustomStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
