@@ -485,38 +485,37 @@
     </RelativeLayout>
 
 
-<RelativeLayout
-android:id="@+id/calendar"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_above="@id/bottomNavigation"
-android:background="#853455"
-android:visibility="gone">
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:background="#853455"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/titulocalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/bebas_regular"
-            android:padding="30dp"
-            android:text="CALENDARIO"
-            android:textColor="#FFFFFF"
-            android:textSize="35sp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <!--AQUÍ ESTÁ EL CALENDARIOOOOOOOOOOOOOOOOOOOOOOOO -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/titulocalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="30dp"
+                    android:text="CALENDARIO"
+                    android:textColor="#FFFFFF"
+                    android:textSize="35sp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--AQUÍ ESTÁ EL CALENDARIOOOOOOOOOOOOOOOOOOOOOOOO -->
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -540,7 +539,6 @@ android:visibility="gone">
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/bebas_regular"
                         android:text="Eventos"
                         android:textColor="#000000"
                         android:textSize="20sp"
@@ -928,7 +926,6 @@ android:visibility="gone">
                         android:layout_marginTop="25dp"
                         android:gravity="center_horizontal"
                         android:text="¡No te pierdas de las Últimas Actualizaciones!"
-                        android:fontFamily="@font/bebas_regular"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -955,8 +952,8 @@ android:visibility="gone">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/afacad"
                         android:text="Nuevas"
-                        android:fontFamily="@font/bebas_regular"
                         android:textColor="@color/wine"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -979,8 +976,8 @@ android:visibility="gone">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/afacad"
                         android:text="Últimos 7 días"
-                        android:fontFamily="@font/bebas_regular"
                         android:textColor="@color/wine"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -1003,8 +1000,8 @@ android:visibility="gone">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/afacad"
                         android:text="Últimos 30 días"
-                        android:fontFamily="@font/bebas_regular"
                         android:textColor="@color/wine"
                         android:textSize="18sp"
                         android:textStyle="bold" />
