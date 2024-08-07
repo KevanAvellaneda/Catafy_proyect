@@ -106,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout misfavvv;
     LinearLayout miseventos;
     LinearLayout cerrarses;
-    ConstraintLayout card1;
-    ConstraintLayout card2;
-    ConstraintLayout card3;
-    ConstraintLayout card4;
     TextView textviewvinoooos20;
     Button button1;
 
@@ -362,10 +358,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Configuracion para el uso de inicio de sesion con google
 
-        card1 = findViewById(R.id.cardInicio1);
-        card2 = findViewById(R.id.cardInicio2);
-        card3 = findViewById(R.id.cardInicio3);
-        card4 = findViewById(R.id.cardInicio4);
         textviewvinoooos20 = findViewById(R.id.textviewvinoooos2);
         button1 = findViewById(R.id.button);
 
@@ -730,41 +722,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        card1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Tasting.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
-        card2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, misEventos.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        card3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cardVinos.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        card4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, VerTodosLosLugaresActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         textviewvinoooos20.setOnClickListener(new View.OnClickListener() {
             @Override
