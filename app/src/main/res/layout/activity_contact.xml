@@ -192,6 +192,7 @@
                 android:textStyle="italic|bold"
                 android:textAlignment="center"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -217,6 +218,7 @@
                     android:backgroundTint="#3B5998"
                     android:contentDescription="Botón de Facebook"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/ic_facebook" />
 
@@ -229,6 +231,7 @@
                     android:backgroundTint="#000000"
                     android:contentDescription="Botón de X"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/ic_x_twitter" />
 
@@ -241,6 +244,7 @@
                     android:backgroundTint="#FC136B"
                     android:contentDescription="Botón de Instagram"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/ic_instagram" />
 
