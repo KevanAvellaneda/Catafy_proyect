@@ -129,6 +129,7 @@ public class ContactActivity extends ScrollingActivity {
                         }
                         if (x_twitter_link != null && !x_twitter_link.isEmpty()) {
                             social_media_weight++;
+                            Log.d("TWitter", "si entro");
                             x_im.setVisibility(View.VISIBLE);
                         }
                         if (instagram_link != null && !instagram_link.isEmpty()) {
